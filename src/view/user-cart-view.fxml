@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="636.0" prefWidth="1200.0">
+          <!-- Tiêu đề -->
+          <Label styleClass="cart-title" stylesheets="@style.css" text="MY CART" />
+         <ScrollPane prefHeight="381.0" prefWidth="1155.0">
+            <content>
+               <TableView prefHeight="380.0" prefWidth="1186.0">
+                 <columns>
+                   <TableColumn prefWidth="189.0" text="Product ID" />
+                     <TableColumn prefWidth="150.0" text="Product Name" />
+                     <TableColumn prefWidth="119.5" text="Quantity" />
+                     <TableColumn prefWidth="171.5" text="Category" />
+                     <TableColumn prefWidth="239.0" text="Price" />
+                     <TableColumn prefWidth="316.0" text="Note" />
+                 </columns>
+               </TableView>
+            </content>
+         </ScrollPane>
+      
+          <!-- Thông tin tổng -->
+          <VBox spacing="10" styleClass="summary-box">
+              <HBox alignment="CENTER_LEFT">
+                  <Label prefHeight="25.0" prefWidth="62.0" styleClass="label1" stylesheets="@style.css" text="Temp ">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+               </Label>
+               <Region prefHeight="45.0" prefWidth="12.0" />
+                  <Label fx:id="subtotalLabel" prefHeight="25.0" prefWidth="71.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
+               <Region prefHeight="46.0" prefWidth="881.0" />
+               <ImageView fitHeight="46.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../img/dollar.png" />
+                  </image>
+               </ImageView>
+               <Region prefHeight="46.0" prefWidth="35.0" />
+               <ToggleButton mnemonicParsing="false" prefHeight="37.0" prefWidth="104.0" stylesheets="@style.css" text="Use" />
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+              </HBox>
+              <HBox alignment="CENTER_LEFT">
+                  <Label prefHeight="25.0" prefWidth="85.0" styleClass="label1" stylesheets="@style.css" text="Discount">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+               </Label>
+               <Region prefHeight="39.0" prefWidth="12.0" />
+                  <Label fx:id="discountLabel" prefHeight="25.0" prefWidth="72.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
+               <Region prefHeight="42.0" prefWidth="783.0" />
+               <Button mnemonicParsing="false" onAction="#removeBtnPressed" prefHeight="42.0" prefWidth="129.0" styleClass="remove-btn" stylesheets="@style.css" text="Remove">
+                  <font>
+                     <Font size="17.0" />
+                  </font>
+               </Button>
+               <Region prefHeight="49.0" prefWidth="29.0" />
+               <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="106.0" styleClass="remove-btn" stylesheets="@style.css" text="Buy Or Not">
+                  <font>
+                     <Font size="17.0" />
+                  </font>
+               </Button>
+              </HBox>
+              <HBox alignment="CENTER">
+                  <Label prefHeight="35.0" prefWidth="139.0" styleClass="summary-total-label" stylesheets="@style.css" text="Total cost :">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+               </Label>
+                  <Label fx:id="totalLabel" styleClass="summary-total-value" text="0 VND">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+               </Label>
+              </HBox>
+            <VBox.margin>
+               <Insets bottom="15.0" />
+            </VBox.margin>
+          </VBox>
+      
+          <!-- Các nút thao tác -->
+          <HBox alignment="CENTER" spacing="20">
+              <Button onAction="#continueShoppingBtnPressed" styleClass="continue-btn" stylesheets="@style.css" text="CONTINUE SHOPPING" />
+              <Button onAction="#checkOutBtnPressed" prefWidth="148.0" styleClass="checkout-btn" stylesheets="@style.css" text="CHECK OUT" />
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+          </HBox>
+      </VBox>
+   </children>
+</HBox>
