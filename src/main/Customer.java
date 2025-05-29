@@ -43,16 +43,16 @@ public class Customer extends Application {
     public static void main(String[] args) {
         store = new Store();
 
-        Coffee coffee1 = new Coffee("Espresso", "Coffee", 150000);
-       Coffee coffee2 = new Coffee("Americano", "Coffee", 120000);
-        Coffee coffee3 = new Coffee("Cappuccino", "Coffee", 180000);
-        Coffee coffee4 = new Coffee("Mocha", "Coffee", 200000);
-        Coffee coffee5 = new Coffee("Flat White", "Coffee", 170000);
-        Coffee coffee6 = new Coffee("Macchiato", "Coffee", 160000);
-        Coffee coffee7 = new Coffee("Ristretto", "Coffee", 130000);
-        Coffee coffee8 = new Coffee("Affogato", "Coffee", 190000);
-        Coffee coffee9 = new Coffee("Long Black", "Coffee", 140000);
-        Coffee coffee10 = new Coffee("Latte", "Coffee", 220000);
+        Coffee coffee1 = new Coffee(1, "Espresso", "Coffee", 150000, "Hellu");
+        Coffee coffee2 = new Coffee(2, "Americano", "Coffee", 120000, "");
+        Coffee coffee3 = new Coffee(3, "Cappuccino", "Coffee", 180000, "");
+        Coffee coffee4 = new Coffee(4, "Mocha", "Coffee", 200000, "");
+        Coffee coffee5 = new Coffee(5, "Flat White", "Coffee", 170000, "");
+        Coffee coffee6 = new Coffee(6, "Macchiato", "Coffee", 160000, "");
+        Coffee coffee7 = new Coffee(7, "Ristretto", "Coffee", 130000, "");
+        Coffee coffee8 = new Coffee(8, "Affogato", "Coffee", 190000, "");
+        Coffee coffee9 = new Coffee(9, "Long Black", "Coffee", 140000, "");
+        Coffee coffee10 = new Coffee(10, "Latte", "Coffee", 220000, "");
 
         store.addProduct(coffee1);
         store.addProduct(coffee2);

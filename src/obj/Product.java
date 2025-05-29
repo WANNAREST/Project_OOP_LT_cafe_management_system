@@ -3,14 +3,14 @@ package obj;
 public abstract class Product {
     private int id;
     private String name;
-    private double price;
+    private int price;
     private String category;
     private String description;
     private int stock;
 
 
 
-    public Product(int id, String name, String category,double price, int stock,  String description) {
+    public Product(int id, String name, String category,int price, int stock,  String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -18,13 +18,23 @@ public abstract class Product {
         this.category = category;
         this.description = description;
     }
-    public Product(String name, String Category, double price, String description ) {
+
+    public Product(int id, String name, String category,int price,  String description) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.description = description;
+    }
+
+
+    public Product(String name, String Category, int price, String description ) {
         this.name = name;
         this.price = price;
         this.category = Category;
     }
 
-    public Product(String name, String category, double price) {
+    public Product(String name, String category, int price) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -41,11 +51,11 @@ public abstract class Product {
         this.name = name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -32,7 +32,7 @@
       </ImageView>
       <HBox layoutX="281.0" layoutY="23.0" prefHeight="43.0" prefWidth="641.0">
          <children>
-            <TextField prefHeight="43.0" prefWidth="588.0" promptText="Search everything u need" styleClass="search-box" stylesheets="@style.css">
+            <TextField fx:id="searchField" onAction="#handleSearchAction" prefHeight="43.0" prefWidth="588.0" promptText="Search everything u need" styleClass="search-box" stylesheets="@style.css">
                <HBox.margin>
                   <Insets />
                </HBox.margin></TextField>
@@ -59,7 +59,7 @@
                         <Image url="@../img/dollar.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="49.0" prefWidth="83.0" text="0">
+                  <Label fx:id="numCoinLabel" prefHeight="49.0" prefWidth="83.0" text="50">
                      <font>
                         <Font name="System Bold" size="33.0" />
                      </font>

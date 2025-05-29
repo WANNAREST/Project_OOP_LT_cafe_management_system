@@ -36,7 +36,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Button fx:id="detailbtnPressed" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="151.0" styleClass="save-btn" stylesheets="@style.css" text="More Detail">
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#detailbtnPressed" prefHeight="40.0" prefWidth="151.0" styleClass="save-btn" stylesheets="@style.css" text="More Detail">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></Button>

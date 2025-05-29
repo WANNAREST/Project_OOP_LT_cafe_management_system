@@ -21,13 +21,13 @@
           <Label styleClass="cart-title" stylesheets="@style.css" text="MY CART" />
          <ScrollPane prefHeight="381.0" prefWidth="1155.0">
             <content>
-               <TableView prefHeight="380.0" prefWidth="1186.0">
+               <TableView fx:id="tblProduct" prefHeight="380.0" prefWidth="1186.0">
                  <columns>
-                   <TableColumn prefWidth="189.0" text="Product ID" />
-                     <TableColumn prefWidth="150.0" text="Product Name" />
-                     <TableColumn prefWidth="119.5" text="Quantity" />
-                     <TableColumn prefWidth="171.5" text="Category" />
-                     <TableColumn prefWidth="239.0" text="Price" />
+                   <TableColumn fx:id="colProductID" prefWidth="189.0" text="Product ID" />
+                     <TableColumn fx:id="colProductName" prefWidth="150.0" text="Product Name" />
+                     <TableColumn fx:id="colProductQuantity" prefWidth="119.5" text="Quantity" />
+                     <TableColumn fx:id="colProductCategory" prefWidth="171.5" text="Category" />
+                     <TableColumn fx:id="colProductPrice" prefWidth="239.0" text="Price" />
                      <TableColumn prefWidth="316.0" text="Note" />
                  </columns>
                </TableView>
@@ -44,14 +44,14 @@
                </Label>
                <Region prefHeight="45.0" prefWidth="12.0" />
                   <Label fx:id="subtotalLabel" prefHeight="25.0" prefWidth="71.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
-               <Region prefHeight="46.0" prefWidth="881.0" />
+               <Region prefHeight="46.0" prefWidth="819.0" />
                <ImageView fitHeight="46.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../img/dollar.png" />
                   </image>
                </ImageView>
                <Region prefHeight="46.0" prefWidth="35.0" />
-               <ToggleButton mnemonicParsing="false" prefHeight="37.0" prefWidth="104.0" stylesheets="@style.css" text="Use" />
+               <ToggleButton fx:id="useCointbtnToggle" mnemonicParsing="false" onAction="#useCoinbtnPressed" prefHeight="37.0" prefWidth="104.0" stylesheets="@style.css" text="Use" />
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -64,18 +64,16 @@
                </Label>
                <Region prefHeight="39.0" prefWidth="12.0" />
                   <Label fx:id="discountLabel" prefHeight="25.0" prefWidth="72.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
-               <Region prefHeight="42.0" prefWidth="783.0" />
-               <Button mnemonicParsing="false" onAction="#removeBtnPressed" prefHeight="42.0" prefWidth="129.0" styleClass="remove-btn" stylesheets="@style.css" text="Remove">
+               <Region prefHeight="39.0" prefWidth="686.0" />
+               <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#removeBtnPressed" prefHeight="42.0" prefWidth="129.0" styleClass="remove-btn" stylesheets="@style.css" text="Remove">
                   <font>
                      <Font size="17.0" />
                   </font>
                </Button>
                <Region prefHeight="49.0" prefWidth="29.0" />
-               <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="106.0" styleClass="remove-btn" stylesheets="@style.css" text="Buy Or Not">
-                  <font>
-                     <Font size="17.0" />
-                  </font>
-               </Button>
+               <Button fx:id="btnPlus" mnemonicParsing="false" onAction="#plusBtnPressed" prefHeight="49.0" prefWidth="56.0" styleClass="remove-btn" stylesheets="@style.css" text="+" />
+               <Label fx:id="numLabel" prefHeight="41.0" prefWidth="55.0" styleClass="btnadd" stylesheets="@style.css" text="    0" />
+               <Button fx:id="btnMinus" mnemonicParsing="false" onAction="#minusBtnPressed" prefHeight="43.0" prefWidth="59.0" styleClass="remove-btn" stylesheets="@style.css" text="-" />
               </HBox>
               <HBox alignment="CENTER">
                   <Label prefHeight="35.0" prefWidth="139.0" styleClass="summary-total-label" stylesheets="@style.css" text="Total cost :">

@@ -7,11 +7,11 @@ public class Coffee extends Product{
         Coffee.nbCoffee = nbCoffee;
     }
 
-    public Coffee(String name, String category, double price, String description) {
-        super(name, category, price, description);
+    public Coffee(int id, String name, String category, int price, String description) {
+        super(id, name, category, price, description);
     }
 
-    public Coffee(String name, String category, double price) {
+    public Coffee(String name, String category, int price) {
         super(name,category,price);
     }
 

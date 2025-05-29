@@ -283,3 +283,50 @@
     -fx-border-color: #17376e;
     -fx-border-radius: 10px;
 }
+.add-to-cart-button{
+    -fx-background-color: white;
+    -fx-font-size: 17px;
+    -fx-border-color: #17376e;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #17376e;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 20px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+.add-to-cart-button:hover{
+    -fx-background-color: #7fa5da;
+}
+.header-product{
+    -fx-text-fill: #17376e;
+    -fx-font-size: 50px;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-weight: bold;
+}
+.label-cost{
+    -fx-text-fill: #17376e;
+    -fx-font-size: 30px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+.btnadd {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D1D1D1;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+  /*  -fx-padding: 8px 12px; */
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17376e;
+    -fx-prompt-text-fill: #A8A8A8;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4px;
+    -fx-text-alignment: center;
+}
+
+/* Khi focus */
+.btnadd:focused {
+    -fx-border-color: #17376e;
+    -fx-effect: dropshadow(three-pass-box, rgb(189, 227, 221), 5, 0, 0, 0);
+}
+
+
