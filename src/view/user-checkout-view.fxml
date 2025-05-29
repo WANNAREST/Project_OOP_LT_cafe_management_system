@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="636.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.UserCheckoutView">
+   <children>
+      <SplitPane dividerPositions="0.505008347245409" prefHeight="637.0" prefWidth="1200.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="635.0" prefWidth="572.0">
+               <children>
+                  <Label fx:id="labelPayment" layoutX="253.0" layoutY="14.0" prefHeight="44.0" prefWidth="76.0" text="Thanh toán" />
+                  <ScrollPane layoutX="6.0" layoutY="66.0" prefHeight="200.0" prefWidth="596.0">
+                     <content>
+                        <TableView fx:id="tblPayemnt" prefHeight="200.0" prefWidth="581.0">
+                          <columns>
+                            <TableColumn fx:id="tblName" prefWidth="159.0" text="Product name" />
+                              <TableColumn fx:id="tblPrice" prefWidth="172.5" text="Price" />
+                              <TableColumn fx:id="tblQuantity" prefWidth="116.0" text="Quantity" />
+                              <TableColumn fx:id="tblTotal" prefWidth="132.5" text="Total" />
+                          </columns>
+                        </TableView>
+                     </content>
+                  </ScrollPane>
+                  <Group layoutX="480.0" layoutY="309.0">
+                     <children>
+                        <Label text="Tổng tiền" />
+                        <Label fx:id="labelTotal" layoutX="59.0" text="100000" />
+                     </children>
+                  </Group>
+                  <VBox alignment="TOP_CENTER" layoutX="12.0" layoutY="401.0" prefHeight="220.0" prefWidth="570.0">
+                     <children>
+                        <RadioButton fx:id="btnCOD" mnemonicParsing="false" onAction="#CODbtnPressed" prefHeight="78.0" prefWidth="196.0" text="Thanh toán khi giao hàng">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="payment_method" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" prefHeight="80.0" prefWidth="567.0" text="Cảm ơn bạn đã tin tưởng và chọn mua hàng tại OOP CafeShop.                      Chúng mình sẽ sớm liên hệ với bạn để Xác Nhận Đơn Hàng qua điện thoại                  trước khi giao hàng." textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <RadioButton fx:id="btnBank" mnemonicParsing="false" onAction="#BankbtnPressed" prefHeight="66.0" prefWidth="196.0" text="Chuyển khoản qua ngân hàng" toggleGroup="$payment_method" />
+                     </children>
+                  </VBox>
+                  <Label layoutX="480.0" layoutY="276.0" text="Giảm giá" />
+                  <Label fx:id="labelDiscount" layoutX="537.0" layoutY="276.0" prefHeight="17.0" prefWidth="47.0" text="10000" />
+                  <Label fx:id="labelPaymentMethod" layoutX="218.0" layoutY="343.0" text="Phương thức thanh toán" />
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="paymentpane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
