@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="634.0" prefWidth="568.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CODPaymentController">
+   <children>
+      <ImageView fitHeight="353.0" fitWidth="295.0" layoutX="136.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/z6104759739860_b9cf42dab3aca284400b36a84e992d30.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="63.0" layoutY="411.0" prefHeight="127.0" prefWidth="443.0" text="Cảm ơn bạn đã tin tưởng và chọn mua hàng tại OOPShop.            Chúng mình sẽ sớm liên hệ với bạn để Xác Nhận Đơn Hàng qua điện thoại trước khi giao hàng." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="orderBtn" layoutX="222.0" layoutY="547.0" mnemonicParsing="false" onAction="#orderBtnPressed" prefHeight="25.0" prefWidth="114.0" styleClass="continue-btn" stylesheets="@style.css" text="Đặt hàng" />
+   </children>
+</AnchorPane>
