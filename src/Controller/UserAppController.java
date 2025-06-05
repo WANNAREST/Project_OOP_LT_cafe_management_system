@@ -65,6 +65,17 @@ public class UserAppController implements Initializable {
     }
 
 
+    public void showCheckOut(AnchorPane checkoutView) {
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(checkoutView);
+
+        AnchorPane.setTopAnchor(checkoutView, 0.0);
+        AnchorPane.setBottomAnchor(checkoutView, 0.0);
+        AnchorPane.setLeftAnchor(checkoutView, 0.0);
+        AnchorPane.setRightAnchor(checkoutView, 0.0);
+
+    }
+
     @FXML
     void showCart(ActionEvent event) {
         contentPane.getChildren().clear();

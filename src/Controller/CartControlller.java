@@ -2,9 +2,12 @@ package Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import obj.Cart;
 import obj.CartItem;
 import obj.Product;
@@ -55,6 +58,16 @@ private Cart cart;
     private Label subtotalLabel;
 
     @FXML
+    private Button btnCheckOut;
+
+    @FXML
+    private Button btnContinue;
+
+
+    @FXML
+    private HBox lolbar;
+
+    @FXML
     private ToggleButton useCointbtnToggle;
 
     @FXML
@@ -78,6 +91,30 @@ private Cart cart;
 
     @FXML
     void checkOutBtnPressed(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-checkout-view.fxml"));
+            AnchorPane checkoutView = loader.load();
+
+            PaymentController paymentController = loader.getController();
+            paymentController.setCart(cart);
+            paymentController.setController(parentController);
+
+            int discount = Integer.parseInt(discountLabel.getText().replace("VND","").trim());
+            paymentController.setDiscount(discount);
+
+            if(parentController != null){
+                parentController.showCheckOut(checkoutView);
+            }else{
+                System.err.println("Error: Parent controller is not set.");
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.err.println("Error loading checkout view " + e.getMessage());
+        }
+
+
 
     }
     public void setParentController(UserAppController parentController) {
@@ -116,15 +153,16 @@ private Cart cart;
         if(useCointbtnToggle.isSelected()) {
             if(coins > 0) {
                 precoint = coins;
-                discountLabel.setText(String.valueOf(coins * 2000));
+                int discountAmount = coins * 2000;
+                discountLabel.setText(String.format("%d VND", discountAmount));
                 numCoinsLabel.setText(String.valueOf(0));
-                updatetotal();
+                updatetotal(); // Gọi cập nhật tổng tiền
             }else{
                 useCointbtnToggle.setSelected(false);
                 showAlert("No Coins", "You don't have any coins to use!");
             }
         }else{
-            discountLabel.setText(String.valueOf(0));
+            discountLabel.setText(String.format("%d VND",0));
             numCoinsLabel.setText(String.valueOf(precoint));
             updatetotal();
         }
@@ -172,18 +210,21 @@ private Cart cart;
 
     public void updateSubTotal() {
          int subtotal = 0;
-         for (CartItem item : cart.getItemsOrdered()) {
-             subtotal += item.getTotalPrice();
-         }
-         subtotalLabel.setText(Integer.toString(subtotal));
+         subtotal = cart.totalCost();
+         subtotalLabel.setText(String.format("%d VND", subtotal));
 
     }
 
     public void updatetotal(){
         try {
-            int subtotal = Integer.parseInt(subtotalLabel.getText());
-            int discount = Integer.parseInt(discountLabel.getText());
-            totalLabel.setText(String.valueOf(subtotal - discount));
+            String subtotalText = subtotalLabel.getText().replaceAll("[^\\d]", "");
+            int subtotal = subtotalText.isEmpty() ? 0 : Integer.parseInt(subtotalText);
+
+            // Lấy discount và xóa ký tự không phải số
+            String discountText = discountLabel.getText().replaceAll("[^\\d]", "");
+            int discount = discountText.isEmpty() ? 0 : Integer.parseInt(discountText);
+            int total = subtotal - discount;
+            totalLabel.setText(String.format("%d VND", total));
         } catch (NumberFormatException e) {
             totalLabel.setText(subtotalLabel.getText());
         }
@@ -221,6 +262,16 @@ private Cart cart;
         updateSubTotal();
         updatetotal();
 
+        if (tblProduct.getItems().size() == 0) {
+            btnCheckOut.setVisible(false);
+            btnContinue.setVisible(true);
+            useCointbtnToggle.setVisible(false);
+            lolbar.setAlignment(Pos.CENTER);
+            lolbar.getChildren().clear();
+            lolbar.getChildren().add(btnContinue);
+
+}
+
 
     }
 
@@ -232,6 +283,23 @@ private Cart cart;
             btnRemove.setVisible(true);
         }
 
+    }
+
+    void clearCart(){
+        if(cart != null){
+            cart.clearCart();
+            tblProduct.getItems().clear();
+            updateSubTotal();
+            updatetotal();
+
+
+            btnCheckOut.setVisible(false);
+            btnContinue.setVisible(true);
+            useCointbtnToggle.setVisible(false);
+            lolbar.setAlignment(Pos.CENTER);
+            lolbar.getChildren().clear();
+            lolbar.getChildren().add(btnContinue);
+        }
     }
 
 }

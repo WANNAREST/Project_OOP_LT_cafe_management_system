@@ -55,8 +55,8 @@ public class Cart {
     }
 
 
-    public double totalCost() {
-        double total = 0;
+    public int totalCost() {
+        int total = 0;
         for (CartItem item : itemsOrdered) {
             total += item.getTotalPrice();
         }
@@ -73,7 +73,7 @@ public class Cart {
     }
 
 
-    public void emptyCart() {
+    public void clearCart() {
         itemsOrdered.clear();
         System.out.println("Cart is empty!");
     }
