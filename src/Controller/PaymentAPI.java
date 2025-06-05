@@ -6,15 +6,31 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONObject;
 
-public class PaymentAPI {
-    private static final String API_URL = "https://api.vietqr.io/v2/generate";
-    private static final String CLIENT_ID = "2d3f23d0-22d8-47ad-91f9-e4f2c37f1d36";
-    private static final String CLIENT_SECRET = "4e149f82-3610-4e4f-a00a-57f7ed639064";
+import java.io.InputStream;
+import java.util.Properties;
 
-    // Centralized account information
-    public static final String ACCOUNT_NO = "0862853702";
-    public static final String ACCOUNT_NAME = "NGUYEN MINH QUAN";
-    public static final String BANK_NAME = "MB Bank";
+public class PaymentAPI {
+    private static String API_URL;
+    private static String CLIENT_ID;
+    private static String CLIENT_SECRET;
+    private static String ACCOUNT_NO;
+    private static String ACCOUNT_NAME;
+    private static String BANK_NAME;
+
+    static {
+        try (InputStream input = PaymentAPI.class.getClassLoader().getResourceAsStream("config.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+            API_URL = prop.getProperty("api.url");
+            CLIENT_ID = prop.getProperty("client.id");
+            CLIENT_SECRET = prop.getProperty("client.secret");
+            ACCOUNT_NO = prop.getProperty("account.no");
+            ACCOUNT_NAME = prop.getProperty("account.name");
+            BANK_NAME = prop.getProperty("bank.name");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public static String generateQRCode(int amount, String orderId, String bankCode) throws Exception {
         JSONObject requestBody = new JSONObject();
