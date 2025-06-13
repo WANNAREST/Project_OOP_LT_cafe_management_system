@@ -59,7 +59,7 @@
                         <Image url="@../img/dollar.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="numCoinLabel" prefHeight="49.0" prefWidth="83.0" text="50">
+                  <Label fx:id="numCoinLabel" prefHeight="49.0" prefWidth="83.0" text="0">
                      <font>
                         <Font name="System Bold" size="33.0" />
                      </font>

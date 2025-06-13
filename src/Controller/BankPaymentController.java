@@ -1,7 +1,9 @@
 package Controller;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -22,18 +24,24 @@ public class BankPaymentController {
 
 
     private Cart cart;
+    private String currentOrderId;
+    private int paymentAmount;
 
     public void setCart(Cart cart) {
         this.cart = cart;
+        this.paymentAmount=cart.totalCost();
+
         generateQRCode();
     }
 
     private void generateQRCode() {
         try {
+
+            currentOrderId = "ORDER" + System.currentTimeMillis();
             // Generate QR code from VietQR API
             String qrCodeUrl = PaymentAPI.generateQRCode(
-                    cart.totalCost(),
-                    "ORDER_" + System.currentTimeMillis(),
+                   paymentAmount,
+                    currentOrderId,
                     "970422" // MB Bank code
             );
 
@@ -75,6 +83,99 @@ public class BankPaymentController {
     void checkBankbtnPressed(ActionEvent event) {
         // Add logic to check payment status
         // This could involve calling another API to verify payment
-        System.out.println("Checking payment status...");
+        btnCheckBank.setDisable(true);
+        btnCheckBank.setText("Đang kiểm tra...");
+
+        Task<Boolean> checkPaymentTask = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                Thread.sleep(2000);
+                // Call API to verify transaction
+                return PaymentAPI.verifyTransaction(paymentAmount, currentOrderId);
+            }
+
+            @Override
+            protected void succeeded() {
+                // Re-enable button
+                btnCheckBank.setDisable(false);
+                btnCheckBank.setText("Kiểm tra thanh toán");
+
+                // Handle result
+                Boolean paymentFound = getValue();
+                if (paymentFound) {
+                    // Payment successful
+                    showAlert("Thành công",
+                            "Thanh toán thành công!\n" +
+                                    "Mã đơn hàng: " + currentOrderId + "\n" +
+                                    "Số tiền: " + String.format("%,d VND", paymentAmount),
+                            Alert.AlertType.INFORMATION);
+
+                    // You can add logic here to:
+                    // - Save order to database
+                    // - Close payment window
+                    // - Navigate to success page
+                    processSuccessfulPayment();
+
+                } else {
+                    // Payment not found
+                    showAlert("Chưa thanh toán",
+                            "Chưa tìm thấy giao dịch.\n\n" +
+                                    "Vui lòng kiểm tra:\n" +
+                                    "- Đã chuyển khoản đúng số tiền: " + String.format("%,d VND", paymentAmount) + "\n" +
+                                    "- Nội dung chuyển khoản có chứa: " + currentOrderId + "\n" +
+                                    "- Đợi 1-2 phút để hệ thống cập nhật",
+                            Alert.AlertType.WARNING);
+                }
+            }
+
+            @Override
+            protected void failed() {
+                // Re-enable button
+                btnCheckBank.setDisable(false);
+                btnCheckBank.setText("Kiểm tra thanh toán");
+
+                Throwable exception = getException();
+                String errorMessage = exception.getMessage();
+
+
+                // Show error message
+                if (errorMessage.contains("429")) {
+                    showAlert("Lỗi",
+                            "Đã gọi API quá nhiều lần. Vui lòng đợi 1-2 phút trước khi thử lại.",
+                            Alert.AlertType.ERROR);
+                } else {
+                    showAlert("Lỗi",
+                            "Không thể kiểm tra thanh toán: " + errorMessage,
+                            Alert.AlertType.ERROR);
+                }
+            }
+        };
+
+        // Run task in background thread
+        Thread thread = new Thread(checkPaymentTask);
+        thread.setDaemon(true);
+        thread.start();
     }
-}
+    private void processSuccessfulPayment() {
+        // Add your business logic here
+        System.out.println("Processing successful payment for order: " + currentOrderId);
+
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public String getCurrentOrderId() {
+        return currentOrderId;
+    }
+
+    public int getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    }

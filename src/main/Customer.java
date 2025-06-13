@@ -1,15 +1,18 @@
 package main;
 
 import Controller.UserAppController;
+import Controller.ProductDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import obj.Coffee;
+import obj.Product;
 import obj.Store;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Customer extends Application {
     private static Store store;
@@ -43,32 +46,46 @@ public class Customer extends Application {
     public static void main(String[] args) {
         store = new Store();
 
-        Coffee coffee1 = new Coffee(1, "Espresso", "Coffee", 150000, "Hellu");
-        Coffee coffee2 = new Coffee(2, "Americano", "Coffee", 120000, "");
-        Coffee coffee3 = new Coffee(3, "Cappuccino", "Coffee", 180000, "");
-        Coffee coffee4 = new Coffee(4, "Mocha", "Coffee", 200000, "");
-        Coffee coffee5 = new Coffee(5, "Flat White", "Coffee", 170000, "");
-        Coffee coffee6 = new Coffee(6, "Macchiato", "Coffee", 160000, "");
-        Coffee coffee7 = new Coffee(7, "Ristretto", "Coffee", 130000, "");
-        Coffee coffee8 = new Coffee(8, "Affogato", "Coffee", 190000, "");
-        Coffee coffee9 = new Coffee(9, "Long Black", "Coffee", 140000, "");
-        Coffee coffee10 = new Coffee(10, "Latte", "Coffee", 220000, "");
-
-        store.addProduct(coffee1);
-        store.addProduct(coffee2);
-
-
-        store.addProduct(coffee3);
-        store.addProduct(coffee4);
-        store.addProduct(coffee5);
-        store.addProduct(coffee6);
-        store.addProduct(coffee7);
-        store.addProduct(coffee8);
-        store.addProduct(coffee9);
-        store.addProduct(coffee10);
-
-
+        // Load products from database instead of hardcoded values
+        loadProductsFromDatabase();
 
         launch(args);
     }
+
+    /**
+     * Load products from database and add them to the store
+     */
+    private static void loadProductsFromDatabase() {
+        try {
+            ProductDAO productDAO = new ProductDAO();
+
+            // Get all available products from database
+            List<Product> productsFromDB = productDAO.getAvailableProducts();
+
+            if (productsFromDB.isEmpty()) {
+                System.out.println("⚠️ No products found in database. Loading default products...");
+
+            } else {
+                System.out.println("✅ Loading " + productsFromDB.size() + " products from database...");
+
+                // Add each product from database to the store
+                for (Product product : productsFromDB) {
+                    store.addProduct(product);
+                    System.out.println("Added: " + product.getName() + " - " +
+                            ProductDAO.formatPrice(product.getPrice()) +
+                            " (Stock: " + product.getQuantity() + ")");
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Error loading products from database: " + e.getMessage());
+            System.out.println("📦 Loading default products as fallback...");
+
+        }
+    }
+
+    /**
+     * Fallback method to load default products if database is not available
+     */
+
 }
