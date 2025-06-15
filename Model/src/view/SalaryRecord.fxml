@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Admin_SalaryManageController">
+
+	<top>
+		<HBox prefHeight="39.0" prefWidth="914.0" spacing="10">
+			<padding>
+				<Insets bottom="10" left="10" right="10" top="10" />
+			</padding>
+			<children>
+				<Label prefHeight="38.0" prefWidth="36.0" text="Tháng:" />
+				<ComboBox fx:id="cbMonth" prefHeight="46.0" prefWidth="100" />
+				<Label prefHeight="42.0" prefWidth="29.0" text="Năm:" />
+				<ComboBox fx:id="cbYear" prefHeight="46.0" prefWidth="100" />
+				<Button fx:id="btnFilter" prefHeight="31.0" prefWidth="102.0" styleClass="save-btn" stylesheets="@style.css" text="Lọc" />
+				<Region HBox.hgrow="ALWAYS" />
+				<Button fx:id="btnAddNew" prefHeight="41.0" prefWidth="230.0" styleClass="save-btn" stylesheets="@style.css" text="Thêm bảng lương mới" />
+			</children>
+		</HBox>
+	</top>
+
+	<center>
+		<VBox spacing="10">
+			<padding>
+				<Insets bottom="10" left="10" right="10" top="10" />
+			</padding>
+			<children>
+				<TableView fx:id="salaryTable" prefHeight="400" stylesheets="@style.css">
+					<columns>
+						<TableColumn fx:id="colEmployeeId" prefWidth="80" text="Mã NV" />
+						<TableColumn fx:id="colId" prefWidth="80" text="Mã lương" />
+						<TableColumn fx:id="colBasic" prefWidth="100" text="Lương cơ bản" />
+						<TableColumn fx:id="colWorkdays" prefWidth="80" text="Ngày công" />
+						<TableColumn fx:id="colBonus" prefWidth="80" text="Phụ cấp" />
+						<TableColumn fx:id="colReward" prefWidth="100" text="Thưởng/Phạt" />
+						<TableColumn fx:id="colLeave" prefWidth="100" text="Tiền phép" />
+						<TableColumn fx:id="colActual" prefWidth="120" text="Lương thực tế" />
+						<TableColumn fx:id="colNote" prefWidth="150" text="Ghi chú" />
+					</columns>
+				</TableView>
+			</children>
+		</VBox>
+	</center>
+</BorderPane>
