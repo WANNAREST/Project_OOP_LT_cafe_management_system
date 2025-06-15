@@ -9,11 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sample.cafeshopmanagement.models.database;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class AdminLoginController {
 
@@ -41,33 +42,35 @@ public class AdminLoginController {
 
     private Alert alert;
 
-    // ==== Dữ liệu admin giả lập ====
-    private final List<HashMap<String, String>> admins = new ArrayList<>();
-
-    // ==== Khởi tạo ====
-    public void initialize() {
-        // Thêm admin mẫu
-        HashMap<String, String> admin = new HashMap<>();
-        admin.put("username", "admin");
-        admin.put("password", "123456");
-        admin.put("phonenumber", "0123456789");
-        admins.add(admin);
-    }
-
     // ==== Đăng nhập ====
     public void loginBtn() {
         String username = si_username.getText();
         String password = si_password.getText();
 
-        Optional<HashMap<String, String>> admin = admins.stream()
-                .filter(a -> a.get("username").equals(username) && a.get("password").equals(password))
-                .findFirst();
+        if (username.isEmpty() || password.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Please fill all blank fields");
+            return;
+        }
 
-        if (admin.isPresent()) {
-            showAlert(Alert.AlertType.INFORMATION, "Admin login successful!");
-            showAdminDashboard();
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Incorrect admin username or password");
+        String query = "SELECT * FROM users WHERE full_name = ? AND password = ? AND role = 'manager'";
+
+        try (Connection connect = database.connectDB();
+             PreparedStatement prepare = connect.prepareStatement(query)) {
+
+            prepare.setString(1, username);
+            prepare.setString(2, password);
+
+            ResultSet result = prepare.executeQuery();
+
+            if (result.next()) {
+                showAlert(Alert.AlertType.INFORMATION, "Admin login successful!");
+                showAdminDashboard();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Incorrect admin username or password");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -102,15 +105,25 @@ public class AdminLoginController {
             return;
         }
 
-        Optional<HashMap<String, String>> matched = admins.stream()
-                .filter(a -> a.get("username").equals(username) && a.get("phonenumber").equals(phonenumber))
-                .findFirst();
+        String query = "SELECT * FROM users WHERE full_name = ? AND phone = ? AND role = 'manager'";
 
-        if (matched.isPresent()) {
-            np_newPassForm.setVisible(true);
-            fp_questionForm.setVisible(false);
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Incorrect username or phone number");
+        try (Connection connect = database.connectDB();
+             PreparedStatement prepare = connect.prepareStatement(query)) {
+
+            prepare.setString(1, username);
+            prepare.setString(2, phonenumber);
+
+            ResultSet result = prepare.executeQuery();
+
+            if (result.next()) {
+                np_newPassForm.setVisible(true);
+                fp_questionForm.setVisible(false);
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Incorrect username or phone number");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -136,23 +149,32 @@ public class AdminLoginController {
             return;
         }
 
-        Optional<HashMap<String, String>> admin = admins.stream()
-                .filter(a -> a.get("username").equals(username))
-                .findFirst();
+        String query = "UPDATE users SET password = ? WHERE full_name = ? AND role = 'manager'";
 
-        if (admin.isPresent()) {
-            admin.get().put("password", newPass);
-            showAlert(Alert.AlertType.INFORMATION, "Your password updated successfully.");
+        try (Connection connect = database.connectDB();
+             PreparedStatement prepare = connect.prepareStatement(query)) {
 
-            // Reset form
-            si_loginForm.setVisible(true);
-            np_newPassForm.setVisible(false);
-            fp_username.clear();
-            fp_phonenumber.clear();
-            np_newPassword.clear();
-            np_confirmPassword.clear();
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Failed to update password");
+            prepare.setString(1, newPass);
+            prepare.setString(2, username);
+
+            int rowsAffected = prepare.executeUpdate();
+
+            if (rowsAffected > 0) {
+                showAlert(Alert.AlertType.INFORMATION, "Your password updated successfully.");
+
+                // Reset form
+                si_loginForm.setVisible(true);
+                np_newPassForm.setVisible(false);
+                fp_username.clear();
+                fp_phonenumber.clear();
+                np_newPassword.clear();
+                np_confirmPassword.clear();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Failed to update password");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
