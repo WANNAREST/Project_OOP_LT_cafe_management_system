@@ -29,7 +29,7 @@ public class LaunchAppController {
     @FXML
     private void switchUserLogin() {
         try {
-            Parent userLoginRoot = FXMLLoader.load(getClass().getResource("/sample/cafeshopmanagement/UserLogin.fxml"));
+            Parent userLoginRoot = FXMLLoader.load(getClass().getResource("/sample/cafeshopmanagement/CustomerLogin.fxml"));
             Scene userScene = new Scene(userLoginRoot);
             Stage stage = (Stage) welcomeScreen.getScene().getWindow();
             stage.setScene(userScene);

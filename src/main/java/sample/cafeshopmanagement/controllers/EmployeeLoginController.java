@@ -9,11 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sample.cafeshopmanagement.models.database;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class EmployeeLoginController {
 
@@ -37,36 +38,38 @@ public class EmployeeLoginController {
     @FXML private Button emp_backToHome;
     @FXML private Button emp_fp_backToLogin;
     @FXML private Button emp_np_backToQuestion;
-    @FXML private AnchorPane waitingScreen;
 
     private Alert alert;
-
-    // ==== Dữ liệu employee giả lập ====
-    private final List<HashMap<String, String>> employees = new ArrayList<>();
-
-    // ==== Khởi tạo ====
-    public void initialize() {
-        HashMap<String, String> emp = new HashMap<>();
-        emp.put("username", "employee");
-        emp.put("password", "654321");
-        emp.put("phonenumber", "0987654321");
-        employees.add(emp);
-    }
 
     // ==== Đăng nhập ====
     public void loginBtn() {
         String username = emp_username.getText();
         String password = emp_password.getText();
 
-        Optional<HashMap<String, String>> emp = employees.stream()
-                .filter(e -> e.get("username").equals(username) && e.get("password").equals(password))
-                .findFirst();
+        if (username.isEmpty() || password.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Please fill all blank fields");
+            return;
+        }
 
-        if (emp.isPresent()) {
-            showAlert(Alert.AlertType.INFORMATION, "Employee login successful!");
-            showEmployeeDashboard();
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Incorrect employee username or password");
+        String query = "SELECT * FROM users WHERE full_name = ? AND password = ? AND role = 'employee'";
+
+        try (Connection connect = database.connectDB();
+             PreparedStatement prepare = connect.prepareStatement(query)) {
+
+            prepare.setString(1, username);
+            prepare.setString(2, password);
+
+            ResultSet result = prepare.executeQuery();
+
+            if (result.next()) {
+                showAlert(Alert.AlertType.INFORMATION, "Employee login successful!");
+                showEmployeeDashboard();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Incorrect employee username or password");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -101,15 +104,25 @@ public class EmployeeLoginController {
             return;
         }
 
-        Optional<HashMap<String, String>> matched = employees.stream()
-                .filter(e -> e.get("username").equals(username) && e.get("phonenumber").equals(phonenumber))
-                .findFirst();
+        String query = "SELECT * FROM users WHERE full_name = ? AND phone = ? AND role = 'employee'";
 
-        if (matched.isPresent()) {
-            emp_newPassForm.setVisible(true);
-            emp_forgotPassForm.setVisible(false);
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Incorrect username or phone number");
+        try (Connection connect = database.connectDB();
+             PreparedStatement prepare = connect.prepareStatement(query)) {
+
+            prepare.setString(1, username);
+            prepare.setString(2, phonenumber);
+
+            ResultSet result = prepare.executeQuery();
+
+            if (result.next()) {
+                emp_newPassForm.setVisible(true);
+                emp_forgotPassForm.setVisible(false);
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Incorrect username or phone number");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -135,23 +148,32 @@ public class EmployeeLoginController {
             return;
         }
 
-        Optional<HashMap<String, String>> emp = employees.stream()
-                .filter(e -> e.get("username").equals(username))
-                .findFirst();
+        String query = "UPDATE users SET password = ? WHERE full_name = ? AND role = 'employee'";
 
-        if (emp.isPresent()) {
-            emp.get().put("password", newPass);
-            showAlert(Alert.AlertType.INFORMATION, "Your password updated successfully.");
+        try (Connection connect = database.connectDB();
+             PreparedStatement prepare = connect.prepareStatement(query)) {
 
-            // Reset form
-            emp_loginForm.setVisible(true);
-            emp_newPassForm.setVisible(false);
-            emp_fp_username.clear();
-            emp_fp_phonenumber.clear();
-            emp_newPassword.clear();
-            emp_confirmPassword.clear();
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Failed to update password");
+            prepare.setString(1, newPass);
+            prepare.setString(2, username);
+
+            int rowsAffected = prepare.executeUpdate();
+
+            if (rowsAffected > 0) {
+                showAlert(Alert.AlertType.INFORMATION, "Your password updated successfully.");
+
+                // Reset form
+                emp_loginForm.setVisible(true);
+                emp_newPassForm.setVisible(false);
+                emp_fp_username.clear();
+                emp_fp_phonenumber.clear();
+                emp_newPassword.clear();
+                emp_confirmPassword.clear();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Failed to update password");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

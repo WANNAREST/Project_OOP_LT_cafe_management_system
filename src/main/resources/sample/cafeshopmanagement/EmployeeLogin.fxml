@@ -17,7 +17,7 @@
                 <!-- Login form -->
                 <AnchorPane fx:id="emp_loginForm" layoutX="640.0" layoutY="10.0" prefHeight="730.0" prefWidth="649.0">
                     <children>
-                        <Label layoutX="261.0" layoutY="252.0" text="EMPLOYEE LOGIN" textFill="#6f4e37">
+                        <Label layoutX="160.0" layoutY="264.0" text="EMPLOYEE LOGIN" textFill="#6f4e37">
                             <font>
                                 <Font name="Berlin Sans FB" size="40.0" />
                             </font>

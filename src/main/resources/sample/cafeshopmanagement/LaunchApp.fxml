@@ -15,7 +15,7 @@
                         <Font size="18.0" />
                     </font>
                 </Button>
-                <Button fx:id="employee_btn" layoutX="490.0" layoutY="503.0" minHeight="50.0" mnemonicParsing="false" onAction="#switchEmployeeLogin" prefHeight="50.0" prefWidth="300.0" styleClass="create-btn" stylesheets="@Design/LaunchApplicationDesign.css" text="Employee">
+                <Button fx:id="employee_btn" layoutX="490.0" layoutY="404.0" minHeight="50.0" mnemonicParsing="false" onAction="#switchEmployeeLogin" prefHeight="50.0" prefWidth="300.0" styleClass="create-btn" stylesheets="@Design/LaunchApplicationDesign.css" text="Employee">
                     <font>
                         <Font size="18.0" />
                     </font>
@@ -25,7 +25,7 @@
                         <Font name="Berlin Sans FB" size="75.0" />
                     </font>
                 </Text>
-            <Button fx:id="user_btn1" layoutX="490.0" layoutY="413.0" minHeight="50.0" mnemonicParsing="false" onAction="#switchUserLogin" prefHeight="50.0" prefWidth="300.0" styleClass="create-btn" stylesheets="@Design/LaunchApplicationDesign.css" text="User">
+            <Button fx:id="user_btn1" layoutX="490.0" layoutY="485.0" minHeight="50.0" mnemonicParsing="false" onAction="#switchUserLogin" prefHeight="50.0" prefWidth="300.0" styleClass="create-btn" stylesheets="@Design/LaunchApplicationDesign.css" text="Customer">
                <font>
                   <Font size="18.0" />
                </font>
