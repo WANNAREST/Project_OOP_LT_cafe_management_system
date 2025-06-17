@@ -44,17 +44,17 @@ public class UserAppController implements Initializable {
 
 
     @FXML
-    void showCart(ActionEvent event) {
-        contentPane.getChildren().clear();
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/user-cart-view.fxml"));
-            CartControlller controller = new CartControlller();
-            controller.setParentController(this);
-            fxmlLoader.setController(controller);
-            HBox root = fxmlLoader.load();
+    void showOrderPending(ActionEvent event) {
+    	contentPane.getChildren().clear();
+    	try {
+            // Use getResource with a proper path
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-cart-view.fxml"));
+            BorderPane root = loader.load();
             contentPane.getChildren().add(root);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            // Add user-friendly error handling
+            System.err.println("Could not load OrderPending view: " + e.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class UserAppController implements Initializable {
     	try {
             // Use getResource with a proper path
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SalaryRecord.fxml"));
-            HBox root = loader.load();
+            BorderPane root = loader.load();
             contentPane.getChildren().add(root);
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,7 +121,19 @@ public class UserAppController implements Initializable {
     void signOut(ActionEvent event) {
        
     }    
-    
+    @FXML
+    void showShift(ActionEvent event) {
+        contentPane.getChildren().clear();
+        try {
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Shift.fxml"));
+            BorderPane root = loader.load();
+            contentPane.getChildren().add(root);
+        } catch (Exception e) {
+        	 e.printStackTrace();
+             // Add user-friendly error handling
+             System.err.println("Could not load user detail view: " + e.getMessage());
+        }
+    }
     @FXML
     void showEmployee(ActionEvent event) {
     	System.out.println("showEmployee called");

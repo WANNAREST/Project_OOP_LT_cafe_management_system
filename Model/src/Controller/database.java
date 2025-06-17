@@ -7,7 +7,7 @@ public class database {
 	  public static Connection connectDB() {
 	        try {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
-	            Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/cafe", "root", "");
+	            Connection connect= DriverManager.getConnection("jdbc:mysql://localhost/cafe", "root", "");
 	          //  System.out.println("Successfully connected to database");
 	            return connect;
 	        } catch (Exception e) {

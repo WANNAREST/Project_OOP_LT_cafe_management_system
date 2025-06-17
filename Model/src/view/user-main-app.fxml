@@ -81,7 +81,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="-1.0" layoutY="106.0" mnemonicParsing="false" onAction="#showCart" prefHeight="62.0" prefWidth="75.0" styleClass="button2" stylesheets="@style.css">
+            <Button layoutX="-1.0" layoutY="106.0" mnemonicParsing="false" onAction="#showOrderPending" prefHeight="62.0" prefWidth="75.0" styleClass="button2" stylesheets="@style.css">
                <graphic>
                   <ImageView fitHeight="49.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -99,11 +99,11 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="-1.0" layoutY="269.0" mnemonicParsing="false" onAction="#showChatBot" prefHeight="64.0" prefWidth="71.0" styleClass="button2" stylesheets="@style.css">
+            <Button layoutX="-1.0" layoutY="269.0" mnemonicParsing="false" onAction="#showShift" prefHeight="64.0" prefWidth="71.0" styleClass="button2" stylesheets="@style.css">
                <graphic>
                   <ImageView fitHeight="64.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../img/chatbot.png" />
+                        <Image url="@../img/calendar.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -124,7 +124,7 @@
                <graphic>
                   <ImageView fitHeight="53.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../img/inventory.png" />
+                        <Image url="@../img/product-management.png" />
                      </image>
                   </ImageView>
                </graphic>

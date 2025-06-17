@@ -1,118 +1,133 @@
 package obj;
 
-import java.util.Calendar;
-import java.util.Date;
+import javafx.beans.property.*;
+import java.time.LocalDateTime;
 
 public class Order {
-    private int orderId;
-    private int customerId;              // FK đến Customer
-    private int employeeId;              // FK đến Employee (ai tạo đơn)
-    private Date date;                   // ngày tạo đơn
-    private OrderStatus status;          // trạng thái đơn hàng
-    private PaymentMethod paymentMethod; // phương thức thanh toán
-    private PaymentStatus paymentStatus; // trạng thái thanh toán
-    private String note;                 // ghi chú đơn hàng
-    private String deliveryAddress;      // địa chỉ giao hàng
-    private double total;                // tổng tiền (bao gồm VAT)
+    private StringProperty orderId;
+    private StringProperty customerId;
+    private StringProperty employeeId;
+    private ObjectProperty<LocalDateTime> date;
+    private StringProperty status;
+    private StringProperty paymentMethod;
+    private StringProperty paymentStatus;
+    private StringProperty note;
+    private StringProperty deliveryAddress;
+    private DoubleProperty total;
+    private IntegerProperty bonusUsed;
+    private DoubleProperty originalTotal; // ✅ THÊM PROPERTY NÀY
 
-    // Constructor tương ứng với DB schema
-    public Order(int orderId, int customerId, int employeeId, Date date,
-                 OrderStatus status, PaymentMethod paymentMethod,
-                 PaymentStatus paymentStatus, String note,
-                 String deliveryAddress, double total) {
-        this.orderId = orderId;
-        this.customerId = customerId;
-        this.employeeId = employeeId;
-        this.date = date;
-        this.status = status;
-        this.paymentMethod = paymentMethod;
-        this.paymentStatus = paymentStatus;
-        this.note = note;
-        this.deliveryAddress = deliveryAddress;
-        this.total = total;
+    public Order() {
+        this.orderId = new SimpleStringProperty();
+        this.customerId = new SimpleStringProperty();
+        this.employeeId = new SimpleStringProperty();
+        this.date = new SimpleObjectProperty<>();
+        this.status = new SimpleStringProperty();
+        this.paymentMethod = new SimpleStringProperty();
+        this.paymentStatus = new SimpleStringProperty();
+        this.note = new SimpleStringProperty();
+        this.deliveryAddress = new SimpleStringProperty();
+        this.total = new SimpleDoubleProperty();
+        this.bonusUsed = new SimpleIntegerProperty(0);
+        this.originalTotal = new SimpleDoubleProperty(0); // ✅ KHỞI TẠO
     }
 
-    // Getter và Setter tương ứng với DB fields
-    public int getOrderId() { return orderId; }
-    public void setOrderId(int orderId) { this.orderId = orderId; }
-
-    public int getCustomerId() { return customerId; }
-    public void setCustomerId(int customerId) { this.customerId = customerId; }
-
-    public int getEmployeeId() { return employeeId; }
-    public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
-
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
-
-    public OrderStatus getStatus() { return status; }
-    public void setStatus(OrderStatus status) { this.status = status; }
-
-    public PaymentMethod getPaymentMethod() { return paymentMethod; }
-    public void setPaymentMethod(PaymentMethod paymentMethod) { this.paymentMethod = paymentMethod; }
-
-    public PaymentStatus getPaymentStatus() { return paymentStatus; }
-    public void setPaymentStatus(PaymentStatus paymentStatus) { this.paymentStatus = paymentStatus; }
-
-    public String getNote() { return note; }
-    public void setNote(String note) { this.note = note; }
-
-    public String getDeliveryAddress() { return deliveryAddress; }
-    public void setDeliveryAddress(String deliveryAddress) { this.deliveryAddress = deliveryAddress; }
-
-    public double getTotal() { return total; }
-    public void setTotal(double total) { this.total = total; }
-
-    public void confirmPayment() {
-        this.paymentStatus = PaymentStatus.COMPLETED;
+    // ✅ SỬA CONSTRUCTOR - chỉ giữ constructor cũ để không conflict
+    public Order(String orderId, String customerId, String employeeId, LocalDateTime date, 
+                String status, String paymentMethod, String paymentStatus, String note, 
+                String deliveryAddress, double total) {
+        this();
+        setOrderId(orderId);
+        setCustomerId(customerId);
+        setEmployeeId(employeeId);
+        setDate(date);
+        setStatus(status);
+        setPaymentMethod(paymentMethod);
+        setPaymentStatus(paymentStatus);
+        setNote(note);
+        setDeliveryAddress(deliveryAddress);
+        setTotal(total);
+        setBonusUsed(0); // Default
+        setOriginalTotal(total); // Default = total
     }
 
-    public boolean isTakeaway() {
-        return status == OrderStatus.TAKEAWAY;
-    }
+    // Getters
+    public String getOrderId() { return orderId.get(); }
+    public String getCustomerId() { return customerId.get(); }
+    public String getEmployeeId() { return employeeId.get(); }
+    public LocalDateTime getDate() { return date.get(); }
+    public String getStatus() { return status.get(); }
+    public String getPaymentMethod() { return paymentMethod.get(); }
+    public String getPaymentStatus() { return paymentStatus.get(); }
+    public String getNote() { return note.get(); }
+    public String getDeliveryAddress() { return deliveryAddress.get(); }
+    public double getTotal() { return total.get(); }
+    public int getBonusUsed() { return bonusUsed.get(); }
+    public double getOriginalTotal() { return originalTotal.get(); } // ✅ THÊM GETTER
 
-    public boolean isDineIn() {
-        return status == OrderStatus.DINE_IN;
-    }
+    // Setters
+    public void setOrderId(String value) { orderId.set(value); }
+    public void setCustomerId(String value) { customerId.set(value); }
+    public void setEmployeeId(String value) { employeeId.set(value); }
+    public void setDate(LocalDateTime value) { date.set(value); }
+    public void setStatus(String value) { status.set(value); }
+    public void setPaymentMethod(String value) { paymentMethod.set(value); }
+    public void setPaymentStatus(String value) { paymentStatus.set(value); }
+    public void setNote(String value) { note.set(value); }
+    public void setDeliveryAddress(String value) { deliveryAddress.set(value); }
+    public void setTotal(double value) { total.set(value); }
+    public void setBonusUsed(int value) { bonusUsed.set(value); }
+    public void setOriginalTotal(double value) { originalTotal.set(value); } // ✅ THÊM SETTER
 
+    // Properties
+    public StringProperty orderIdProperty() { return orderId; }
+    public StringProperty customerIdProperty() { return customerId; }
+    public StringProperty employeeIdProperty() { return employeeId; }
+    public ObjectProperty<LocalDateTime> dateProperty() { return date; }
+    public StringProperty statusProperty() { return status; }
+    public StringProperty paymentMethodProperty() { return paymentMethod; }
+    public StringProperty paymentStatusProperty() { return paymentStatus; }
+    public StringProperty noteProperty() { return note; }
+    public StringProperty deliveryAddressProperty() { return deliveryAddress; }
+    public DoubleProperty totalProperty() { return total; }
+    public IntegerProperty bonusUsedProperty() { return bonusUsed; }
+    public DoubleProperty originalTotalProperty() { return originalTotal; } // ✅ THÊM PROPERTY
 
-    enum OrderStatus {
-
-        TAKEAWAY("Mang về"),       // Tương ứng "MV" trong yêu cầu
-        DINE_IN("Tại quán");       // Tương ứng "TQ" trong yêu cầu
-
-        private final String description;
-
-        OrderStatus(String description) {
-            this.description = description;
+    // Formatted methods
+    public String getFormattedDate() {
+        if (date.get() != null) {
+            return date.get().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         }
-
-        public String getDescription() { return description; }
+        return "";
     }
 
-    enum PaymentMethod {
-        CASH("Tiền mặt"),
-        BANK_TRANSFER("Chuyển khoản");
-
-        private final String description;
-
-        PaymentMethod(String description) {
-            this.description = description;
-        }
-
-        public String getDescription() { return description; }
+    public String getFormattedTotal() {
+        return String.format("%,.0f VND", total.get());
     }
 
-    enum PaymentStatus {
-        PENDING("Chờ thanh toán"),
-        COMPLETED("Đã thanh toán");
+    public String getFormattedOriginalTotal() { // ✅ THÊM METHOD
+        return String.format("%,.0f VND", originalTotal.get());
+    }
 
-        private final String description;
+    // Customer name property
+    private StringProperty customerName = new SimpleStringProperty("");
+    public String getCustomerName() { return customerName.get(); }
+    public void setCustomerName(String value) { customerName.set(value); }
+    public StringProperty customerNameProperty() { return customerName; }
 
-        PaymentStatus(String description) {
-            this.description = description;
+    // Bonus methods
+    public String getBonusInfo() {
+        if (bonusUsed.get() > 0) {
+            return String.format("-%d điểm (-%,.0f VND)", bonusUsed.get(), bonusUsed.get() * 10.0);
         }
+        return "Không sử dụng";
+    }
 
-        public String getDescription() { return description; }
+    public double getDiscountAmount() {
+        return bonusUsed.get() * 10.0;
+    }
+
+    public String getFormattedDiscount() {
+        return String.format("%,.0f VND", getDiscountAmount());
     }
 }

@@ -309,96 +309,135 @@ public class EmployeeController implements Initializable {
 
     @FXML
     void employeeSelectData() {
-    	 System.out.println("Successfully Selected Data");
-         Employee employeeData = employee_TableView.getSelectionModel().getSelectedItem();
-         int num = employee_TableView.getSelectionModel().getSelectedIndex();
-     
-          if ((num - 1) < -1) {
-          return;
-        }
-      
-      employee_ID.setText(employeeData.getEmployeeId());
-      employee_Name.setText(employeeData.getEmployeeName());
-      employee_base_salary.setText(String.valueOf(employeeData.getBase_salary()));
-      employee_phone.setText(employeeData.getPhone());
-      employee_role.setText(employeeData.getRole());
-      employee_note.setText(employeeData.getNote());
-      data.path = employeeData.getImage();
-      String path = "File:" + employeeData.getImage();
-      data.id = employeeData.getId();
+        System.out.println("Successfully Selected Data");
+        Employee employeeData = employee_TableView.getSelectionModel().getSelectedItem();
+        int num = employee_TableView.getSelectionModel().getSelectedIndex();
 
-      image = new Image(path, 186, 150, false, true);
-      employee_ImageView.setImage(image);
+        if ((num - 1) < -1 || employeeData == null) {
+            return;
+        }
+
+        employee_ID.setText(employeeData.getEmployeeId());
+        employee_Name.setText(employeeData.getEmployeeName());
+        employee_base_salary.setText(String.valueOf(employeeData.getBase_salary()));
+        employee_phone.setText(employeeData.getPhone());
+        employee_role.setText(employeeData.getRole());
+        employee_note.setText(employeeData.getNote());
+        
+        data.path = employeeData.getImage();
+        data.id = employeeData.getId();
+
+        // SỬA: Kiểm tra và load ảnh an toàn
+        if (data.path != null && !data.path.isEmpty()) {
+            try {
+                File imageFile = new File(data.path);
+                if (imageFile.exists()) {
+                    String path = imageFile.toURI().toString();
+                    image = new Image(path, 186, 150, false, true);
+                    employee_ImageView.setImage(image);
+                } else {
+                    // Nếu file không tồn tại, hiển thị ảnh mặc định hoặc để trống
+                    employee_ImageView.setImage(null);
+                    System.out.println("Image file not found: " + data.path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                employee_ImageView.setImage(null);
+            }
+        } else {
+            employee_ImageView.setImage(null);
+        }
     }
 
     @FXML
     void employeeUpdateBtn() {
-    	 if (employee_ID.getText().isEmpty()
-                 || employee_Name.getText().isEmpty()
-                 || employee_role.getText().isEmpty()
-                 || employee_base_salary.getText().isEmpty()
-                 || employee_phone.getText().isEmpty()
-                 || data.path == null) {            
-             if (data.path == null) {
-             	alert.setContentText("Datapath is Null");
-             } else {
-         	alert = new Alert(AlertType.ERROR);
-             alert.setTitle("Error Message");
-             alert.setHeaderText(null);
-             alert.setContentText("Please fill all blank fields");
-             alert.showAndWait();
-             }
-         } else {
-             
-             String path = data.path;
-             path = path.replace("\\", "\\\\");
-       
-             String updateData = "UPDATE employee SET "
-                     + "employee_id = '" + employee_ID.getText() + "', employee_name = '"
-                     + employee_Name.getText() + "', role = '"
-                     + employee_role.getText() + "', base_salary = '"
-                     + employee_base_salary.getText() + "', phone = '"
-                     + employee_phone.getText() + "', note = '"
-                     + employee_note.getText() + "', image = '"
-                     + path + "' WHERE id = " + data.id;
-             
-             connect = database.connectDB();
-             
-             try {
-                  
-               
-                 alert = new Alert(AlertType.CONFIRMATION);
-                 alert.setTitle("Error Message");
-                 alert.setHeaderText(null);
-                 alert.setContentText("Are you sure you want to UPDATE Product ID: " + employee_ID.getText() + "?");
-                 Optional<ButtonType> option = alert.showAndWait();
-                 
-                 if (option.get().equals(ButtonType.OK)) {
-                     prepare = connect.prepareStatement(updateData);
-                     prepare.executeUpdate();
-                     
-                     alert = new Alert(AlertType.INFORMATION);
-                     alert.setTitle("Error Message");
-                     alert.setHeaderText(null);
-                     alert.setContentText("Successfully Updated!");
-                     alert.showAndWait();
-                     // TO UPDATE YOUR TABLE VIEW
-                     employeeShowData();
-                     // TO CLEAR YOUR FIELDS
-                     employeeClearBtn();
-                     
-                 } else {
-                     alert = new Alert(AlertType.ERROR);
-                     alert.setTitle("Error Message");
-                     alert.setHeaderText(null);
-                     alert.setContentText("Cancelled.");
-                     alert.showAndWait();
-                     
-                 }
-             } catch (Exception e) {
-                 e.printStackTrace();
-             }
-         }
+        if (employee_ID.getText().isEmpty()
+                || employee_Name.getText().isEmpty()
+                || employee_role.getText().isEmpty()
+                || employee_base_salary.getText().isEmpty()
+                || employee_phone.getText().isEmpty()
+                || data.path == null || data.path.isEmpty()) {
+            
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all blank fields");
+            alert.showAndWait();
+            return;
+        }
+
+        // Kiểm tra file ảnh có tồn tại không
+        File imageFile = new File(data.path);
+        if (!imageFile.exists()) {
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Image file does not exist!");
+            alert.showAndWait();
+            return;
+        }
+
+        alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to UPDATE Employee ID: " + employee_ID.getText() + "?");
+        Optional<ButtonType> option = alert.showAndWait();
+        
+        if (option.get().equals(ButtonType.OK)) {
+            
+            // SỬA: Sử dụng PreparedStatement thay vì String concatenation
+            String updateData = "UPDATE employee SET employee_id = ?, employee_name = ?, role = ?, base_salary = ?, phone = ?, note = ?, image = ? WHERE id = ?";
+            
+            connect = database.connectDB();
+            
+            try {
+                prepare = connect.prepareStatement(updateData);
+                prepare.setString(1, employee_ID.getText());
+                prepare.setString(2, employee_Name.getText());
+                prepare.setString(3, employee_role.getText());
+                prepare.setString(4, employee_base_salary.getText());
+                prepare.setString(5, employee_phone.getText());
+                prepare.setString(6, employee_note.getText());
+                prepare.setString(7, data.path); // Không cần replace \\ nữa
+                prepare.setInt(8, data.id);
+                
+                int result = prepare.executeUpdate();
+                
+                if (result > 0) {
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Updated!");
+                    alert.showAndWait();
+                    
+                    // Update table và clear form
+                    employeeShowData();
+                    employeeClearBtn();
+                } else {
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Failed to update employee!");
+                    alert.showAndWait();
+                }
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Database Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Error updating employee: " + e.getMessage());
+                alert.showAndWait();
+            } finally {
+                // Đóng connection
+                try {
+                    if (prepare != null) prepare.close();
+                    if (connect != null) connect.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     
     @Override
