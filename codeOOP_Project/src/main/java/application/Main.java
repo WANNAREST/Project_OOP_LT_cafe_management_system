@@ -13,7 +13,9 @@ public class Main {
                 "123 Đường Lê Lợi, Quận 1",
                 "nguyenvana",
                 "123456",
-                "Nguyễn Văn A"
+                "Nguyễn Văn A",
+                "0912345678",
+                "anguyen@gmail.com"
         );
 
         // 2. Tạo danh sách điểm danh cho A trong tháng 5

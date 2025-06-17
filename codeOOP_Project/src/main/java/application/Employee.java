@@ -9,17 +9,29 @@ public class Employee extends User {
     private String employeeID;
     private LocalDate DOB;
     private String address;
+    private String phone;
+    private String email;
+
 
     //private Map<LocalDate, List<String>> workSchedule;
     //private Map<LocalDate, Map<String, Integer>> attend;
 
-    public Employee(String employeeID, LocalDate DOB, String address, String username, String password, String fullname) {
+    public Employee(String employeeID, LocalDate DOB, String address, String username, String password, String fullname, String phone, String email) {
         super(username, password, fullname);
         this.employeeID = employeeID;
         this.DOB = DOB;
         this.address = address;
         this.username = username;
         this.password = password;
+        this.fullname = fullname;
+        this.phone = phone;
+        this.email = email;
+    }
+    public String getPhone(){
+        return phone;
+    }
+    public String getEmail(){
+        return email;
     }
     public String getEmployeeID() {
         return employeeID;
