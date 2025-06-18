@@ -1,9 +1,15 @@
 package obj;
 
 import Controller.PaymentAPI;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
+import okhttp3.ResponseBody;
+import java.io.IOException;
+import java.net.URL;
+// Thêm import cụ thể này
+
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -12,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 public class GeminiChatBot {
     private static String API_KEY;
     private static String API_URL="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-
 
     static {
         try (InputStream input = PaymentAPI.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -23,8 +28,6 @@ public class GeminiChatBot {
             ex.printStackTrace();
         }
     }
-
-
 
     private final OkHttpClient client;
     private final ObjectMapper objectMapper;
@@ -46,11 +49,12 @@ public class GeminiChatBot {
 
             Request request = new Request.Builder()
                     .url(API_URL + "?key=" + API_KEY)
-                    .post(RequestBody.create(MediaType.parse("application/json"), requestBody))
+                    .post(RequestBody.create(requestBody, MediaType.parse("application/json")))
                     .addHeader("Content-Type", "application/json")
                     .build();
 
-            try (Response response = client.newCall(request).execute()) {
+            // Sử dụng okhttp3.Response cụ thể
+            try (okhttp3.Response response = client.newCall(request).execute()) {
                 if (response.isSuccessful() && response.body() != null) {
                     return parseResponse(response.body().string());
                 } else {

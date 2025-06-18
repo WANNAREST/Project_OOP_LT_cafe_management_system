@@ -136,6 +136,17 @@ public class UserAppController implements Initializable {
 
     @FXML
     void showChatBot(ActionEvent event) {
+        contentPane.getChildren().clear();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/chatbot-view.fxml"));
+            ChatBotController controller = new ChatBotController(store);
+            loader.setController(controller);
+            HBox root = loader.load();
+            contentPane.getChildren().add(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Could not load chatbot view: " + e.getMessage());
+        }
 
 
     }

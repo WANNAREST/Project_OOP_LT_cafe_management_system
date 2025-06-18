@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="okhttp-3.0.0-RC1">
+  <library name="annotations-13.0">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../Downloads/okhttp-3.0.0-RC1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Downloads/annotations-13.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

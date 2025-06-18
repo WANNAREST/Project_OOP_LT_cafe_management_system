@@ -335,6 +335,28 @@
     -fx-font-family: 'Poppins', sans-serif;
     -fx-font-weight: bold;
 }
+.suggestion-btn {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-font-size: 12px;
+    -fx-padding: 5px 15px;
+}
+
+.suggestion-btn:hover {
+    -fx-background-color: #5a6268;
+}
+
+.send-btn {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-font-weight: bold;
+}
+
+.send-btn:hover {
+    -fx-background-color: #0056b3;
+}
 
 
 
