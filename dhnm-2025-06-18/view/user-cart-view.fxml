@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="636.0" prefWidth="1200.0">
+         <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+               <Label layoutX="195.0" layoutY="61.0" text="Phone number" />
+			   <TextField fx:id="phoneNumberField" layoutX="300.0" layoutY="57.0" prefHeight="18.0" prefWidth="233.0" promptText="Nhập số điện thoại để tích điểm" />
+            </children>
+         </AnchorPane>
+         <ScrollPane prefHeight="381.0" prefWidth="1155.0">
+            <content>
+               <TableView fx:id="tblProduct" onMouseClicked="#handleTableClick">
+                 <columns>
+                   <TableColumn fx:id="colProductID" prefWidth="189.0" text="Product ID" />
+                     <TableColumn fx:id="colProductName" prefWidth="150.0" text="Product Name" />
+                     <TableColumn fx:id="colProductQuantity" prefWidth="119.5" text="Quantity" />
+                     <TableColumn fx:id="colProductCategory" prefWidth="171.5" text="Category" />
+                     <TableColumn fx:id="colProductPrice" prefWidth="239.0" text="Price" />
+                     <TableColumn prefWidth="316.0" text="Note" />
+                 </columns>
+               </TableView>
+            </content>
+         </ScrollPane>
+      
+          <!-- Thông tin tổng -->
+          <VBox spacing="10" styleClass="summary-box">
+              <HBox alignment="CENTER_LEFT">
+                  <Label prefHeight="25.0" prefWidth="62.0" styleClass="label1" stylesheets="@style.css" text="Temp ">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+               </Label>
+               <Region prefHeight="45.0" prefWidth="12.0" />
+                  <Label fx:id="subtotalLabel" prefHeight="25.0" prefWidth="71.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
+               <Region prefHeight="46.0" prefWidth="819.0" />
+               <Region prefHeight="46.0" prefWidth="35.0" />
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+              </HBox>
+              <HBox alignment="CENTER_LEFT">
+                  <Label prefHeight="25.0" prefWidth="85.0" styleClass="label1" stylesheets="@style.css" text="Discount">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+               </Label>
+               <Region prefHeight="39.0" prefWidth="12.0" />
+                  <Label fx:id="discountLabel" prefHeight="25.0" prefWidth="72.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
+               <Region prefHeight="39.0" prefWidth="686.0" />
+               <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#removeBtnPressed" prefHeight="42.0" prefWidth="129.0" styleClass="remove-btn" stylesheets="@style.css" text="Remove">
+                  <font>
+                     <Font size="17.0" />
+                  </font>
+               </Button>
+               <Region prefHeight="49.0" prefWidth="29.0" />
+               <Button fx:id="btnPlus" mnemonicParsing="false" onAction="#plusBtnPressed" prefHeight="49.0" prefWidth="56.0" styleClass="remove-btn" stylesheets="@style.css" text="+" />
+               <Label fx:id="numLabel" prefHeight="41.0" prefWidth="55.0" styleClass="btnadd" stylesheets="@style.css" text="    0" />
+               <Button fx:id="btnMinus" mnemonicParsing="false" onAction="#minusBtnPressed" prefHeight="43.0" prefWidth="59.0" styleClass="remove-btn" stylesheets="@style.css" text="-" />
+              </HBox>
+              <HBox alignment="CENTER">
+                  <Label prefHeight="35.0" prefWidth="139.0" styleClass="summary-total-label" stylesheets="@style.css" text="Total cost :">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+               </Label>
+                  <Label fx:id="totalLabel" styleClass="summary-total-value" text="0 VND">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+               </Label>
+              </HBox>
+            <VBox.margin>
+               <Insets bottom="15.0" />
+            </VBox.margin>
+          </VBox>
+      
+          <!-- Các nút thao tác -->
+          <HBox alignment="CENTER" spacing="20">
+              <Button onAction="#continueShoppingBtnPressed" styleClass="continue-btn" stylesheets="@style.css" text="CONTINUE SHOPPING" />
+              <Button onAction="#clearCurrentCart" prefWidth="148.0" styleClass="checkout-btn" stylesheets="@style.css" text="CLEAR CART" />
+            <Button layoutX="638.0" layoutY="10.0" onAction="#placeOrderBtnPressed" prefWidth="148.0" styleClass="checkout-btn" stylesheets="@style.css" text="PLACE ORDER" />
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+          </HBox>
+      </VBox>
+   </children>
+</HBox>
