@@ -103,7 +103,7 @@ public class PaymentAPI {
 
     public static boolean verifyTransaction(int expectedAmount, String orderId) throws Exception {
         CloseableHttpClient client = HttpClients.createDefault();
-        String url = CASSO_API_URL + "/transactions?sort=-created_at&limit=10";
+        String url = CASSO_API_URL + "/transactions?sort=-created_at&limit=10&page=2";
         HttpGet get = new HttpGet(url);
 
 
