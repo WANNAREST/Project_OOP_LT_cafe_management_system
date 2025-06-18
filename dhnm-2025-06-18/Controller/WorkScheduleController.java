@@ -44,6 +44,8 @@ public class WorkScheduleController {
 	private TableColumn<WorkShift, String> shiftColumn;
 	@FXML
 	private TableColumn<WorkShift, String> statusColumn;
+	@FXML
+	private TextField currentSalaryField;
 
 	private Employee currentEmployee;
 	private final EmployeeDAO employeeDAO = new EmployeeDAO();
@@ -151,9 +153,47 @@ public class WorkScheduleController {
 			});
 
 			scheduleTable.setItems(scheduleData);
+			calculateAndDisplayCurrentSalary(); // Thêm dòng này để cập nhật lương
 		} catch (Exception e) {
 			showAlert("Lỗi", "Không thể tải lịch làm việc: " + e.getMessage());
 		}
+	}
+	
+	// Thêm phương thức tính lương
+	private void calculateAndDisplayCurrentSalary() {
+	    if (currentEmployee == null) {
+	        currentSalaryField.setText("Chưa chọn NV");
+	        return;
+	    }
+	    
+	    try {
+	        int month = currentMonth.getValue();
+	        int year = currentYear;
+	        
+	        // Lấy số ca đã hoàn thành trong tháng
+	        int completedShifts = employeeDAO.getCompletedShiftsCount(
+	            currentEmployee.getId(), 
+	            month, 
+	            year
+	        );
+	        
+	        // Lấy lương cơ bản ĐÚNG CHO THÁNG ĐANG XEM
+	        int baseSalary = employeeDAO.getEmployeeBaseSalary(
+	            currentEmployee.getId(),
+	            month,
+	            year
+	        );
+	        
+	        // Tính lương
+	        int currentSalary = completedShifts * baseSalary;
+	        
+	        // Hiển thị với định dạng tiền tệ
+	        currentSalaryField.setText(String.format("%,d VND", currentSalary));
+	        
+	    } catch (Exception e) {
+	        currentSalaryField.setText("Lỗi tính lương");
+	        System.err.println("Lỗi khi tính lương: " + e.getMessage());
+	    }
 	}
 
 	// Chuyển đổi trạng thái sang tiếng Việt
