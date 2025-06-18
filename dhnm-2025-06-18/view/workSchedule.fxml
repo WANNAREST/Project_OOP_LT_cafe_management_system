@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.WorkScheduleController">
+   
+   <children>
+      <AnchorPane prefHeight="636.0" prefWidth="1200.0">
+         <children>
+            <!-- Bảng lịch làm việc -->
+            <TableView fx:id="scheduleTable" layoutX="502.0" layoutY="82.0" prefHeight="537.0" prefWidth="671.0">
+              <columns>
+                <TableColumn fx:id="weekOfDayColumn" prefWidth="139.0" text="Thứ">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="day" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="dayColumn" prefWidth="168.0" text="Ngày">
+                    <cellValueFactory>                       
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="shiftColumn" prefWidth="180.0" text="Ca làm">
+                    <cellValueFactory>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="statusColumn" prefWidth="181.0" text="Trạng thái đi làm">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="status" />
+                    </cellValueFactory>
+                </TableColumn>
+              </columns>
+            </TableView>
+            
+            <!-- Dropdown chọn tháng -->
+            <MenuButton fx:id="monthMenuButton" layoutX="502.0" layoutY="37.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="97.0" text="Tháng">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Tháng 1" />
+                <MenuItem mnemonicParsing="false" text="Tháng 2" />
+                <MenuItem mnemonicParsing="false" text="Tháng 3" />
+                <MenuItem mnemonicParsing="false" text="Tháng 4" />
+                <MenuItem mnemonicParsing="false" text="Tháng 5" />
+                <MenuItem mnemonicParsing="false" text="Tháng 6" />
+                <MenuItem mnemonicParsing="false" text="Tháng 7" />
+                <MenuItem mnemonicParsing="false" text="Tháng 8" />
+                <MenuItem mnemonicParsing="false" text="Tháng 9" />
+                <MenuItem mnemonicParsing="false" text="Tháng 10" />
+                <MenuItem mnemonicParsing="false" text="Tháng 11" />
+                <MenuItem mnemonicParsing="false" text="Tháng 12" />
+              </items>
+            </MenuButton>
+            
+            <!-- Ảnh nhân viên -->
+            <ImageView fx:id="employeeImageView" fitHeight="266.0" fitWidth="287.0" layoutX="107.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
+            
+            <!-- Thông tin nhân viên -->
+            <Label layoutX="29.0" layoutY="359.0" prefHeight="20.0" prefWidth="111.0" text="Mã nhân viên:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="403.0" text="Tên nhân viên:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="451.0" text="Ngày tháng năm sinh:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="552.0" text="Email:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="502.0" text="Số điện thoại:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            
+            <!-- Các trường thông tin (tự động điền) -->
+            <TextField fx:id="employeeIdField" editable="false" layoutX="207.0" layoutY="359.0" prefHeight="25.0" prefWidth="280.0" />
+            <TextField fx:id="employeeNameField" editable="false" layoutX="207.0" layoutY="403.0" prefHeight="25.0" prefWidth="280.0" />
+            <TextField fx:id="dobField" editable="false" layoutX="207.0" layoutY="451.0" prefHeight="25.0" prefWidth="280.0" />
+            <TextField fx:id="phoneField" editable="false" layoutX="207.0" layoutY="502.0" prefHeight="25.0" prefWidth="280.0" />
+            <TextField fx:id="emailField" editable="false" layoutX="207.0" layoutY="552.0" prefHeight="25.0" prefWidth="280.0" />
+            <MenuButton fx:id="yearMenuButton" layoutX="612.0" layoutY="37.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="97.0" text="Năm">
+              <items>
+                <MenuItem mnemonicParsing="false" text="2024" />
+                <MenuItem mnemonicParsing="false" text="2025" />
+              </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
