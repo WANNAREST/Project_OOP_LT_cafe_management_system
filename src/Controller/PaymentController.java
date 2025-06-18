@@ -12,19 +12,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import obj.Cart;
 import obj.CartItem;
+import obj.Customer;
 
 import java.io.IOException;
 
 public class PaymentController {
     public Cart cart;
+    public Customer customer;
     private int discount =0;
     private UserAppController parentController;
 
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-        initialize();
-    }
 
 
     @FXML
@@ -67,6 +64,15 @@ public class PaymentController {
     private TableColumn<?, ?> tblTotal;
 
 
+
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+        initialize();
+    }
+
+
+
     public void setController(UserAppController controller){
         this.parentController = controller;
     }
@@ -96,6 +102,7 @@ public class PaymentController {
             AnchorPane codpane = loader.load();
             CODPaymentController codPaymentController = loader.getController();
             codPaymentController.setCart(cart);
+            codPaymentController.setCustomer(customer);
             codPaymentController.setParentController(this);
             paymentpane.getChildren().add(codpane);
         } catch (Exception e) {
@@ -129,11 +136,23 @@ public class PaymentController {
         labelDiscount.setText("0 VND");
         labelTotal.setText("0 VND");
 
+        updatePointDisplay();
+
         if(parentController != null){
             parentController.showMenu(null);
         } else {
             System.err.println("Parent controller is null in PaymentController");
         }
 
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void updatePointDisplay() {
+        if (parentController != null) {
+            parentController.updatePointDisplay();
+        }
     }
 }

@@ -27,6 +27,8 @@ public class BankPaymentController {
     private String currentOrderId;
     private int paymentAmount;
 
+    private int discount = 0;
+
     public void setCart(Cart cart) {
         this.cart = cart;
         this.paymentAmount=cart.totalCost();

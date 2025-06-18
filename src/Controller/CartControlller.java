@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import obj.Cart;
 import obj.CartItem;
+import obj.Customer;
 import obj.Product;
 
 import javax.naming.LimitExceededException;
@@ -18,6 +19,7 @@ public class CartControlller {
 
 private Product product;
 private Cart cart;
+private Customer customer;
 
     @FXML
     private TableColumn<CartItem, String> colProductCategory;
@@ -89,6 +91,11 @@ private Cart cart;
 
     }
 
+    public void setCustommer(Customer customer) {
+        this.customer = customer;
+
+    }
+
     @FXML
     void checkOutBtnPressed(ActionEvent event) {
         try {
@@ -98,6 +105,7 @@ private Cart cart;
             PaymentController paymentController = loader.getController();
             paymentController.setCart(cart);
             paymentController.setController(parentController);
+            paymentController.setCustomer(customer);
 
             int discount = Integer.parseInt(discountLabel.getText().replace("VND","").trim());
             paymentController.setDiscount(discount);
@@ -149,11 +157,16 @@ private Cart cart;
     private int precoint = 0;
     @FXML
     void useCoinbtnPressed(ActionEvent event) {
-        int coins = Integer.parseInt(numCoinsLabel.getText());
+        if (customer == null) {
+            showAlert("Error", "Customer information not available!");
+            useCointbtnToggle.setSelected(false);
+            return;
+        }
+        int coins = customer.getpoint(); // lay coint tu customer
         if(useCointbtnToggle.isSelected()) {
             if(coins > 0) {
                 precoint = coins;
-                int discountAmount = coins * 2000;
+                int discountAmount = customer.calculateDiscountFromPoints(precoint);
                 discountLabel.setText(String.format("%d VND", discountAmount));
                 numCoinsLabel.setText(String.valueOf(0));
                 updatetotal(); // Gọi cập nhật tổng tiền
@@ -163,6 +176,7 @@ private Cart cart;
             }
         }else{
             discountLabel.setText(String.format("%d VND",0));
+            customer.addpoints(precoint);
             numCoinsLabel.setText(String.valueOf(precoint));
             updatetotal();
         }
@@ -301,5 +315,6 @@ private Cart cart;
             lolbar.getChildren().add(btnContinue);
         }
     }
+
 
 }

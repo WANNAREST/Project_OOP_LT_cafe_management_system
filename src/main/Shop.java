@@ -7,25 +7,41 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import obj.Coffee;
+import obj.Cart;
+import obj.Customer;
 import obj.Product;
 import obj.Store;
 
 import java.io.IOException;
 import java.util.List;
 
-public class Customer extends Application {
+public class Shop extends Application {
     private static Store store;
+
+    public static void main(String[] args) {
+        store = new Store();
+
+        Customer testCustomer = new Customer(1, "Test", "User", "0123456789",
+                "password", "123 Test Street", "test@email.com");
+
+        // Load products from database instead of hardcoded values
+        loadProductsFromDatabase();
+
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-main-app.fxml"));
-        UserAppController controller = new UserAppController(store);
+        Customer testCustomer = new Customer(1, "Test", "User", "0123456789",
+                "password", "123 Test Street", "test@email.com");
+        UserAppController controller = new UserAppController(store, new Cart(), testCustomer);
         loader.setController(controller);
 
         Parent root;
         try {
             root = loader.load();
+            controller.updatePointDisplay();
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading FXML: " + e.getMessage());
@@ -43,14 +59,7 @@ public class Customer extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
-        store = new Store();
 
-        // Load products from database instead of hardcoded values
-        loadProductsFromDatabase();
-
-        launch(args);
-    }
 
     /**
      * Load products from database and add them to the store
@@ -83,6 +92,8 @@ public class Customer extends Application {
 
         }
     }
+
+
 
     /**
      * Fallback method to load default products if database is not available

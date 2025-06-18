@@ -1,5 +1,6 @@
 package Controller;
 
+import com.sun.jdi.IntegerValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
+import obj.Customer;
 import obj.Cart;
 import obj.Product;
 import obj.Store;
@@ -24,6 +26,7 @@ public class UserAppController implements Initializable {
 
     public Store store;
     public Cart cart;
+    public Customer customer;
 
 
     private Parent cartView;
@@ -56,12 +59,50 @@ public class UserAppController implements Initializable {
     private Label numCoinLabel;
 
     public UserAppController(Store store) {
+
         this(store, new Cart());  // Call the other constructor with new Cart
     }
 
     public UserAppController(Store store, Cart cart) {
         this.store = store;
         this.cart = cart == null ? new Cart() : cart;
+    }
+
+    public UserAppController(Customer customer) {
+        this.customer = customer;
+    }
+
+    public UserAppController(Store store, Cart cart, Customer customer) {
+        this.store = store;
+        this.cart = cart == null ? new Cart() : cart;
+        this.customer = customer;
+    }
+
+    public void updatePointDisplay() {
+        if (customer != null && numCoinLabel != null) {
+            numCoinLabel.setText(Integer.toString(customer.getpoint()));
+        }
+
+    }
+
+
+
+    public void onOrderSuccess() {
+        if (customer != null) {
+            customer.rewardOrderPoints(); // Thưởng 20 point
+            updatePointDisplay(); // Cập nhật hiển thị
+
+            // Có thể save vào database ở đây
+            // saveCustomerToDatabase(customer);
+        }
+    }
+
+    public boolean useCustomerPoints(int pointsToUse) {
+        if (customer != null && customer.usePoints(pointsToUse)) {
+            updatePointDisplay();
+            return true;
+        }
+        return false;
     }
 
 
@@ -84,6 +125,7 @@ public class UserAppController implements Initializable {
             CartControlller controller = new CartControlller(cart);
             controller.setParentController(this);
             controller.setCoinLabel(numCoinLabel);
+            controller.setCustommer(customer);
             fxmlLoader.setController(controller);
             HBox root = fxmlLoader.load();
             contentPane.getChildren().add(root);
@@ -315,6 +357,8 @@ public class UserAppController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Initialize the product grid
         createProductGrid();
+
+        updatePointDisplay();
 
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
