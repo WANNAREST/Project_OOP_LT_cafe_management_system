@@ -1,23 +1,20 @@
 package obj;
 
 import Controller.PaymentAPI;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.*;
-import okhttp3.ResponseBody;
-import java.io.IOException;
-import java.net.URL;
-// Thêm import cụ thể này
-
 
 import java.io.InputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 public class GeminiChatBot {
     private static String API_KEY;
-    private static String API_URL="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+    private static String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
     static {
         try (InputStream input = PaymentAPI.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -29,15 +26,14 @@ public class GeminiChatBot {
         }
     }
 
-    private final OkHttpClient client;
+    private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
     private final Store store;
 
     public GeminiChatBot(Store store) {
         this.store = store;
-        this.client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+        this.httpClient = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(30))
                 .build();
         this.objectMapper = new ObjectMapper();
     }
@@ -47,20 +43,23 @@ public class GeminiChatBot {
             String prompt = buildCoffeeShopPrompt(userMessage);
             String requestBody = buildRequestBody(prompt);
 
-            Request request = new Request.Builder()
-                    .url(API_URL + "?key=" + API_KEY)
-                    .post(RequestBody.create(requestBody, MediaType.parse("application/json")))
-                    .addHeader("Content-Type", "application/json")
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL + "?key=" + API_KEY))
+                    .timeout(Duration.ofSeconds(30))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
 
-            // Sử dụng okhttp3.Response cụ thể
-            try (okhttp3.Response response = client.newCall(request).execute()) {
-                if (response.isSuccessful() && response.body() != null) {
-                    return parseResponse(response.body().string());
-                } else {
-                    return "Xin lỗi, tôi không thể trả lời lúc này. Vui lòng thử lại sau.";
-                }
+            HttpResponse<String> response = httpClient.send(request,
+                    HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return parseResponse(response.body());
+            } else {
+                System.err.println("HTTP Error: " + response.statusCode() + " - " + response.body());
+                return "Xin lỗi, tôi không thể trả lời lúc này. Vui lòng thử lại sau.";
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             return "Có lỗi xảy ra khi xử lý câu hỏi của bạn.";
@@ -100,19 +99,19 @@ public class GeminiChatBot {
     }
 
     private String buildRequestBody(String prompt) {
-        return """
-            {
-                "contents": [
-                    {
-                        "parts": [
-                            {
-                                "text": "%s"
-                            }
-                        ]
-                    }
-                ]
-            }
-            """.formatted(prompt.replace("\"", "\\\"").replace("\n", "\\n"));
+        String jsonTemplate = "{\n" +
+                "    \"contents\": [\n" +
+                "        {\n" +
+                "            \"parts\": [\n" +
+                "                {\n" +
+                "                    \"text\": \"%s\"\n" +
+                "                }\n" +
+                "            ]\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+
+        return String.format(jsonTemplate, prompt.replace("\"", "\\\"").replace("\n", "\\n"));
     }
 
     private String parseResponse(String responseBody) {

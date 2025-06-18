@@ -7,19 +7,25 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="httpclient-4.5.14" level="project" />
     <orderEntry type="library" name="CustomerOOP" level="project" />
+    <orderEntry type="library" name="httpclient-4.5.14" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="json-20250107" level="project" />
-    <orderEntry type="library" name="commons-logging-1.2" level="project" />
     <orderEntry type="library" name="httpcore-4.4.16" level="project" />
     <orderEntry type="library" name="mysql-connector-j-8.0.33" level="project" />
+    <orderEntry type="library" name="jackson-core-2.19.0" level="project" />
     <orderEntry type="library" name="jackson-databind-2.19.0" level="project" />
     <orderEntry type="library" name="okhttp-4.12.0" level="project" />
-    <orderEntry type="library" name="jackson-core-2.19.0" level="project" />
-    <orderEntry type="library" name="annotations-13.0" level="project" />
+    <orderEntry type="library" name="commons-logging-1.3.5" level="project" />
+    <orderEntry type="library" name="jfx.incubator.richtext" level="project" />
+    <orderEntry type="library" name="jfx.incubator.input" level="project" />
+    <orderEntry type="library" name="jdk.jsobject" level="project" />
+    <orderEntry type="library" name="javafx-swt" level="project" />
+    <orderEntry type="library" name="javafx.base" level="project" />
+    <orderEntry type="library" name="javafx.controls" level="project" />
     <orderEntry type="library" name="kotlin-stdlib-1.9.10" level="project" />
-    <orderEntry type="library" name="kotlin-stdlib-common-1.9.10" level="project" />
     <orderEntry type="library" name="okio-3.6.0" level="project" />
+    <orderEntry type="library" name="jackson-annotations-2.19.0 (1)" level="project" />
+    <orderEntry type="library" name="okio-3.13.0" level="project" />
   </component>
 </module>
