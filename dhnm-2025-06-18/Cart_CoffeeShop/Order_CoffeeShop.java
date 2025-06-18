@@ -36,7 +36,7 @@ public class Order_CoffeeShop {
     private final SimpleStringProperty phoneProperty = new SimpleStringProperty();
     private final SimpleObjectProperty<LocalDateTime> orderTimeProperty = new SimpleObjectProperty<>();
     
-	private final EmployeeDAO employeeDAO = new EmployeeDAO();
+    private final EmployeeDAO employeeDAO = new EmployeeDAO();
 
     public Order_CoffeeShop(String customerName, String phoneNumber, String orderType, 
             String deliveryAddress, List<CartItem> items) {
@@ -131,9 +131,9 @@ public class Order_CoffeeShop {
                      "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        	
-        	// Xử lý customer_id (có thể NULL)
-        	int customerId = getCustomerIdByPhone(conn, this.phoneNumber);
+            
+            // Xử lý customer_id (có thể NULL)
+            int customerId = getCustomerIdByPhone(conn, this.phoneNumber);
             if (customerId == -1) {
                 pstmt.setNull(1, Types.INTEGER); // customer_id = NULL
             } else {
@@ -298,15 +298,63 @@ public class Order_CoffeeShop {
      * Xác nhận đơn hàng online
      */
     public static boolean confirmOnlineOrder(int orderId, int employeeId) throws SQLException {
-        String sql = "UPDATE Orders SET status = 'confirmed', payment_status = 'paid', employee_id = ? " +
-                     "WHERE order_id = ? AND status = 'pending'";
-        
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            conn.setAutoCommit(false); // Bắt đầu transaction
             
-            stmt.setInt(1, employeeId);
-            stmt.setInt(2, orderId);
-            return stmt.executeUpdate() > 0;
+            // 1. Cập nhật trạng thái đơn hàng
+            String updateOrderSql = "UPDATE Orders SET status = 'confirmed', payment_status = 'paid', employee_id = ? " +
+                                 "WHERE order_id = ? AND status = 'pending'";
+            
+            try (PreparedStatement updateOrderStmt = conn.prepareStatement(updateOrderSql)) {
+                updateOrderStmt.setInt(1, employeeId);
+                updateOrderStmt.setInt(2, orderId);
+                int affectedRows = updateOrderStmt.executeUpdate();
+                
+                if (affectedRows == 0) {
+                    conn.rollback();
+                    return false;
+                }
+            }
+            
+            // 2. Lấy số điện thoại khách hàng từ đơn hàng
+            String phoneNumber = null;
+            String getPhoneSql = "SELECT customer_id, phone FROM Orders o JOIN Users u ON o.customer_id = u.user_id WHERE order_id = ?";
+            try (PreparedStatement getPhoneStmt = conn.prepareStatement(getPhoneSql)) {
+                getPhoneStmt.setInt(1, orderId);
+                ResultSet rs = getPhoneStmt.executeQuery();
+                if (rs.next()) {
+                    phoneNumber = rs.getString("phone");
+                }
+            }
+            
+            // 3. Nếu có số điện thoại hợp lệ, cập nhật bonus_point
+            if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
+                String updateBonusSql = "UPDATE Customers c JOIN Users u ON c.customer_id = u.user_id " +
+                                      "SET c.bonus_point = c.bonus_point + 20 " +
+                                      "WHERE u.phone = ? AND u.role = 'customer'";
+                
+                try (PreparedStatement updateBonusStmt = conn.prepareStatement(updateBonusSql)) {
+                    updateBonusStmt.setString(1, phoneNumber);
+                    updateBonusStmt.executeUpdate();
+                }
+            }
+            
+            conn.commit(); // Commit transaction nếu mọi thứ thành công
+            return true;
+        } catch (SQLException e) {
+            if (conn != null) conn.rollback();
+            throw e;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
