@@ -100,6 +100,8 @@
                 <MenuItem mnemonicParsing="false" text="2025" />
               </items>
             </MenuButton>
+            <TextField fx:id="currentSalaryField" editable="false" layoutX="838.0" layoutY="37.0" prefHeight="31.0" prefWidth="151.0" />
+            <Label layoutX="738.0" layoutY="37.0" prefHeight="31.0" prefWidth="103.0" text="Lương hiện tại:" />
          </children>
       </AnchorPane>
    </children>
