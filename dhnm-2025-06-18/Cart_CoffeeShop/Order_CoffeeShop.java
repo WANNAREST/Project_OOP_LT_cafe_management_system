@@ -36,7 +36,7 @@ public class Order_CoffeeShop {
     private final SimpleStringProperty phoneProperty = new SimpleStringProperty();
     private final SimpleObjectProperty<LocalDateTime> orderTimeProperty = new SimpleObjectProperty<>();
     
-    private final EmployeeDAO employeeDAO = new EmployeeDAO();
+	private final EmployeeDAO employeeDAO = new EmployeeDAO();
 
     public Order_CoffeeShop(String customerName, String phoneNumber, String orderType, 
             String deliveryAddress, List<CartItem> items) {
@@ -131,9 +131,9 @@ public class Order_CoffeeShop {
                      "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            
-            // Xử lý customer_id (có thể NULL)
-            int customerId = getCustomerIdByPhone(conn, this.phoneNumber);
+        	
+        	// Xử lý customer_id (có thể NULL)
+        	int customerId = getCustomerIdByPhone(conn, this.phoneNumber);
             if (customerId == -1) {
                 pstmt.setNull(1, Types.INTEGER); // customer_id = NULL
             } else {
