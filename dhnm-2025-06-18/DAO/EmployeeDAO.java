@@ -94,4 +94,50 @@ public class EmployeeDAO {
             return rs.next();
         }
     }
+    
+    public int getEmployeeBaseSalary(int employeeId, int month, int year) throws SQLException {
+        String query = "SELECT base_salary FROM Salary " +
+                     "WHERE employee_id = ? " +
+                     "AND month = ? " +
+                     "AND year = ? " +
+                     "LIMIT 1";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setInt(1, employeeId);
+            stmt.setInt(2, month);
+            stmt.setInt(3, year);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("base_salary");
+            }
+        }
+        // Nếu không tìm thấy bản ghi lương cho tháng đó
+        return 200000; // Giá trị mặc định
+    }
+    
+    public int getCompletedShiftsCount(int employeeId, int month, int year) throws SQLException {
+        String query = "SELECT COUNT(*) as completed_count FROM Shift_Details sd " +
+                       "JOIN Shifts s ON sd.shift_id = s.shift_id " +
+                       "WHERE sd.employee_id = ? " +
+                       "AND MONTH(s.date) = ? " +
+                       "AND YEAR(s.date) = ? " +
+                       "AND (sd.status = 'completed'OR sd.status = 'late')";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setInt(1, employeeId);
+            stmt.setInt(2, month);
+            stmt.setInt(3, year);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("completed_count");
+            }
+        }
+        return 0;
+    }
 }
