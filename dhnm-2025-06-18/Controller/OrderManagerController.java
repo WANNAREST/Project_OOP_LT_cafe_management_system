@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +53,11 @@ public class OrderManagerController {
 		orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("orderId"));
 		customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 		phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-		orderTimeColumn.setCellValueFactory(
-				cellData -> new SimpleStringProperty(cellData.getValue().getOrderTime().toString()));
+		orderTimeColumn.setCellValueFactory(cellData -> {
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		    String formattedDate = cellData.getValue().getOrderTime().format(formatter);
+		    return new SimpleStringProperty(formattedDate);
+		});
 		statusColumn.setCellValueFactory(cellData -> {
 		    String status = cellData.getValue().getStatus();
 		    String vietnameseStatus = "";
