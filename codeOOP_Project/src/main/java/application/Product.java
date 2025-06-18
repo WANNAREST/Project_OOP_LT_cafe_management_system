@@ -1,6 +1,6 @@
 package application;
 
-public abstract class Product {
+public class Product {
     private int id;
     private String name;
     private int price;
@@ -83,9 +83,6 @@ public abstract class Product {
         this.description = description;
     }
 
-    public double calculateTotalPrice() {
-        return price * stock;
-    }
 
     public boolean isAvailable() {
 

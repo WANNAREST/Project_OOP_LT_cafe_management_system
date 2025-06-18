@@ -17,20 +17,29 @@ public class Main {
                 "0912345678",
                 "anguyen@gmail.com"
         );
-
+        //test với upcasting and downcasting
+        User userA = nvA;
+        System.out.println("\n===== THÔNG TIN TÀI KHOẢN  =====");
+        userA.printAccountInfo();
+        if (userA instanceof Employee emp) {
+            System.out.println("SĐT: " + emp.getPhone());
+            System.out.println("Email: " + emp.getEmail());
+        }
         // 2. Tạo danh sách điểm danh cho A trong tháng 5
-        List<WorkScheduleRecord> attendanceList = new ArrayList<>();
-        attendanceList.add(new WorkScheduleRecord(nvA.getEmployeeID(), "2025-05-01", "Ca sáng", "08:00", "12:00", "Có mặt", ""));
-        attendanceList.add(new WorkScheduleRecord(nvA.getEmployeeID(), "2025-05-02", "Ca sáng", "08:15", "12:00", "Đi trễ", "Trễ 15 phút"));
-        attendanceList.add(new WorkScheduleRecord(nvA.getEmployeeID(), "2025-05-03", "Ca sáng", "-", "-", "Vắng", "Không lý do"));
-
+        List<ShiftDetail> attendanceList = new ArrayList<>();
+        WorkSchedule shift1 = new WorkSchedule(1, LocalDate.of(2025, 5, 1), "morning");
+        ShiftDetail detail1 = new ShiftDetail(shift1, nvA, "completed");
+        attendanceList.add(detail1);
+        WorkSchedule shift2 = new WorkSchedule(2, LocalDate.of(2025, 5, 2), "morning");
+        ShiftDetail detail2 = new ShiftDetail(shift2, nvA, "late");
+        attendanceList.add(detail2);
         // 3. Tổng hợp điểm danh thành WorkSummary
         WorkSummary summary = new WorkSummary(nvA.getEmployeeID());
-        for (WorkScheduleRecord record : attendanceList) {
+        for (ShiftDetail record : attendanceList) {
             switch (record.getStatus()) {
-                case "Có mặt" -> summary.incrementPresent();
-                case "Đi trễ" -> summary.incrementLate();
-                case "Vắng" -> summary.incrementAbsent();
+                case "completed" -> summary.incrementPresent();
+                case "late" -> summary.incrementLate();
+                case "absent" -> summary.incrementAbsent();
             }
         }
 

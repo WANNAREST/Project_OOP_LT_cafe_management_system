@@ -2,6 +2,7 @@ package application;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Order {
     private int orderId;
@@ -14,6 +15,7 @@ public class Order {
     private String note;                 // ghi chú đơn hàng
     private String deliveryAddress;      // địa chỉ giao hàng
     private double total;                // tổng tiền (bao gồm VAT)
+    private List<CartItem> items;
 
     // Constructor tương ứng với DB schema
     public Order(int orderId, int customerId, int employeeId, Date date,
@@ -31,8 +33,38 @@ public class Order {
         this.deliveryAddress = deliveryAddress;
         this.total = total;
     }
+    public Order(int orderId, int customerId, int employeeId, Date date,
+                 OrderStatus status, PaymentMethod paymentMethod,
+                 PaymentStatus paymentStatus, String note,
+                 String deliveryAddress, double total,
+                 List<CartItem> items) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.employeeId = employeeId;
+        this.date = date;
+        this.status = status;
+        this.paymentMethod = paymentMethod;
+        this.paymentStatus = paymentStatus;
+        this.note = note;
+        this.deliveryAddress = deliveryAddress;
+        this.total = total;
+        this.items = items;
+    }
+    public void addCartItem(CartItem item) {
+        if (items != null) {
+            items.add(item);
+            total += item.getProduct().getPrice() * item.getQuantity();
+        }
+    }
 
     // Getter và Setter tương ứng với DB fields
+    public List<CartItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<CartItem> items) {
+        this.items = items;
+    }
     public int getOrderId() { return orderId; }
     public void setOrderId(int orderId) { this.orderId = orderId; }
 
