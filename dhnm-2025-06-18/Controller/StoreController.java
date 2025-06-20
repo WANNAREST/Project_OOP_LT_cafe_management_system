@@ -360,5 +360,21 @@ public class StoreController {
 	        e.printStackTrace();
 	    }
 	}
+	
+	@FXML
+	void showCustomerManage(ActionEvent event) {
+	    contentPane.getChildren().clear();
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/customer-manage.fxml"));
+	        Parent root = loader.load();
+	        contentPane.getChildren().add(root);
+	        
+	        // Khởi tạo controller nếu cần thêm logic
+	        CustomerManageController controller = loader.getController();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        showAlert("Lỗi", "Không thể tải giao diện quản lý khách hàng: " + e.getMessage());
+	    }
+	}
 
 }
