@@ -17,6 +17,7 @@ module EMPLOYEE_OOP_COFFEE_SHOP {
     opens Controller to javafx.fxml; // Cho phép JavaFX truy cập package Controller
     opens application to javafx.fxml; // Cho phép JavaFX truy cập package application (nếu cần)
     opens Cart_CoffeeShop to javafx.base;
+    opens Customer to javafx.base;
 
     exports application; // Xuất package application nếu cần chạy lớp Main
     exports Controller; // Xuất package Controller nếu các lớp khác cần truy cập
