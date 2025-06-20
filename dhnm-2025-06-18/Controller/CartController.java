@@ -83,6 +83,9 @@ public class CartController {
 
 	@FXML
 	private TextField phoneNumberField;
+	
+	@FXML
+	private TextField bonusPointsField;
 
 	public CartController(Cart_CoffeeShop cart) {
 		this.cart = cart;
@@ -201,22 +204,24 @@ public class CartController {
 	}
 
 	public void updateSubTotal() {
-		int subtotal = 0;
-		for (CartItem item : cart.getItemsOrdered()) {
-			subtotal += item.getTotalPrice();
-		}
-		subtotalLabel.setText(Integer.toString(subtotal));
-
+	    int subtotal = 0;
+	    for (CartItem item : cart.getItemsOrdered()) {
+	        subtotal += item.getTotalPrice();
+	    }
+	    subtotalLabel.setText(String.format("%,d VND", subtotal));
 	}
 
 	public void updatetotal() {
-		try {
-			int subtotal = Integer.parseInt(subtotalLabel.getText());
-			int discount = Integer.parseInt(discountLabel.getText());
-			totalLabel.setText(String.valueOf(subtotal - discount));
-		} catch (NumberFormatException e) {
-			totalLabel.setText(subtotalLabel.getText());
-		}
+	    try {
+	        // Xử lý chuỗi tiền tệ (loại bỏ " VND" và dấu ",")
+	        int subtotal = Integer.parseInt(subtotalLabel.getText().replaceAll("[^0-9]", ""));
+	        int discount = Integer.parseInt(discountLabel.getText().replaceAll("[^0-9]", ""));
+	        
+	        // Tính toán và định dạng lại tổng tiền
+	        totalLabel.setText(String.format("%,d VND", subtotal - discount));
+	    } catch (NumberFormatException e) {
+	        totalLabel.setText("0 VND");
+	    }
 	}
 
 	public void initialize() {
@@ -244,6 +249,11 @@ public class CartController {
 				numLabel.setText("0"); // or whatever default you want
 			}
 		});
+		
+		phoneNumberField.textProperty().addListener((observable, oldValue, newValue) -> {
+	        loadBonusPoints(newValue.trim());
+	    });
+		
 		updateSubTotal();
 		updatetotal();
 
@@ -267,31 +277,48 @@ public class CartController {
 	        }
 
 	        String phoneNumber = phoneNumberField.getText().trim();
-	        
-	        // Kiểm tra định dạng số điện thoại (nếu có nhập)
 	        if (!phoneNumber.isEmpty() && !phoneNumber.matches("\\d{10,15}")) {
 	            showAlert("Lỗi", "Số điện thoại phải có 10-15 chữ số.");
 	            return;
 	        }
 
-	        // Tạo đơn hàng (không cần tên, số điện thoại có thể rỗng)
+	        // Lấy discount từ giao diện (đã loại bỏ " VND" và dấu ",")
+	        int discount = Integer.parseInt(discountLabel.getText().replaceAll("[^0-9]", ""));
+
+	     // Tính tổng tiền sau discount
+	        double subtotal = cart.getItemsOrdered().stream()
+	                           .mapToDouble(item -> item.getTotalPrice())
+	                           .sum();
+	        double totalAfterDiscount = Math.max(0, subtotal - discount);
+	        
+	        // Tạo đơn hàng với discount (total sẽ được tính bên trong Order_CoffeeShop)
 	        Order_CoffeeShop order = new Order_CoffeeShop(
-	            "", // Tên để trống
-	            phoneNumber, // Có thể rỗng
+	            "", 
+	            phoneNumber,
 	            "offline",
 	            "Store pickup",
-	            new ArrayList<>(cart.getItemsOrdered())
+	            new ArrayList<>(cart.getItemsOrdered()),
+	            discount // Truyền discount vào
 	        );
+	        
+	        // Set tổng tiền sau discount trước khi lưu
+	        order.setTotalAmount(totalAfterDiscount);
 
-	        order.placeCompleteOrder(); // Sẽ xử lý số điện thoại rỗng tự động
-	        showSuccessAlert("Thành công", "Đơn hàng đã được đặt!");
-	        
-	        // Nếu có số điện thoại -> tích điểm
-	        if (!phoneNumber.isEmpty()) {
-	            updateBonusPoints(phoneNumber, 20); // Cộng 20 điểm
+	        // Lưu đơn hàng
+	        order.placeCompleteOrder(); // Lưu total = subtotal - discount vào database
+
+	        // Cộng điểm nếu không dùng discount
+	        if (!phoneNumber.isEmpty() && discount == 0) {
+	            updateBonusPoints(phoneNumber, 20);
+	            loadBonusPoints(phoneNumber);
 	        }
-	        
+
+	        showSuccessAlert("Thành công", "Đơn hàng đã được đặt!");
 	        cart.emptyCart();
+	        discountLabel.setText("0 VND");
+	        bonusPointsField.setText("0");
+	        updateSubTotal();
+	        updatetotal();
 	    } catch (Exception e) {
 	        showAlert("Lỗi", e.getMessage());
 	    }
@@ -354,10 +381,79 @@ public class CartController {
 	    }
 	}
 
+	private void loadBonusPoints(String phoneNumber) {
+	    // Kiểm tra số điện thoại hợp lệ trước khi query
+	    if (phoneNumber == null || phoneNumber.trim().isEmpty() || !phoneNumber.matches("\\d{10,15}")) {
+	        bonusPointsField.setText("0");
+	        return;
+	    }
+
+	    String query = "SELECT c.bonus_point FROM Customers c " +
+	                   "JOIN Users u ON c.customer_id = u.user_id " +
+	                   "WHERE u.phone = ?";
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        
+	        stmt.setString(1, phoneNumber);
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            bonusPointsField.setText(String.valueOf(rs.getInt("bonus_point")));
+	        } else {
+	            bonusPointsField.setText("0");
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Lỗi khi tải điểm thưởng: " + e.getMessage());
+	        bonusPointsField.setText("0");
+	    }
+	}
+	
+	// Phương thức xử lý sử dụng điểm thưởng
+	@FXML
+	void useBonusBtnPressed(ActionEvent event) {
+	    try {
+	        String phoneNumber = phoneNumberField.getText().trim();
+	        if (phoneNumber.isEmpty() || !phoneNumber.matches("\\d{10,15}")) {
+	            showAlert("Lỗi", "Vui lòng nhập số điện thoại hợp lệ (10-15 số)");
+	            return;
+	        }
+
+	        int bonusPoints = Integer.parseInt(bonusPointsField.getText());
+	        if (bonusPoints < 20) {
+	            showAlert("Không đủ điểm", "Cần tối thiểu 20 điểm để giảm giá");
+	            return;
+	        }
+
+	        // Tính toán giảm giá (20 điểm = 200 đồng)
+	        int discountAmount = (bonusPoints / 20) * 200;
+	        int subtotal = Integer.parseInt(subtotalLabel.getText().replaceAll("[^0-9]", ""));
+	        
+	        // Đảm bảo không giảm quá tổng hóa đơn
+	        discountAmount = Math.min(discountAmount, subtotal);
+	        
+	        // Cập nhật giao diện
+	        discountLabel.setText(String.format("%,d VND", discountAmount));
+	        bonusPointsField.setText("0");
+	        updatetotal();
+
+	        // Cập nhật điểm trong database
+	        updateBonusPoints(phoneNumber, -bonusPoints);
+
+	    } catch (NumberFormatException e) {
+	        showAlert("Lỗi", "Dữ liệu điểm không hợp lệ");
+	    }
+	}
+	
+	
+	
 	@FXML
 	void clearCurrentCart(ActionEvent event) {
-
-		cart.emptyCart();
+	    cart.emptyCart();
+	    bonusPointsField.setText("0"); // Thêm dòng này
+	    discountLabel.setText("0 VND");
+	    updateSubTotal();
+	    updatetotal();
 	}
 
 	private void showSuccessAlert(String title, String message) {
