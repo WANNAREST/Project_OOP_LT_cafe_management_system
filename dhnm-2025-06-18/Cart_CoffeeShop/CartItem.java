@@ -5,6 +5,17 @@ import Menu.Products;
 public class CartItem {
     private Products product;
     private int quantity;
+    
+    private String name;
+    private double price;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public CartItem(Products product, int quantity) {
         this.product = product;
@@ -38,7 +49,7 @@ public class CartItem {
     }
 
     public float getPrice() {
-        return product.getPrice();
+        return product.getPrice(); // Chuyển từ float sang double
     }
 
     public int getStock() {
