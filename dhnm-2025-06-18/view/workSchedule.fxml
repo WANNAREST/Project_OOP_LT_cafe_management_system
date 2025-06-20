@@ -41,7 +41,7 @@
             </TableView>
             
             <!-- Dropdown chọn tháng -->
-            <MenuButton fx:id="monthMenuButton" layoutX="502.0" layoutY="37.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="97.0" text="Tháng">
+            <MenuButton fx:id="monthMenuButton" layoutX="502.0" layoutY="37.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="77.0" text="Tháng">
               <items>
                 <MenuItem mnemonicParsing="false" text="Tháng 1" />
                 <MenuItem mnemonicParsing="false" text="Tháng 2" />
@@ -94,14 +94,16 @@
             <TextField fx:id="dobField" editable="false" layoutX="207.0" layoutY="451.0" prefHeight="25.0" prefWidth="280.0" />
             <TextField fx:id="phoneField" editable="false" layoutX="207.0" layoutY="502.0" prefHeight="25.0" prefWidth="280.0" />
             <TextField fx:id="emailField" editable="false" layoutX="207.0" layoutY="552.0" prefHeight="25.0" prefWidth="280.0" />
-            <MenuButton fx:id="yearMenuButton" layoutX="612.0" layoutY="37.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="97.0" text="Năm">
+            <MenuButton fx:id="yearMenuButton" layoutX="590.0" layoutY="37.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="69.0" text="Năm">
               <items>
                 <MenuItem mnemonicParsing="false" text="2024" />
                 <MenuItem mnemonicParsing="false" text="2025" />
               </items>
             </MenuButton>
-            <TextField fx:id="currentSalaryField" editable="false" layoutX="838.0" layoutY="37.0" prefHeight="31.0" prefWidth="151.0" />
-            <Label layoutX="738.0" layoutY="37.0" prefHeight="31.0" prefWidth="103.0" text="Lương hiện tại:" />
+            <TextField fx:id="currentSalaryField" editable="false" layoutX="762.0" layoutY="37.0" prefHeight="31.0" prefWidth="155.0" text="Chưa tính" />
+            <Label layoutX="675.0" layoutY="37.0" prefHeight="31.0" prefWidth="86.0" text="Lương tháng:" />
+            <Label layoutX="977.0" layoutY="44.0" text="Thưởng:" />
+            <TextField fx:id="bonusField" editable="false" layoutX="1040.0" layoutY="40.0" prefHeight="25.0" prefWidth="123.0" />
          </children>
       </AnchorPane>
    </children>
