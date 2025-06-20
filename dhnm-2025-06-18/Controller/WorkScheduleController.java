@@ -46,6 +46,8 @@ public class WorkScheduleController {
 	private TableColumn<WorkShift, String> statusColumn;
 	@FXML
 	private TextField currentSalaryField;
+	@FXML
+	private TextField bonusField;
 
 	private Employee currentEmployee;
 	private final EmployeeDAO employeeDAO = new EmployeeDAO();
@@ -113,6 +115,7 @@ public class WorkScheduleController {
 		if (employee != null) {
 			loadEmployeeInfo();
 			loadScheduleForMonth();
+			loadSalaryInfo();
 		}
 	}
 
@@ -153,46 +156,40 @@ public class WorkScheduleController {
 			});
 
 			scheduleTable.setItems(scheduleData);
-			calculateAndDisplayCurrentSalary(); // Thêm dòng này để cập nhật lương
+			loadSalaryInfo();
+			
 		} catch (Exception e) {
 			showAlert("Lỗi", "Không thể tải lịch làm việc: " + e.getMessage());
 		}
 	}
 	
-	// Thêm phương thức tính lương
-	private void calculateAndDisplayCurrentSalary() {
-	    if (currentEmployee == null) {
-	        currentSalaryField.setText("Chưa chọn NV");
-	        return;
-	    }
-	    
+	private void loadSalaryInfo() {
 	    try {
-	        int month = currentMonth.getValue();
-	        int year = currentYear;
-	        
-	        // Lấy số ca đã hoàn thành trong tháng
-	        int completedShifts = employeeDAO.getCompletedShiftsCount(
+	        Map<String, Double> salaryInfo = employeeDAO.getEmployeeSalary(
 	            currentEmployee.getId(), 
-	            month, 
-	            year
+	            currentMonth.getValue(), 
+	            currentYear
 	        );
 	        
-	        // Lấy lương cơ bản ĐÚNG CHO THÁNG ĐANG XEM
-	        int baseSalary = employeeDAO.getEmployeeBaseSalary(
-	            currentEmployee.getId(),
-	            month,
-	            year
-	        );
+	        // Reset các trường về trống
+	        currentSalaryField.setText("");
+	        bonusField.setText("");
 	        
-	        // Tính lương
-	        int currentSalary = completedShifts * baseSalary;
-	        
-	        // Hiển thị với định dạng tiền tệ
-	        currentSalaryField.setText(String.format("%,d VND", currentSalary));
-	        
+	        if (salaryInfo != null) {
+	            
+	            Double totalSalary = salaryInfo.get("salary");
+	            Double bonus = salaryInfo.get("bonus");
+	            
+	            if (totalSalary != null) {
+	                currentSalaryField.setText(String.format("%,.0f VND", totalSalary));
+	            }
+	            
+	            if (bonus != null ) { 
+	                bonusField.setText(String.format("%,.0f VND", bonus));
+	            }
+	        }
 	    } catch (Exception e) {
-	        currentSalaryField.setText("Lỗi tính lương");
-	        System.err.println("Lỗi khi tính lương: " + e.getMessage());
+	        System.err.println("Không thể tải thông tin lương: " + e.getMessage());
 	    }
 	}
 
