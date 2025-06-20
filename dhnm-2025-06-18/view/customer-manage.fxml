@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="636.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CustomerManageController">
+   <children>
+      <AnchorPane layoutX="-14.0" prefHeight="636.0" prefWidth="1200.0">
+         <children> 
+         
+            <!-- Customer Table -->
+            <TableView fx:id="customerTableView" layoutX="14.0" layoutY="62.0" prefHeight="572.0" prefWidth="616.0">
+              <columns>
+                <TableColumn fx:id="customerIdColumn" prefWidth="104.66665649414062" text="Mã khách hàng" />
+                <TableColumn fx:id="customerNameColumn" prefWidth="225.3333511352539" text="Họ và tên" />
+                <TableColumn fx:id="customerPhoneColumn" prefWidth="183.33328247070312" text="Số điện thoại" />
+                <TableColumn fx:id="bonusPointColumn" prefWidth="104.6666259765625" text="Điểm thưởng" />
+              </columns>
+            </TableView>
+            
+            <!-- Order Table -->
+            <TableView fx:id="orderTableView" layoutX="648.0" layoutY="62.0" prefHeight="200.0" prefWidth="537.0">
+              <columns>
+                <TableColumn fx:id="orderIdColumn" prefWidth="152.0" text="Mã đơn hàng" />
+                <TableColumn fx:id="orderDateColumn" prefWidth="208.66656494140625" text="Thời gian đặt hàng" />
+                <TableColumn fx:id="orderTotalColumn" prefWidth="175.33333333333337" text="Tổng giá đơn hàng" />
+              </columns>
+            </TableView>
+            
+            <!-- Order Detail Table -->
+            <TableView fx:id="orderDetailTableView" layoutX="648.0" layoutY="272.0" prefHeight="361.0" prefWidth="537.0">
+              <columns>
+                <TableColumn fx:id="productNameColumn" prefWidth="185.3333740234375" text="Tên sản phẩm" />
+                <TableColumn fx:id="quantityColumn" prefWidth="169.99993896484375" text="Số lượng" />
+                <TableColumn fx:id="priceColumn" prefWidth="180.666748046875" text="Giá sản phẩm" />
+              </columns>
+            </TableView>
+            <Label layoutX="41.0" layoutY="22.0" prefHeight="20.0" prefWidth="122.0" text="Tên khách hàng:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="searchField" layoutX="163.0" layoutY="19.0" prefHeight="25.0" prefWidth="273.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
