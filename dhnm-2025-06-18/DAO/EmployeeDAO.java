@@ -118,6 +118,26 @@ public class EmployeeDAO {
         return 200000; // Giá trị mặc định
     }
     
+    public Map<String, Double> getEmployeeSalary(int employeeId, int month, int year) throws SQLException {
+        Map<String, Double> result = new HashMap<>();
+        String query = "SELECT base_salary, bonus, total FROM Salary WHERE employee_id = ? AND month = ? AND year = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setInt(1, employeeId);
+            stmt.setInt(2, month);
+            stmt.setInt(3, year);
+            
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                result.put("salary", rs.getDouble("total")); // Hiển thị tổng lương
+                result.put("bonus", rs.getDouble("bonus"));
+            }
+        }
+        return result.isEmpty() ? null : result;
+    }
+    
     public int getCompletedShiftsCount(int employeeId, int month, int year) throws SQLException {
         String query = "SELECT COUNT(*) as completed_count FROM Shift_Details sd " +
                        "JOIN Shifts s ON sd.shift_id = s.shift_id " +
