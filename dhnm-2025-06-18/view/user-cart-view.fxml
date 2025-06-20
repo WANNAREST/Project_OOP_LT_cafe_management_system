@@ -20,6 +20,8 @@
             <children>
                <Label layoutX="195.0" layoutY="61.0" text="Phone number" />
 			   <TextField fx:id="phoneNumberField" layoutX="300.0" layoutY="57.0" prefHeight="18.0" prefWidth="233.0" promptText="Nhập số điện thoại để tích điểm" />
+               <Label layoutX="924.0" layoutY="59.0" text="Điểm thưởng: " />
+               <TextField fx:id="bonusPointsField" layoutX="1014.0" layoutY="55.0" />
             </children>
          </AnchorPane>
          <ScrollPane prefHeight="381.0" prefWidth="1155.0">
@@ -46,7 +48,7 @@
                   </HBox.margin>
                </Label>
                <Region prefHeight="45.0" prefWidth="12.0" />
-                  <Label fx:id="subtotalLabel" prefHeight="25.0" prefWidth="71.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
+                  <Label fx:id="subtotalLabel" prefHeight="25.0" prefWidth="209.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
                <Region prefHeight="46.0" prefWidth="819.0" />
                <Region prefHeight="46.0" prefWidth="35.0" />
                <VBox.margin>
@@ -60,7 +62,7 @@
                   </HBox.margin>
                </Label>
                <Region prefHeight="39.0" prefWidth="12.0" />
-                  <Label fx:id="discountLabel" prefHeight="25.0" prefWidth="72.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
+                  <Label fx:id="discountLabel" prefHeight="25.0" prefWidth="199.0" styleClass="label1" stylesheets="@style.css" text="0 VND" />
                <Region prefHeight="39.0" prefWidth="686.0" />
                <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#removeBtnPressed" prefHeight="42.0" prefWidth="129.0" styleClass="remove-btn" stylesheets="@style.css" text="Remove">
                   <font>
@@ -93,6 +95,7 @@
           <HBox alignment="CENTER" spacing="20">
               <Button onAction="#continueShoppingBtnPressed" styleClass="continue-btn" stylesheets="@style.css" text="CONTINUE SHOPPING" />
               <Button onAction="#clearCurrentCart" prefWidth="148.0" styleClass="checkout-btn" stylesheets="@style.css" text="CLEAR CART" />
+            <Button fx:id="useBonusBtn" layoutX="547.0" layoutY="11.0" onAction="#useBonusBtnPressed" prefHeight="33.0" prefWidth="170.0" styleClass="checkout-btn" stylesheets="@style.css" text="USE BONUS POINT" />
             <Button layoutX="638.0" layoutY="10.0" onAction="#placeOrderBtnPressed" prefWidth="148.0" styleClass="checkout-btn" stylesheets="@style.css" text="PLACE ORDER" />
             <VBox.margin>
                <Insets bottom="10.0" />
