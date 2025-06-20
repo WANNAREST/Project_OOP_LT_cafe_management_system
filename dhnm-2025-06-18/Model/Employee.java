@@ -22,6 +22,7 @@ public class Employee {
     }
 
     // Getters
+    
     public int getId() { return id; }
     public String getName() { return name; }
     public LocalDate getDob() { return dob; }
