@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="636.0" prefWidth="1200.0" stylesheets="@style.css"
+      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox prefHeight="636.0" prefWidth="1200.0" style="-fx-background-color: white;">
+            <children>
+                <!-- Header -->
+                <HBox prefHeight="80.0" prefWidth="1200.0" style="-fx-background-color: #17376e;">
+                    <children>
+                        <Label text="☕ OOP Coffee ChatBot" textFill="white"
+                               style="-fx-font-size: 24px; -fx-font-weight: bold;">
+                            <HBox.margin>
+                                <Insets left="20.0" top="25.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+
+                <!-- Chat Area -->
+                <ScrollPane fx:id="chatScrollPane" prefHeight="450.0" prefWidth="1200.0"
+                            style="-fx-background-color: #f5f5f5;">
+                    <content>
+                        <VBox fx:id="chatContainer" prefWidth="1180.0" spacing="10.0">
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- Quick Suggestions -->
+                <HBox prefHeight="50.0" prefWidth="1200.0" spacing="10.0"
+                      style="-fx-background-color: #f0f0f0;">
+                    <children>
+                        <Button fx:id="menuBtn" onAction="#askAboutMenu"
+                                text="Menu có gì?" styleClass="suggestion-btn" />
+                        <Button fx:id="priceBtn" onAction="#askAboutPrice"
+                                text="Giá cả?" styleClass="suggestion-btn" />
+                        <Button fx:id="pointBtn" onAction="#askAboutPoints"
+                                text="Tích điểm?" styleClass="suggestion-btn" />
+                        <Button fx:id="timeBtn" onAction="#askAboutTime"
+                                text="Giờ mở cửa?" styleClass="suggestion-btn" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+
+                <!-- Input Area -->
+                <HBox prefHeight="60.0" prefWidth="1200.0" spacing="10.0"
+                      style="-fx-background-color: white;">
+                    <children>
+                        <TextField fx:id="messageField" onAction="#sendMessage"
+                                   promptText="Nhập câu hỏi của bạn..."
+                                   prefHeight="40.0" prefWidth="1000.0" />
+                        <Button fx:id="sendBtn" onAction="#sendMessage"
+                                text="Gửi" prefHeight="40.0" prefWidth="80.0"
+                                styleClass="send-btn" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</HBox>

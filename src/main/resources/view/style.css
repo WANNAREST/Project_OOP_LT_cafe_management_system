@@ -1,0 +1,362 @@
+.button1 { /* Tab button */
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-text-fill: #17376e; /* Text color */
+    -fx-font-weight: Bold;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-size: 14px;
+    -fx-border-color: transparent; /* No border */
+    -fx-padding: 5px 10px; /* Padding */
+    -fx-alignment: CENTER; /* Center align text */
+}
+
+.button1:hover {
+    -fx-background-color: #1f5db9; /* Blue background on hover */
+    -fx-text-fill: #ffffff; /* White text on hover */
+    -fx-border-color: transparent; /* No border */
+}
+
+.button2 { /* Tab button */
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-text-fill: #17376e; /* Text color */
+    -fx-font-weight: Bold;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-size: 14px;
+    -fx-border-color: transparent; /* No border */
+    -fx-padding: 5px 10px; /* Padding */
+    -fx-alignment: CENTER; /* Center align text */
+}
+
+.button2:hover {
+    -fx-background-color: #1f5db9; /* Blue background on hover */
+    -fx-text-fill: #ffffff; /* White text on hover */
+    -fx-border-color: transparent; /* No border */
+}
+
+.button3 {
+    -fx-background-color: #f8f8f8; /* Màu nền mặc định */
+    -fx-text-fill: #17376e; /* Màu chữ xanh đậm cho dễ nhìn */
+    -fx-border-color: #c0c0c0; /* Màu viền */
+    -fx-border-radius: 0 20px 20px 0; /* Bo góc phải */
+    -fx-background-radius: 0 20px 20px 0; /* Bo góc phải */
+    -fx-padding: 8px 12px; /* Padding giống với search-text-field */
+    -fx-alignment: CENTER; /* Căn giữa chữ */
+}
+
+.button3:hover {
+    -fx-background-color: #f8f8f8; /* Màu nền khi hover */
+    -fx-text-fill: #17376e; /* Màu chữ xanh đậm cho dễ nhìn */
+    -fx-border-radius: 0 20px 20px 0; /* Bo góc phải */
+    -fx-border-color: #17376e; /* Màu viền */
+    -fx-background-radius: 0 20px 20px 0; /* Bo góc phải */
+    -fx-padding: 8px 12px; /* Padding giống với search-text-field */
+    -fx-alignment: CENTER; /* Căn giữa chữ */
+}
+/* Thanh tìm kiếm chính */
+.search-box {
+    -fx-background-color: #f8f8f8;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-padding: 5px 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
+}
+
+.search-box .text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-prompt-text-fill: #a8a8a8;
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+}
+
+.button-search {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+}
+
+.button-search:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+
+.labelHeader {
+    -fx-text-fill: #17376e;
+    -fx-font-size: 20px;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-weight: Bold;
+}
+.label1{
+    -fx-text-fill: #17376e;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+.save-btn {
+    -fx-background-color: #17376e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 30px;
+    -fx-cursor: hand;
+}
+
+.save-btn:hover {
+    -fx-background-color: #699dea;
+    -fx-effect: dropshadow(three-pass-box, rgb(189, 227, 221), 5, 0, 0, 1);
+}
+.text-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D1D1D1;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-prompt-text-fill: #A8A8A8;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4px;
+}
+
+/* Khi focus */
+.text-field:focused {
+    -fx-border-color: #6F4E37;
+    -fx-effect: dropshadow(three-pass-box, rgba(111, 78, 55, 0.2), 5, 0, 0, 0);
+}
+
+/* Khi hover */
+.text-field:hover {
+    -fx-border-color: #B8B8B8;
+}
+.change-btn{
+    -fx-background-color: #17376e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 8px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 30px;
+    -fx-cursor: hand;
+}
+
+
+/* Container chính */
+.cart-container {
+    -fx-background-color: #f9f5f0;
+    -fx-padding: 20px;
+}
+
+/* Tiêu đề */
+.cart-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17376e;
+    -fx-padding: 0 0 20px 0;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+
+/* Bảng giỏ hàng */
+.cart-table {
+    -fx-background-color: white;
+    -fx-border-color: #e0d5c8;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+}
+
+.cart-table .column-header {
+    -fx-background-color: #8D6E63;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.cart-table .table-row-cell {
+    -fx-border-color: #f5f5f5;
+}
+
+.cart-table .table-row-cell:odd {
+    -fx-background-color: #fffaf5;
+}
+
+/* Nút xóa */
+.remove-btn {
+    -fx-background-color: #17376e;
+    -fx-font-size: 17;
+    -fx-text-fill: white;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px 8px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+
+.remove-btn:hover {
+    -fx-background-color: #d32f2f;
+}
+
+/* Khung tổng kết */
+.summary-box {
+    -fx-background-color: white;
+    -fx-border-color: #e0d5c8;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 15px;
+    -fx-alignment: CENTER_RIGHT;
+    -fx-spacing: 10px;
+}
+
+.summary-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #757575;
+    -fx-min-width: 100px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+
+
+
+.summary-total-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #17376e;
+    -fx-min-width: 100px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+
+
+/* Các nút thao tác */
+.continue-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: #17376e;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-text-fill: #17376e;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 20px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+
+.continue-btn:hover {
+    -fx-background-color: #42abdc;
+}
+
+.checkout-btn {
+    -fx-background-color: #17376e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 30px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+
+.checkout-btn:hover {
+    -fx-background-color: #42abdc;
+}
+
+/* Style for the Toggle Button */
+.toggle-button {
+    -fx-background-color: #17376e; /* Default background color */
+    -fx-text-fill: white; /* Default text color */
+    -fx-font-size: 14px; /* Font size */
+    -fx-font-family: 'Poppins', sans-serif; /* Font family */
+    -fx-font-weight: bold; /* Font weight */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px; /* Background rounded corners */
+    -fx-padding: 8px 16px; /* Padding for the button */
+    -fx-cursor: hand; /* Cursor changes to hand on hover */
+}
+
+/* Style when the Toggle Button is selected */
+.toggle-button:selected {
+    -fx-background-color: #42abdc; /* Background color when selected */
+    -fx-text-fill: #ffffff; /* Text color when selected */
+    -fx-border-color: #17376e; /* Optional border color when selected */
+}
+
+
+
+
+/* Style when the Toggle Button is disabled */
+.toggle-button:disabled {
+    -fx-background-color: #d1d1d1; /* Background color for disabled state */
+    -fx-text-fill: #a8a8a8; /* Text color for disabled state */
+    -fx-cursor: default; /* Default cursor */
+}
+
+.item{
+    -fx-border-color: #17376e;
+    -fx-border-radius: 10px;
+}
+.add-to-cart-button{
+    -fx-background-color: white;
+    -fx-font-size: 17px;
+    -fx-border-color: #17376e;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #17376e;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 20px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+.add-to-cart-button:hover{
+    -fx-background-color: #7fa5da;
+}
+.header-product{
+    -fx-text-fill: #17376e;
+    -fx-font-size: 50px;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-weight: bold;
+}
+.label-cost{
+    -fx-text-fill: #17376e;
+    -fx-font-size: 30px;
+    -fx-font-family: 'Poppins', sans-serif;
+}
+.btnadd {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D1D1D1;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+  /*  -fx-padding: 8px 12px; */
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17376e;
+    -fx-prompt-text-fill: #A8A8A8;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4px;
+    -fx-text-alignment: center;
+}
+
+/* Khi focus */
+.btnadd:focused {
+    -fx-border-color: #17376e;
+    -fx-effect: dropshadow(three-pass-box, rgb(189, 227, 221), 5, 0, 0, 0);
+}
+
+.Paymentlabel {
+    -fx-text-fill: #17376e;
+    -fx-font-size: 20px;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-weight: bold;
+}
+.suggestion-btn {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-font-size: 12px;
+    -fx-padding: 5px 15px;
+}
+
+.suggestion-btn:hover {
+    -fx-background-color: #5a6268;
+}
+
+.send-btn {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-font-weight: bold;
+}
+
+.send-btn:hover {
+    -fx-background-color: #0056b3;
+}
+
+
+
