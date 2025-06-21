@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CustomerLoginController {
@@ -114,8 +115,8 @@ public class CustomerLoginController {
 
     private void showMainScreen() {
         try {
-            // Create customer object from login data
-            Customer customer = new Customer(currentUserId, currentUserFullName != null ? currentUserFullName : "", "", "", "", "");
+            // Load customer data from database including bonus points
+            Customer customer = loadCustomerFromDatabase(currentUserId);
             
             // Load the customer main app
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-main-app.fxml"));
@@ -136,6 +137,43 @@ public class CustomerLoginController {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error loading main screen: " + e.getMessage());
         }
+    }
+    
+    private Customer loadCustomerFromDatabase(int userId) {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            
+            String query = "SELECT u.user_id, u.full_name, u.phone, u.password, u.email, u.address, c.bonus_point " +
+                          "FROM Users u " +
+                          "JOIN Customers c ON u.user_id = c.customer_id " +
+                          "WHERE u.user_id = ? AND u.role = 'customer'";
+            
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                Customer customer = new Customer(
+                    rs.getInt("user_id"),
+                    rs.getString("full_name"),
+                    rs.getString("phone"),
+                    rs.getString("password"),
+                    rs.getString("address") != null ? rs.getString("address") : "",
+                    rs.getInt("bonus_point"), // Load actual bonus points from database
+                    rs.getString("email")
+                );
+                
+                System.out.println("✅ Loaded customer: " + customer.getFullName() + " with " + customer.getpoint() + " points");
+                return customer;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("❌ Error loading customer data: " + e.getMessage());
+        }
+        
+        // Fallback to default customer
+        return new Customer(currentUserId, currentUserFullName != null ? currentUserFullName : "", "", "", "", "");
     }
 
     // ==== Đăng ký ====

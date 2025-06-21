@@ -1,16 +1,39 @@
 package obj;
 
-public abstract class Product {
+import java.util.Objects;
+
+public class Product {
     private int id;
     private String name;
     private int price;
     private String category;
     private String description;
     private int stock;
+    
+    private static int nbProduct = 0;
 
+    // Default constructor
+    public Product() {
+        this.id = 0;
+        this.name = "";
+        this.price = 0;
+        this.category = "";
+        this.description = "";
+        this.stock = 0;
+    }
 
+    // Constructor with all parameters (from Products)
+    public Product(String name, int price, String description, String category, int stock) {
+        this.id = ++nbProduct;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.category = category;
+        this.stock = stock;
+    }
 
-    public Product(int id, String name, String category,int price, int stock,  String description) {
+    // Constructor with id (from original Product)
+    public Product(int id, String name, String category, int price, int stock, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -19,32 +42,47 @@ public abstract class Product {
         this.description = description;
     }
 
-    public Product(int id, String name, String category,int price,  String description) {
+    // Constructor with id but no stock (from original Product)
+    public Product(int id, String name, String category, int price, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.description = description;
+        this.stock = 0; // Default stock
     }
 
-
-    public Product(String name, String Category, int price, String description ) {
-        this.name = name;
-        this.price = price;
-        this.category = Category;
-    }
-
-    public Product(String name, String category, int price) {
+    // Simple constructor (from original Product)
+    public Product(String name, String category, int price, String description) {
+        this.id = ++nbProduct;
         this.name = name;
         this.price = price;
         this.category = category;
+        this.description = description;
+        this.stock = 0; // Default stock
+    }
+
+    // Minimal constructor (from original Product)
+    public Product(String name, String category, int price) {
+        this.id = ++nbProduct;
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.description = "";
+        this.stock = 0;
+    }
+
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
-    }
-    public int getId() {
-        return id;
     }
 
     public void setName(String name) {
@@ -64,7 +102,7 @@ public abstract class Product {
     }
 
     public void setQuantity(int quantity) {
-        this.stock= quantity;
+        this.stock = quantity;
     }
 
     public String getCategory() {
@@ -83,12 +121,12 @@ public abstract class Product {
         this.description = description;
     }
 
-    public double calculateTotalPrice() {
+    // Business logic methods
+    public int calculateTotalPrice() {
         return price * stock;
     }
 
     public boolean isAvailable() {
-
         return stock > 0;
     }
 
@@ -101,14 +139,32 @@ public abstract class Product {
     }
 
     public void increaseStock(int quantity) {
-
         stock += quantity;
+    }
+
+    // Match method from Products class
+    public boolean isMatch(String name) {
+        return this.name.toLowerCase().contains(name.toLowerCase());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Product product = (Product) obj;
+        return id == product.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
                 ", price=" + price +
                 ", quantity=" + stock +

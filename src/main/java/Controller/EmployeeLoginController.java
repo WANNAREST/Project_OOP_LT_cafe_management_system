@@ -15,17 +15,19 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import obj.Employee;
+import obj.EmployeeDAO;
 
 public class EmployeeLoginController {
 
     // ==== FXML ====
-    @FXML private TextField emp_username;
+    @FXML private TextField emp_phonenumber;
     @FXML private PasswordField emp_password;
     @FXML private Button emp_loginBtn;
     @FXML private Hyperlink emp_forgotPass;
     @FXML private AnchorPane emp_loginForm;
 
-    @FXML private TextField emp_fp_username;
+    @FXML private TextField emp_fp_email;
     @FXML private TextField emp_fp_phonenumber;
     @FXML private Button emp_fp_proceedBtn;
     @FXML private AnchorPane emp_forgotPassForm;
@@ -40,46 +42,77 @@ public class EmployeeLoginController {
     @FXML private Button emp_np_backToQuestion;
 
     private Alert alert;
+    private EmployeeDAO employeeDAO = new EmployeeDAO();
+    private Employee currentEmployee = null;
 
     // ==== Đăng nhập ====
     public void loginBtn() {
-        String username = emp_username.getText();
+        String phone = emp_phonenumber.getText();
         String password = emp_password.getText();
 
-        if (username.isEmpty() || password.isEmpty()) {
+        if (phone.isEmpty() || password.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Please fill all blank fields");
             return;
         }
 
-        String query = "SELECT * FROM Users WHERE full_name = ? AND password = ? AND role = 'employee'";
+        // Validate phone number format
+        if (!phone.matches("\\d{10,15}")) {
+            showAlert(Alert.AlertType.ERROR, "Phone number should contain 10-15 digits only");
+            return;
+        }
 
         try {
-            Connection connect = DatabaseConnection.getConnection();
-            PreparedStatement prepare = connect.prepareStatement(query);
-
-            prepare.setString(1, username);
-            prepare.setString(2, password);
-
-            ResultSet result = prepare.executeQuery();
-
-            if (result.next()) {
-                showAlert(Alert.AlertType.INFORMATION, "Employee login successful!");
+            currentEmployee = employeeDAO.authenticateEmployee(phone, password);
+            
+            if (currentEmployee != null) {
+                // Show brief welcome message
+                Alert welcome = new Alert(Alert.AlertType.INFORMATION);
+                welcome.setTitle("Login Successful");
+                welcome.setHeaderText("Welcome!");
+                welcome.setContentText("Welcome " + currentEmployee.getName() + "!\nLoading your dashboard...");
+                welcome.showAndWait();
+                
+                // Navigate to employee dashboard
                 showEmployeeDashboard();
             } else {
-                showAlert(Alert.AlertType.ERROR, "Incorrect employee username or password");
+                showAlert(Alert.AlertType.ERROR, "Incorrect phone number or password");
             }
 
         } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Login error: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     private void showEmployeeDashboard() {
-        Alert info = new Alert(Alert.AlertType.INFORMATION);
-        info.setTitle("Welcome Employee");
-        info.setHeaderText(null);
-        info.setContentText("Welcome to the Employee Dashboard!");
-        info.showAndWait();
+        try {
+            // Load the employee main app FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/employee-main-app.fxml"));
+            Parent employeeDashboardRoot = loader.load();
+            
+            // Get the controller and pass employee data
+            if (currentEmployee != null) {
+                Object controller = loader.getController();
+                // Check if the controller is StoreController and set employee data
+                if (controller instanceof Controller.StoreController) {
+                    Controller.StoreController storeController = (Controller.StoreController) controller;
+                    // Pass employee object to the store controller
+                    storeController.setCurrentEmployee(currentEmployee);
+                }
+            }
+            
+            // Create new scene and stage
+            Scene employeeDashboardScene = new Scene(employeeDashboardRoot);
+            Stage stage = (Stage) emp_loginBtn.getScene().getWindow();
+            stage.setScene(employeeDashboardScene);
+            stage.setTitle("Employee Dashboard - " + (currentEmployee != null ? currentEmployee.getName() : "Employee Portal"));
+            stage.show();
+            
+        } catch (IOException e) {
+            // Fallback to alert if FXML loading fails
+            showAlert(Alert.AlertType.ERROR, "Error loading employee dashboard: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // ==== Chuyển sang form Forgot Password ====
@@ -95,23 +128,35 @@ public class EmployeeLoginController {
         emp_newPassForm.setVisible(false);
     }
 
-    // ==== Xác minh số điện thoại ====
+    // ==== Xác minh email và số điện thoại ====
     public void proceedBtn() {
-        String username = emp_fp_username.getText();
+        String email = emp_fp_email.getText();
         String phonenumber = emp_fp_phonenumber.getText();
 
-        if (username.isEmpty() || phonenumber.isEmpty()) {
+        if (email.isEmpty() || phonenumber.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Please fill all blank fields");
             return;
         }
 
-        String query = "SELECT * FROM Users WHERE full_name = ? AND phone = ? AND role = 'employee'";
+        // Validate email format
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            showAlert(Alert.AlertType.ERROR, "Please enter a valid email address");
+            return;
+        }
+
+        // Validate phone number format
+        if (!phonenumber.matches("\\d{10,15}")) {
+            showAlert(Alert.AlertType.ERROR, "Phone number should contain 10-15 digits only");
+            return;
+        }
+
+        String query = "SELECT * FROM Users WHERE email = ? AND phone = ? AND role = 'employee'";
 
         try {
             Connection connect = DatabaseConnection.getConnection();
             PreparedStatement prepare = connect.prepareStatement(query);
 
-            prepare.setString(1, username);
+            prepare.setString(1, email);
             prepare.setString(2, phonenumber);
 
             ResultSet result = prepare.executeQuery();
@@ -120,7 +165,7 @@ public class EmployeeLoginController {
                 emp_newPassForm.setVisible(true);
                 emp_forgotPassForm.setVisible(false);
             } else {
-                showAlert(Alert.AlertType.ERROR, "Incorrect username or phone number");
+                showAlert(Alert.AlertType.ERROR, "Incorrect email or phone number");
             }
 
         } catch (Exception e) {
@@ -136,7 +181,7 @@ public class EmployeeLoginController {
 
     // ==== Đổi mật khẩu ====
     public void changePassBtn() {
-        String username = emp_fp_username.getText();
+        String email = emp_fp_email.getText();
         String newPass = emp_newPassword.getText();
         String confirmPass = emp_confirmPassword.getText();
 
@@ -150,14 +195,19 @@ public class EmployeeLoginController {
             return;
         }
 
-        String query = "UPDATE Users SET password = ? WHERE full_name = ? AND role = 'employee'";
+        if (newPass.length() < 6) {
+            showAlert(Alert.AlertType.ERROR, "Password must be at least 6 characters long");
+            return;
+        }
+
+        String query = "UPDATE Users SET password = ? WHERE email = ? AND role = 'employee'";
 
         try {
             Connection connect = DatabaseConnection.getConnection();
             PreparedStatement prepare = connect.prepareStatement(query);
 
             prepare.setString(1, newPass);
-            prepare.setString(2, username);
+            prepare.setString(2, email);
 
             int rowsAffected = prepare.executeUpdate();
 
@@ -167,7 +217,7 @@ public class EmployeeLoginController {
                 // Reset form
                 emp_loginForm.setVisible(true);
                 emp_newPassForm.setVisible(false);
-                emp_fp_username.clear();
+                emp_fp_email.clear();
                 emp_fp_phonenumber.clear();
                 emp_newPassword.clear();
                 emp_confirmPassword.clear();

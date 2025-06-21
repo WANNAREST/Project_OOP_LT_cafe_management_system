@@ -43,6 +43,23 @@ public class Cart {
         }
     }
 
+    // Legacy compatibility method for updating product quantity
+    public void updateProductQuantity(Product product, int newQuantity) throws LimitExceededException {
+        CartItem item = findCartItemByProduct(product);
+        if (item != null) {
+            if (newQuantity <= 0) {
+                removeProduct(product);
+            } else {
+                item.setQuantity(newQuantity);
+                System.out.println("Updated quantity for " + product.getName() +
+                        ". New quantity: " + newQuantity);
+            }
+        } else {
+            if (newQuantity > 0) {
+                addProduct(product, newQuantity);
+            }
+        }
+    }
 
     public void printCart() {
         System.out.println("***********************CART***********************\n");
@@ -76,6 +93,11 @@ public class Cart {
     public void clearCart() {
         itemsOrdered.clear();
         System.out.println("Cart is empty!");
+    }
+
+    // Legacy compatibility method - alternative name for clearCart
+    public void emptyCart() {
+        clearCart();
     }
 
     public ObservableList<CartItem> getItemsOrdered() {

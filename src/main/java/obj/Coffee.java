@@ -12,7 +12,7 @@ public class Coffee extends Product{
     }
 
     public Coffee(String name, String category, int price) {
-        super(name,category,price);
+        super(name, category, price);
     }
 
     @Override

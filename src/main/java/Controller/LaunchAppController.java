@@ -42,7 +42,7 @@ public class LaunchAppController {
     @FXML
     private void switchEmployeeLogin() {
         try {
-            Parent employeeLoginRoot = FXMLLoader.load(getClass().getResource("/view/EmployeeLogin.fxml"));
+            Parent employeeLoginRoot = FXMLLoader.load(getClass().getResource("/view/employee-login.fxml"));
             Scene employeeScene = new Scene(employeeLoginRoot);
             Stage stage = (Stage) welcomeScreen.getScene().getWindow();
             stage.setScene(employeeScene);

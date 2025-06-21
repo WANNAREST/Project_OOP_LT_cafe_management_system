@@ -30,7 +30,7 @@ public class UserAppController implements Initializable {
 
 
     private Parent cartView;
-    private CartControlller cartController;
+    private CartController cartController;
 
 
     @FXML
@@ -80,9 +80,37 @@ public class UserAppController implements Initializable {
 
     public void updatePointDisplay() {
         if (customer != null && numCoinLabel != null) {
+            // Refresh customer data from database to get latest points
+            refreshCustomerPointsFromDatabase();
             numCoinLabel.setText(Integer.toString(customer.getpoint()));
+            System.out.println("🔄 UI UPDATE: Customer coins display updated to: " + customer.getpoint());
         }
-
+    }
+    
+    private void refreshCustomerPointsFromDatabase() {
+        if (customer == null || customer.getPhone() == null || customer.getPhone().isEmpty()) {
+            return;
+        }
+        
+        String query = "SELECT c.bonus_point FROM Customers c " +
+                      "JOIN Users u ON c.customer_id = u.user_id " +
+                      "WHERE u.phone = ? AND u.role = 'customer'";
+        
+        try (java.sql.Connection conn = DatabaseConnection.getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setString(1, customer.getPhone());
+            java.sql.ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                int dbPoints = rs.getInt("bonus_point");
+                customer.setpoint(dbPoints);
+                System.out.println("🔄 REFRESH: Updated customer points from database: " + dbPoints);
+            }
+            
+        } catch (java.sql.SQLException e) {
+            System.err.println("❌ Error refreshing customer points: " + e.getMessage());
+        }
     }
 
 
@@ -114,18 +142,21 @@ public class UserAppController implements Initializable {
         AnchorPane.setBottomAnchor(checkoutView, 0.0);
         AnchorPane.setLeftAnchor(checkoutView, 0.0);
         AnchorPane.setRightAnchor(checkoutView, 0.0);
-
+        
+        // Update coin display when showing checkout (in case coins were used)
+        updatePointDisplay();
     }
 
     @FXML
     void showCart(ActionEvent event) {
         contentPane.getChildren().clear();
+        updatePointDisplay(); // Refresh coin display when opening cart
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/user-cart-view.fxml"));
-            CartControlller controller = new CartControlller(cart);
+            CartController controller = new CartController(cart);
             controller.setParentController(this);
             controller.setCoinLabel(numCoinLabel);
-            controller.setCustommer(customer);
+            controller.setCustomer(customer);
             fxmlLoader.setController(controller);
             HBox root = fxmlLoader.load();
             contentPane.getChildren().add(root);
@@ -159,6 +190,7 @@ public class UserAppController implements Initializable {
     @FXML
     void showMenu(ActionEvent event) {
         refreshProductGrid();
+        updatePointDisplay(); // Refresh coin display when returning to menu
     }
 
     private void refreshProductGrid() {
