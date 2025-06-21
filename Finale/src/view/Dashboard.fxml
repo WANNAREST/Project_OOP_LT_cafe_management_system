@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashboardController">
+   <content>
+      <VBox spacing="20.0" style="-fx-background-color: #f8f9fa;">
+         <children>
+            <!-- HEADER -->
+            <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #17376e; -fx-padding: 20px; -fx-background-radius: 10px;">
+               <children>
+                  <Label style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" text="📊 DASHBOARD QUẢN LÝ" />
+                  <Label fx:id="lblCurrentDate" style="-fx-text-fill: #42abdc; -fx-font-size: 14px;" text="Hôm nay" />
+                  <Button onAction="#refreshDashboard" style="-fx-background-color: #42abdc; -fx-text-fill: white; -fx-font-weight: bold;" text="🔄 Refresh" />
+               </children>
+            </HBox>
+            
+            <!-- THỐNG KÊ TỔNG QUAN -->
+            <VBox spacing="10.0">
+               <children>
+                  <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #17376e;" text="📈 THỐNG KÊ TỔNG QUAN" />
+                  <GridPane hgap="20.0" vgap="15.0">
+                     <children>
+                        <!-- Row 1 -->
+                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #e8f5e8; -fx-padding: 20px; -fx-background-radius: 10px; -fx-border-color: #4caf50; -fx-border-radius: 10px; -fx-border-width: 2px;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                           <children>
+                              <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2e7d32;" text="💰 TỔNG DOANH THU" />
+                              <Label fx:id="lblTotalRevenue" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1b5e20;" text="0 VND" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #e3f2fd; -fx-padding: 20px; -fx-background-radius: 10px; -fx-border-color: #2196f3; -fx-border-radius: 10px; -fx-border-width: 2px;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                           <children>
+                              <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1565c0;" text="📋 TỔNG ĐƠN HÀNG" />
+                              <Label fx:id="lblTotalOrders" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0d47a1;" text="0" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #fff3e0; -fx-padding: 20px; -fx-background-radius: 10px; -fx-border-color: #ff9800; -fx-border-radius: 10px; -fx-border-width: 2px;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                           <children>
+                              <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #f57c00;" text="📦 TỔNG SẢN PHẨM" />
+                              <Label fx:id="lblTotalProducts" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e65100;" text="0" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #f3e5f5; -fx-padding: 20px; -fx-background-radius: 10px; -fx-border-color: #9c27b0; -fx-border-radius: 10px; -fx-border-width: 2px;" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                           <children>
+                              <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #7b1fa2;" text="👥 KHÁCH HÀNG" />
+                              <Label fx:id="lblTotalCustomers" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4a148c;" text="0" />
+                           </children>
+                        </VBox>
+                        
+                        <!-- Row 2 -->
+                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #ffebee; -fx-padding: 15px; -fx-background-radius: 8px;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                           <children>
+                              <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #c62828;" text="📅 HÔM NAY" />
+                              <Label fx:id="lblTodayRevenue" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #b71c1c;" text="0 VND" />
+                              <Label fx:id="lblTodayOrders" style="-fx-font-size: 14px; -fx-text-fill: #d32f2f;" text="0 đơn hàng" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #e8f5e8; -fx-padding: 15px; -fx-background-radius: 8px;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2e7d32;" text="📆 THÁNG NÀY" />
+                              <Label fx:id="lblMonthRevenue" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1b5e20;" text="0 VND" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #e3f2fd; -fx-padding: 15px; -fx-background-radius: 8px;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <children>
+                              <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1565c0;" text="📅 NĂM NAY" />
+                              <Label fx:id="lblYearRevenue" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0d47a1;" text="0 VND" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
+                  </GridPane>
+               </children>
+            </VBox>
+            
+            <!-- BIỂU ĐỒ -->
+            <VBox spacing="20.0">
+               <children>
+                  <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #17376e;" text="📊 BIỂU ĐỒ PHÂN TÍCH" />
+                  
+                  <!-- DOANH THU 7 NGÀY -->
+                  <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20px; -fx-background-radius: 10px; -fx-border-color: #e0e0e0; -fx-border-radius: 10px; -fx-border-width: 1px;">
+                     <children>
+                        <LineChart fx:id="revenueChart" prefHeight="300.0" title="Doanh thu 7 ngày qua">
+                           <xAxis>
+                              <CategoryAxis side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis side="LEFT" />
+                           </yAxis>
+                        </LineChart>
+                     </children>
+                  </VBox>
+                  
+                  <!-- ORDERS VÀ PRODUCTS -->
+                  <HBox spacing="20.0">
+                     <children>
+                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20px; -fx-background-radius: 10px; -fx-border-color: #e0e0e0; -fx-border-radius: 10px; -fx-border-width: 1px;" HBox.hgrow="ALWAYS">
+                           <children>
+                              <BarChart fx:id="orderChart" prefHeight="250.0" title="Đơn hàng theo trạng thái">
+                                 <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </BarChart>
+                           </children>
+                        </VBox>
+                        
+                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20px; -fx-background-radius: 10px; -fx-border-color: #e0e0e0; -fx-border-radius: 10px; -fx-border-width: 1px;" HBox.hgrow="ALWAYS">
+                           <children>
+                              <PieChart fx:id="productCategoryChart" prefHeight="250.0" title="Phân loại sản phẩm" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </content>
+</ScrollPane>
