@@ -1,5 +1,6 @@
-package Controller;
+package Controller.customer;
 
+import Controller.db.OrderDAO;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import obj.Cart;
+import obj.Customer;
 
 public class BankPaymentController {
 
@@ -26,6 +28,9 @@ public class BankPaymentController {
     private Cart cart;
     private String currentOrderId;
     private int paymentAmount;
+    private Customer customer;
+    private PaymentController parentController;
+    private String deliveryAddress;
 
     private int discount = 0;
 
@@ -36,13 +41,25 @@ public class BankPaymentController {
         generateQRCode();
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setParentController(PaymentController parentController) {
+        this.parentController = parentController;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
     private void generateQRCode() {
         try {
 
             currentOrderId = "ORDER" + System.currentTimeMillis();
             // Generate QR code from VietQR API
             String qrCodeUrl = PaymentAPI.generateQRCode(
-                   paymentAmount,
+                    paymentAmount,
                     currentOrderId,
                     "970422" // MB Bank code
             );
@@ -159,9 +176,38 @@ public class BankPaymentController {
         thread.start();
     }
     private void processSuccessfulPayment() {
-        // Add your business logic here
-        System.out.println("Processing successful payment for order: " + currentOrderId);
+        // Create order in database
+        if (customer == null || cart == null) {
+            System.err.println("❌ Cannot process payment: customer or cart is null");
+            return;
+        }
 
+        // Create order in database with bank payment method and delivery address
+        int orderId = OrderDAO.createOrder(customer, cart, "bank", "paid", paymentAmount, deliveryAddress);
+
+        if (orderId > 0) {
+            System.out.println("✅ Order created in database with ID: " + orderId);
+
+            // Reward customer points
+            if (customer != null) {
+                customer.rewardOrderPoints(); // Thưởng 20 point
+                System.out.println("Customer " + customer.getFullName() +
+                        " rewarded with 20 points. Total points: " + customer.getpoint());
+            }
+
+            // Clear cart and navigate back
+            if (cart != null) {
+                cart.clearCart();
+            }
+
+            if (parentController != null) {
+                parentController.updatePointDisplay();
+                parentController.orderSuccess();
+            }
+        } else {
+            System.err.println("❌ Failed to create order in database");
+            showAlert("Lỗi", "Không thể tạo đơn hàng trong cơ sở dữ liệu", Alert.AlertType.ERROR);
+        }
     }
 
     private void showAlert(String title, String message, Alert.AlertType type) {
@@ -180,4 +226,4 @@ public class BankPaymentController {
         return paymentAmount;
     }
 
-    }
+}
