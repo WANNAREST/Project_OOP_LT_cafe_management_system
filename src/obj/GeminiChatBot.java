@@ -1,6 +1,6 @@
 package obj;
 
-import Controller.PaymentAPI;
+import Controller.customer.PaymentAPI;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -84,7 +84,8 @@ public class GeminiChatBot {
         context.append("\nTHÔNG TIN CỬA HÀNG:\n");
         context.append("- Tên: OOP Coffee\n");
         context.append("- Giờ mở cửa: 6:00 - 22:00 hàng ngày\n");
-        context.append("- Hệ thống tích điểm: 1000đ = 1 điểm\n");
+        context.append("- Hệ thống tích điểm: 20 point = 200d\n");
+        context.append("- Bạn cứ mua 1 đơn hàng thì sẽ nhận được 20 point");
         context.append("- Chính sách: Thân thiện, chất lượng cao\n\n");
 
         context.append("HƯỚNG DẪN:\n");

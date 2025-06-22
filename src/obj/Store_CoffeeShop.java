@@ -1,0 +1,45 @@
+package obj;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import Controller.db.DatabaseConnection;
+
+public class Store_CoffeeShop {
+
+	private static final int maxProductsInMenu = 50;
+	private ArrayList<Product> itemsInStore = new ArrayList<>();
+	private int countMedia = 0;
+	
+	public ArrayList<Product> getItemsInStore(){
+		
+		return itemsInStore;
+	}
+	
+	public void loadProductsFromDB() {
+		itemsInStore.clear();
+        String query = "SELECT * FROM Products";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            
+            while (rs.next()) {
+                Product product = new Product(
+                    rs.getString("product_name"),
+                    rs.getInt("price"), // Using getInt for price
+                    rs.getString("note"), // description
+                    rs.getString("category"),
+                    rs.getInt("stock")
+                );
+                product.setId(rs.getInt("product_id"));
+                itemsInStore.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

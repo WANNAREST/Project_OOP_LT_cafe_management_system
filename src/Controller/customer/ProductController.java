@@ -1,4 +1,4 @@
-package Controller;
+package Controller.customer;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,16 +16,16 @@ import java.io.IOException;
 
 public class ProductController{
 
-        @FXML
-        private Label lblCost;
+    @FXML
+    private Label lblCost;
 
-        @FXML
-        private Label lblTitle;
-        private Product product;
+    @FXML
+    private Label lblTitle;
+    private Product product;
 
-        private AnchorPane parentContainer;
+    private AnchorPane parentContainer;
 
-        private Cart cart;
+    private Cart cart;
 
     @FXML
     void detailbtnPressed(ActionEvent event) {
@@ -38,7 +38,7 @@ public class ProductController{
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-product-detail-view.fxml"));
             AnchorPane detailView = loader.load();
-            DetailProductController controller = loader.getController();
+            Controller.DetailProductController controller = loader.getController();
             controller.setCart(this.cart);
             controller.setProduct(this.product);
 
@@ -66,23 +66,23 @@ public class ProductController{
 
     public ProductController() {
 
-        }
+    }
 
-        public void setData(Product product) {
+    public void setData(Product product) {
         this.product = product;
-            if (product == null) {
-                System.err.println("Warning: Null product passed to ProductController.setData()");
-                return;
-            }
-
-            if (lblCost != null) {
-                lblCost.setText(String.valueOf(product.getPrice()) + "vnd");
-            }
-            if(lblTitle != null) {
-                lblTitle.setText(product.getName());
-            }
-
+        if (product == null) {
+            System.err.println("Warning: Null product passed to ProductController.setData()");
+            return;
         }
+
+        if (lblCost != null) {
+            lblCost.setText(String.valueOf(product.getPrice()) + "vnd");
+        }
+        if(lblTitle != null) {
+            lblTitle.setText(product.getName());
+        }
+
+    }
     public void setParentContainer(AnchorPane parentContainer) {
         this.parentContainer = parentContainer;
     }

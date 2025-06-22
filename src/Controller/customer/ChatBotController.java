@@ -1,4 +1,4 @@
-package Controller;
+package Controller.customer;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -10,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import obj.GeminiChatBot;
 import obj.Store;
 

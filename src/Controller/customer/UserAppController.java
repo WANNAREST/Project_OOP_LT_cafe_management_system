@@ -1,5 +1,8 @@
-package Controller;
+package Controller.customer;
 
+import Controller.CartController;
+import Controller.customer.UserInformationController;
+import Controller.db.DatabaseConnection;
 import com.sun.jdi.IntegerValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +15,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
+import javafx.scene.image.ImageView;
 import obj.Customer;
 import obj.Cart;
 import obj.Product;
@@ -30,11 +33,11 @@ public class UserAppController implements Initializable {
 
 
     private Parent cartView;
-    private CartControlller cartController;
+    private CartController cartController;
 
 
     @FXML
-    private Circle avt;
+    private ImageView avt;
 
     @FXML
     private GridPane gridPane;
@@ -80,9 +83,37 @@ public class UserAppController implements Initializable {
 
     public void updatePointDisplay() {
         if (customer != null && numCoinLabel != null) {
+            // Refresh customer data from database to get latest points
+            refreshCustomerPointsFromDatabase();
             numCoinLabel.setText(Integer.toString(customer.getpoint()));
+            System.out.println("🔄 UI UPDATE: Customer coins display updated to: " + customer.getpoint());
+        }
+    }
+
+    private void refreshCustomerPointsFromDatabase() {
+        if (customer == null || customer.getPhone() == null || customer.getPhone().isEmpty()) {
+            return;
         }
 
+        String query = "SELECT c.bonus_point FROM Customers c " +
+                "JOIN Users u ON c.customer_id = u.user_id " +
+                "WHERE u.phone = ? AND u.role = 'customer'";
+
+        try (java.sql.Connection conn = DatabaseConnection.getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, customer.getPhone());
+            java.sql.ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int dbPoints = rs.getInt("bonus_point");
+                customer.setpoint(dbPoints);
+                System.out.println("🔄 REFRESH: Updated customer points from database: " + dbPoints);
+            }
+
+        } catch (java.sql.SQLException e) {
+            System.err.println("❌ Error refreshing customer points: " + e.getMessage());
+        }
     }
 
 
@@ -115,17 +146,20 @@ public class UserAppController implements Initializable {
         AnchorPane.setLeftAnchor(checkoutView, 0.0);
         AnchorPane.setRightAnchor(checkoutView, 0.0);
 
+        // Update coin display when showing checkout (in case coins were used)
+        updatePointDisplay();
     }
 
     @FXML
     void showCart(ActionEvent event) {
         contentPane.getChildren().clear();
+        updatePointDisplay(); // Refresh coin display when opening cart
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/user-cart-view.fxml"));
-            CartControlller controller = new CartControlller(cart);
+            Controller.CartController controller = new Controller.CartController(cart);
             controller.setParentController(this);
             controller.setCoinLabel(numCoinLabel);
-            controller.setCustommer(customer);
+            controller.setCustomer(customer);
             fxmlLoader.setController(controller);
             HBox root = fxmlLoader.load();
             contentPane.getChildren().add(root);
@@ -157,8 +191,9 @@ public class UserAppController implements Initializable {
     }
 
     @FXML
-    void showMenu(ActionEvent event) {
+    public void showMenu(ActionEvent event) {
         refreshProductGrid();
+        updatePointDisplay(); // Refresh coin display when returning to menu
     }
 
     private void refreshProductGrid() {
@@ -351,6 +386,14 @@ public class UserAppController implements Initializable {
             // Use getResource with a proper path
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-information.fxml"));
             HBox root = loader.load();
+
+            // Get the controller and pass the customer data and parent controller reference
+            UserInformationController controller = loader.getController();
+            if (controller != null && customer != null) {
+                controller.setCustomer(customer);
+                controller.setParentController(this); // Pass parent controller reference
+            }
+
             contentPane.getChildren().add(root);
         } catch (Exception e) {
             e.printStackTrace();
@@ -361,7 +404,24 @@ public class UserAppController implements Initializable {
 
     @FXML
     void signOut(ActionEvent event) {
+        try {
+            // Load the launch app (login selection screen)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LaunchApp.fxml"));
+            Parent root = loader.load();
 
+            // Get the current stage and set the new scene
+            javafx.stage.Stage stage = (javafx.stage.Stage) nameLabel.getScene().getWindow();
+            javafx.scene.Scene scene = new javafx.scene.Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Cafe Shop Management System");
+            stage.centerOnScreen();
+
+            System.out.println("✅ User signed out successfully!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("❌ Error during sign out: " + e.getMessage());
+        }
     }
 
     @Override
@@ -369,13 +429,21 @@ public class UserAppController implements Initializable {
         // Initialize the product grid
         createProductGrid();
 
+        // Update user display
         updatePointDisplay();
+        updateUserDisplay();
 
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 performSearch();
             }
         });
+    }
+
+    public void updateUserDisplay() {
+        if (customer != null && nameLabel != null) {
+            nameLabel.setText(customer.getFullName());
+        }
     }
 
 

@@ -1,16 +1,12 @@
 package main;
 
-import Controller.UserAppController;
-import Controller.ProductDAO;
+import Controller.db.ProductDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import obj.Cart;
-import obj.Customer;
-import obj.Product;
-import obj.Store;
+import obj.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,42 +17,35 @@ public class Shop extends Application {
     public static void main(String[] args) {
         store = new Store();
 
-        Customer testCustomer = new Customer(1, "Test", "User", "0123456789",
-                "password", "123 Test Street", "test@email.com");
-
         // Load products from database instead of hardcoded values
         loadProductsFromDatabase();
 
         launch(args);
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-main-app.fxml"));
-        Customer testCustomer = new Customer(1, "Test", "User", "0123456789",
-                "password", "123 Test Street", "test@email.com");
-        UserAppController controller = new UserAppController(store, new Cart(), testCustomer);
-        loader.setController(controller);
-
-        Parent root;
+    public void start(Stage primaryStage) throws Exception {
         try {
-            root = loader.load();
-            controller.updatePointDisplay();
+            // Load the launch app FXML (welcome screen with login options)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LaunchApp.fxml"));
+
+            Parent root = loader.load();
+
+            // Create the scene
+            Scene scene = new Scene(root);
+
+            // Set up the primary stage
+            primaryStage.setTitle("Cafe Shop Management System");
+            primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
+            primaryStage.centerOnScreen();
+            primaryStage.show();
+
+            System.out.println("✅ Application started successfully!");
+
         } catch (IOException e) {
+            System.err.println("❌ Error loading launch screen: " + e.getMessage());
             e.printStackTrace();
-            System.err.println("Error loading FXML: " + e.getMessage());
-            // Check for specific causes
-            if (e.getCause() != null) {
-                System.err.println("Cause: " + e.getCause().getMessage());
-            }
-            return;
         }
-
-
-        Scene scene = new Scene(root);
-        stage.setTitle("OOP Coffee");
-        stage.setScene(scene);
-        stage.show();
     }
 
 
@@ -73,6 +62,7 @@ public class Shop extends Application {
 
             if (productsFromDB.isEmpty()) {
                 System.out.println("⚠️ No products found in database. Loading default products...");
+                loadDefaultProducts();
 
             } else {
                 System.out.println("✅ Loading " + productsFromDB.size() + " products from database...");
@@ -89,6 +79,7 @@ public class Shop extends Application {
         } catch (Exception e) {
             System.err.println("❌ Error loading products from database: " + e.getMessage());
             System.out.println("📦 Loading default products as fallback...");
+            loadDefaultProducts();
 
         }
     }
@@ -98,5 +89,22 @@ public class Shop extends Application {
     /**
      * Fallback method to load default products if database is not available
      */
+    private static void loadDefaultProducts() {
+        // Add some default products
+        Product coffee1 = new Coffee(1, "Espresso", "Coffee", 25000, "Strong Italian coffee");
+        Product coffee2 = new Coffee(2, "Cappuccino", "Coffee", 35000, "Italian coffee with steamed milk");
+        Product coffee3 = new Coffee(3, "Latte", "Coffee", 40000, "Coffee with steamed milk and foam");
 
+        store.addProduct(coffee1);
+        store.addProduct(coffee2);
+        store.addProduct(coffee3);
+
+        System.out.println("✅ Default products loaded successfully");
+
+
+    }
+
+    public static Store getStore() {
+        return store;
+    }
 }

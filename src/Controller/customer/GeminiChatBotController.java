@@ -1,4 +1,4 @@
-package Controller;
+package Controller.customer;
 
 import obj.GeminiChatBot;
 import obj.Store;

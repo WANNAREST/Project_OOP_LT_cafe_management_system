@@ -1,5 +1,6 @@
-package Controller;
+package Controller.customer;
 
+import Controller.UserAppController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -63,8 +65,8 @@ public class PaymentController {
     @FXML
     private TableColumn<?, ?> tblTotal;
 
-
-
+    @FXML
+    private TextField txtDeliveryAddress;
 
     public void setCart(Cart cart) {
         this.cart = cart;
@@ -81,35 +83,37 @@ public class PaymentController {
     void BankbtnPressed(ActionEvent event) {
         try {
             paymentpane.getChildren().clear();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-bank-payment.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/customer/user-bank-payment.fxml"));
             AnchorPane bankpane = loader.load();
             BankPaymentController bankPaymentController = loader.getController();
             bankPaymentController.setCart(cart);
+            bankPaymentController.setCustomer(customer);
+            bankPaymentController.setParentController(this);
+            bankPaymentController.setDeliveryAddress(getDeliveryAddress());
             paymentpane.getChildren().add(bankpane);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error: Failed to load bank payment view");
-
-
         }
     }
 
-        @FXML
+    @FXML
     void CODbtnPressed(ActionEvent event) {
         try{
             paymentpane.getChildren().clear();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-cod-payment.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/customer/user-cod-payment.fxml"));
             AnchorPane codpane = loader.load();
             CODPaymentController codPaymentController = loader.getController();
             codPaymentController.setCart(cart);
             codPaymentController.setCustomer(customer);
             codPaymentController.setParentController(this);
+            codPaymentController.setDeliveryAddress(getDeliveryAddress());
             paymentpane.getChildren().add(codpane);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        }
+    }
 
 
     public void setDiscount(int discount) {
@@ -154,5 +158,12 @@ public class PaymentController {
         if (parentController != null) {
             parentController.updatePointDisplay();
         }
+    }
+
+    public String getDeliveryAddress() {
+        if (txtDeliveryAddress != null && !txtDeliveryAddress.getText().trim().isEmpty()) {
+            return txtDeliveryAddress.getText().trim();
+        }
+        return customer != null ? customer.getAddress() : "Địa chỉ không có sẵn";
     }
 }

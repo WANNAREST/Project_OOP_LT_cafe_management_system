@@ -2,19 +2,17 @@ package obj;
 
 abstract class User {
     protected int id;
-    protected String firstName;
-    protected String lastName;
+    protected String fullname;
     protected String phone;
     protected String password;
     protected String email;
     protected String address;
 
     // Constructor
-    public User(int id, String firstName, String lastName, String phone,
+    public User(int id, String fullname, String phone,
                 String password, String email, String address) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullname = fullname;
         this.phone = phone;
         this.password = password;
         this.email = email;
@@ -26,13 +24,8 @@ abstract class User {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
-
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-
-    public String getFullName() { return firstName + " " + lastName; }
+    public String getFullName() { return fullname; }
+    public void setFullName(String fullname) { this.fullname = fullname; }
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }

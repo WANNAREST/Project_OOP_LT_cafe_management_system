@@ -1,4 +1,4 @@
-package Controller;
+package Controller.db;
 
 import obj.Product;
 import obj.Coffee;
@@ -223,7 +223,7 @@ public class ProductDAO {
         product.setQuantity(stock);
 
         // Set the image path from database
-     //   product.setImagePath(imgPath);
+        //   product.setImagePath(imgPath);
 
         return product;
     }
@@ -294,7 +294,7 @@ public class ProductDAO {
         for (Product product : allProducts) {
             System.out.println(product.getName() + " - " + formatPrice(product.getPrice()) +
                     " - Stock: " + product.getQuantity() + " - Available: " + product.isAvailable()) ;
-                 //   " - Image: " + product.getImagePath());
+            //   " - Image: " + product.getImagePath());
         }
 
         // Test getting categories
@@ -308,14 +308,14 @@ public class ProductDAO {
         System.out.println("\n☕ Coffee Products:");
         List<Product> coffeeProducts = productDAO.getProductsByCategory("Coffee");
 
-       // for (Product product : coffeeProducts) {
+        // for (Product product : coffeeProducts) {
         //    System.out.println(product.toString() + " - Image: " + product.getImagePath());
         //}
 
         // Test search functionality
         System.out.println("\n🔍 Search for 'Latte':");
         List<Product> searchResults = productDAO.searchProductsByName("Latte");
-       // for (Product product : searchResults) {
+        // for (Product product : searchResults) {
         //    System.out.println(product.toString() + " - Image: " + product.getImagePath());
         //}
 

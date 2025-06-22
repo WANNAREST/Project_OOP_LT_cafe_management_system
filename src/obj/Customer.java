@@ -1,20 +1,37 @@
 package obj;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer extends User {
     private int point;              // điểm thưởng tích lũy
+    private Cart cart;              // Customer's shopping cart
+    private List<Order> orderHistory; // Customer's order history
 
     // Constructor tương ứng với DB schema
-    public Customer(int customerId, String firstName, String lastName,
+    public Customer(int customerId, String fullname,
                     String phone, String password, String address,
                     int point, String email) {
-        super(customerId, firstName, lastName, phone, password, email, address);
+        super(customerId, fullname, phone, password, email, address);
         this.point = point;
+        this.cart = new Cart();
+        this.orderHistory = new ArrayList<>();
     }
 
-    public Customer(int customerId, String firstName, String lastName,
+    public Customer(int customerId, String fullname,
                     String phone, String password, String address, String email) {
-        super(customerId, firstName, lastName, phone, password, email, address);
+        super(customerId, fullname, phone, password, email, address);
         this.point = 0; // Mặc định bắt đầu với 0 point
+        this.cart = new Cart();
+        this.orderHistory = new ArrayList<>();
+    }
+
+    // Additional constructor for legacy compatibility
+    public Customer(String fullname, String phone, String address) {
+        super(1, fullname, phone, "", "", address); // Default values for missing fields
+        this.point = 0;
+        this.cart = new Cart();
+        this.orderHistory = new ArrayList<>();
     }
 
     // Getter và Setter tương ứng với DB fields
@@ -23,6 +40,51 @@ public class Customer extends User {
     }
     public void setpoint(int point) {
         this.point = point;
+    }
+
+    // Legacy compatibility methods
+    public int getBonusPoint() {
+        return point;
+    }
+
+    public void setBonusPoint(int point) {
+        this.point = point;
+    }
+
+    public String getCustomerId() {
+        return String.valueOf(getId());
+    }
+
+    public void setCustomerId(String customerId) {
+        try {
+            setId(Integer.parseInt(customerId));
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid customer ID format: " + customerId);
+        }
+    }
+
+    public String getName() {
+        return getFullName();
+    }
+
+    public String getPhoneNumber() {
+        return getPhone();
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public List<Order> getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void addOrder(Order order) {
+        orderHistory.add(order);
     }
 
     // Implement abstract methods - Đa hình (Polymorphism)
@@ -65,10 +127,10 @@ public class Customer extends User {
         return false;
     }
 
-    // Phương thức tính discount từ point (1 point = 200 VND)
+    // Phương thức tính discount từ point (20 coins = 200 VND, so 1 coin = 10 VND)
     public int calculateDiscountFromPoints(int pointsToUse) {
         if (canUsePoints(pointsToUse)) {
-            return pointsToUse * 200;
+            return pointsToUse * 10;
         }
         return 0;
     }
