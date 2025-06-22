@@ -13,7 +13,7 @@
    <children>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="350.0" style="-fx-background-color: white;">
          <children>
-            <ImageView fitHeight="82.0" fitWidth="151.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="productImageView" fitHeight="82.0" fitWidth="151.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/product1.jpg" />
                </image>

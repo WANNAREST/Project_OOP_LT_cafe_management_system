@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="636.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductDetailController">
+<AnchorPane prefHeight="636.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DetailProductController">
    <children>
       <ScrollPane layoutX="-1.0" prefHeight="636.0" prefWidth="1200.0" style="-fx-background-color: white;">
          <content>
             <AnchorPane prefHeight="631.0" prefWidth="1189.0" style="-fx-background-color: white;">
                <children>
-                  <ImageView fitHeight="283.0" fitWidth="390.0" layoutX="84.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="productDetailImageView" fitHeight="283.0" fitWidth="390.0" layoutX="84.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/product1.jpg" />
                      </image>

@@ -6,8 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import obj.Employee;
 import obj.EmployeeDAO;
 import obj.ShiftInfo;
@@ -31,8 +29,6 @@ public class WorkScheduleController {
 	private TextField phoneField;
 	@FXML
 	private TextField emailField;
-	@FXML
-	private ImageView employeeImageView;
 	@FXML
 	private MenuButton monthMenuButton;
 	@FXML
@@ -132,13 +128,6 @@ public class WorkScheduleController {
 		dobField.setText(currentEmployee.getDob() != null ? currentEmployee.getDob().toString() : "Not Available");
 		phoneField.setText(currentEmployee.getPhone());
 		emailField.setText(currentEmployee.getEmail() != null ? currentEmployee.getEmail() : "Not Available");
-
-		try {
-			Image image = new Image(getClass().getResourceAsStream(currentEmployee.getImagePath()));
-			employeeImageView.setImage(image);
-		} catch (Exception e) {
-			System.err.println("Không thể tải ảnh: " + e.getMessage());
-		}
 	}
 
 	private void loadScheduleForMonth() {

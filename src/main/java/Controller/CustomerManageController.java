@@ -101,34 +101,16 @@ public class CustomerManageController {
 		    String formattedDate = cellData.getValue().getOrderTime().format(formatter);
 		    return new SimpleStringProperty(formattedDate);
 		});
-		orderTotalColumn.setCellValueFactory(
-				cellData -> new SimpleStringProperty(String.format("%,.0f VND", cellData.getValue().getTotalAmount())));
+		orderTotalColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
 
-		// Cột cho Order Detail Table with debugging
-		productNameColumn.setCellValueFactory(cellData -> {
-		    try {
-		        String productName = cellData.getValue().getProduct().getName();
-		        System.out.println("🔍 CUSTOMER CELL VALUE: Product name: " + productName);
-		        return new SimpleStringProperty(productName);
-		    } catch (Exception e) {
-		        System.err.println("❌ CUSTOMER CELL VALUE ERROR: Product name: " + e.getMessage());
-		        return new SimpleStringProperty("Error");
-		    }
-		});
+		// Cột cho Order Detail Table
+		productNameColumn.setCellValueFactory(cellData -> 
+		    new SimpleStringProperty(cellData.getValue().getProduct().getName()));
 		
 		quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 		
-		priceColumn.setCellValueFactory(cellData -> {
-		    try {
-		        int price = cellData.getValue().getPrice();
-		        String formattedPrice = String.format("%,.0f VND", (double)price);
-		        System.out.println("🔍 CUSTOMER CELL VALUE: Price: " + price + " -> " + formattedPrice);
-		        return new SimpleStringProperty(formattedPrice);
-		    } catch (Exception e) {
-		        System.err.println("❌ CUSTOMER CELL VALUE ERROR: Price: " + e.getMessage());
-		        return new SimpleStringProperty("Error");
-		    }
-		});
+		priceColumn.setCellValueFactory(cellData -> 
+		    new SimpleStringProperty(String.format("%,.0f VND", (double)cellData.getValue().getPrice())));
 	}
 
 	private void setupCustomerSelectionListener() {
@@ -142,14 +124,9 @@ public class CustomerManageController {
 
 	private void setupOrderSelectionListener() {
 		orderTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedOrder) -> {
-			System.out.println("🖱️ CUSTOMER MANAGE: Order selection changed");
-			System.out.println("🖱️ CUSTOMER MANAGE: Old selection: " + (oldValue != null ? oldValue.getOrderId() : "null"));
-			System.out.println("🖱️ CUSTOMER MANAGE: New selection: " + (selectedOrder != null ? selectedOrder.getOrderId() : "null"));
-			
 			if (selectedOrder != null) {
 				loadOrderDetails(selectedOrder.getOrderId());
 			} else {
-				System.out.println("🖱️ CUSTOMER MANAGE: No order selected, clearing order details");
 				orderDetails.clear();
 				orderDetailTableView.setItems(orderDetails);
 			}
@@ -157,34 +134,35 @@ public class CustomerManageController {
 	}
 
 	private void loadCustomerOrders(String customerId) {
-		System.out.println("🔍 CUSTOMER MANAGE: Loading orders for customer ID: " + customerId);
 		customerOrders.clear();
 		String query = "SELECT order_id, date, total FROM Orders WHERE customer_id = ? ORDER BY date DESC";
 
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(query)) {
 
-			stmt.setString(1, customerId);
+			int customerIdInt = Integer.parseInt(customerId);
+			stmt.setInt(1, customerIdInt);
+			
 			ResultSet rs = stmt.executeQuery();
-
+			
 			while (rs.next()) {
-				Order order = new Order(); // Giả sử có constructor mặc định
+				Order order = new Order();
 				order.setOrderId(rs.getInt("order_id"));
 				order.setOrderTime(rs.getTimestamp("date").toLocalDateTime());
-				order.setTotalAmount(rs.getDouble("total")); // Gán total từ database
-				customerOrders.add(order);
+				order.setTotalAmount((long) rs.getDouble("total"));
 				
-				System.out.println("🔍 CUSTOMER MANAGE: Added order: ID=" + rs.getInt("order_id") + 
-				                 ", Date=" + rs.getTimestamp("date") + ", Total=" + rs.getDouble("total"));
+				customerOrders.add(order);
 			}
 
-			System.out.println("🔍 CUSTOMER MANAGE: Total orders loaded for customer: " + customerOrders.size());
 			orderTableView.setItems(customerOrders);
 			
 			// Clear order details when customer changes
 			orderDetails.clear();
 			orderDetailTableView.setItems(orderDetails);
 			
+		} catch (NumberFormatException e) {
+			System.err.println("❌ CUSTOMER MANAGE: Invalid customer ID format: " + customerId);
+			e.printStackTrace();
 		} catch (SQLException e) {
 			System.err.println("❌ CUSTOMER MANAGE: Lỗi khi tải đơn hàng:");
 			e.printStackTrace();
@@ -192,11 +170,8 @@ public class CustomerManageController {
 	}
 
 	private void loadOrderDetails(int orderId) {
-		System.out.println("🔍 CUSTOMER MANAGE: Loading order details for order ID: " + orderId);
 		orderDetails.clear();
-		double calculatedTotal = 0; // Biến để tính tổng từ CartItem
 
-		// Use historical price from orderlines, not current product price
 		String query = "SELECT p.product_name, p.product_id, ol.price, ol.quantity " +
 		              "FROM Orderlines ol " +
 		              "JOIN Products p ON ol.product_id = p.product_id " +
@@ -208,44 +183,18 @@ public class CustomerManageController {
 			stmt.setInt(1, orderId);
 			ResultSet rs = stmt.executeQuery();
 
-			System.out.println("🔍 CUSTOMER MANAGE: Executing query: " + query);
-
 			while (rs.next()) {
-				// Create product with historical price from orderlines
 				Product product = new Product();
 				product.setId(rs.getInt("product_id"));
 				product.setName(rs.getString("product_name"));
-				product.setPrice(rs.getInt("price")); // This is ol.price (historical price)
+				product.setPrice(rs.getInt("price"));
 				
 				CartItem item = new CartItem(product, rs.getInt("quantity"));
 				orderDetails.add(item);
-				calculatedTotal += item.getPrice() * item.getQuantity();
-				
-				System.out.println("🔍 CUSTOMER MANAGE: Added item: " + rs.getString("product_name") + 
-				                 " x" + rs.getInt("quantity") + " @ " + rs.getInt("price") + " VND");
 			}
-
-			System.out.println("🔍 CUSTOMER MANAGE: Total order details loaded: " + orderDetails.size());
-			System.out.println("🔍 CUSTOMER MANAGE: Setting items to orderDetailTableView...");
-			System.out.println("🔍 CUSTOMER MANAGE: orderDetails observable list size before: " + orderDetails.size());
 			
 			orderDetailTableView.setItems(orderDetails);
-			System.out.println("🔍 CUSTOMER MANAGE: Set items to table, table items count: " + orderDetailTableView.getItems().size());
 			
-			// Force table refresh
-			orderDetailTableView.refresh();
-			System.out.println("🔍 CUSTOMER MANAGE: Table refreshed");
-			
-			// Test cell value factories
-			if (!orderDetails.isEmpty()) {
-			    CartItem firstItem = orderDetails.get(0);
-			    System.out.println("🔍 CUSTOMER MANAGE: Testing first item values:");
-			    System.out.println("  - Product name: " + firstItem.getProduct().getName());
-			    System.out.println("  - Quantity: " + firstItem.getQuantity());
-			    System.out.println("  - Price: " + firstItem.getPrice());
-			}
-			System.out.printf("🔍 CUSTOMER MANAGE: Tổng từ CartItem: %,.0f VND | Tổng từ Orders: %,.0f VND%n", calculatedTotal,
-					orderTableView.getSelectionModel().getSelectedItem().getTotalAmount());
 		} catch (SQLException e) {
 			System.err.println("❌ CUSTOMER MANAGE: Lỗi khi tải chi tiết đơn hàng:");
 			e.printStackTrace();

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.OrderController">
+
+    <top>
+        <VBox spacing="15">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            
+            <!-- Filter Section -->
+            <VBox spacing="10" style="-fx-background-color: #ecf0f1; -fx-padding: 15px; -fx-border-radius: 8px; -fx-background-radius: 8px;">
+                <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="🔍 Bộ lọc tìm kiếm:" />
+                
+                <HBox alignment="CENTER_LEFT" spacing="15">
+                    <VBox spacing="5">
+                        <Label text="Từ ngày:" />
+                        <DatePicker fx:id="dpFromDate" prefWidth="130" />
+                    </VBox>
+                    
+                    <VBox spacing="5">
+                        <Label text="Đến ngày:" />
+                        <DatePicker fx:id="dpToDate" prefWidth="130" />
+                    </VBox>
+                    
+                    <VBox spacing="5">
+                        <Label text="Trạng thái đơn:" />
+                        <ComboBox fx:id="cbStatus" prefWidth="120" />
+                    </VBox>
+                    
+                    <VBox spacing="5">
+                        <Label text="Thanh toán:" />
+                        <ComboBox fx:id="cbPaymentStatus" prefWidth="120" />
+                    </VBox>
+                    
+                    <VBox spacing="5">
+                        <Label text="Mã đơn hàng:" />
+                        <TextField fx:id="tfOrderId" prefWidth="120" promptText="Nhập mã ĐH" />
+                    </VBox>
+                    
+                    <VBox alignment="BOTTOM_LEFT" spacing="5">
+                        <Button fx:id="btnFilter" onAction="#handleFilter" prefHeight="35" prefWidth="100" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" text="🔍 Tìm kiếm" />
+                    </VBox>
+                    
+                    <VBox alignment="BOTTOM_LEFT" spacing="5">
+                        <Button fx:id="btnResetFilter" onAction="#handleResetFilter" prefHeight="35" prefWidth="100" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;" text="🔄 Reset" />
+                    </VBox>
+                    
+                    <VBox alignment="BOTTOM_LEFT" spacing="5">
+                        <Button fx:id="btnCreateSample" onAction="#createSampleOrders" prefHeight="35" prefWidth="120" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;" text="📝 Tạo dữ liệu mẫu" />
+                    </VBox>
+                </HBox>
+            </VBox>
+            
+            <!-- Order Actions Section -->
+            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #f9f9f9; -fx-padding: 15px; -fx-border-radius: 5px;">
+                <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="⚡ Thao tác đơn hàng:" />
+                
+                <VBox spacing="5">
+                    <Label text="Mã đơn hàng:" />
+                    <TextField fx:id="tfSelectedOrderId" editable="false" prefWidth="120" promptText="Chọn từ danh sách" />
+                </VBox>
+                
+                <VBox spacing="5">
+                    <Label text="Trạng thái đơn:" />
+                    <ComboBox fx:id="cbNewStatus" prefWidth="130" />
+                </VBox>
+                
+                <VBox spacing="5">
+                    <Label text="Thanh toán:" />
+                    <ComboBox fx:id="cbNewPaymentStatus" prefWidth="130" />
+                </VBox>
+                
+                <VBox alignment="BOTTOM_LEFT" spacing="5">
+                    <HBox spacing="10">
+                        <Button fx:id="btnUpdateOrder" onAction="#handleUpdateOrder" prefHeight="35" prefWidth="120" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;" text="✅ Cập nhật" />
+                        <Button fx:id="btnViewDetails" onAction="#handleViewDetails" prefHeight="35" prefWidth="120" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold;" text="👁️ Xem chi tiết" />
+                        <Button fx:id="btnDeleteOrder" onAction="#handleDeleteOrder" prefHeight="35" prefWidth="120" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" text="🗑️ Xóa đơn" />
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            
+            <!-- TABLE HEADER -->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #34495e; -fx-padding: 10px; -fx-border-radius: 5px; -fx-background-radius: 5px;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" text="📋 DANH SÁCH ĐƠN HÀNG" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="lblOrderCount" style="-fx-font-size: 12px; -fx-text-fill: #ecf0f1;" text="Tổng số đơn hàng: 0" />
+                <Label fx:id="lblTotalRevenue" style="-fx-font-size: 12px; -fx-text-fill: #ecf0f1; -fx-font-weight: bold;" text="Doanh thu: 0 VND" />
+            </HBox>
+            
+            <TableView fx:id="orderTable" prefHeight="450" stylesheets="@style.css">
+                <columns>
+                    <TableColumn fx:id="colOrderId" prefWidth="100" text="Mã đơn hàng" />
+                    <TableColumn fx:id="colDate" prefWidth="120" text="Ngày đặt" />
+                    <TableColumn fx:id="colCustomerId" prefWidth="100" text="Mã KH" />
+                    <TableColumn fx:id="colCustomerName" prefWidth="150" text="Tên khách hàng" />
+                    <TableColumn fx:id="colEmployeeId" prefWidth="100" text="Mã NV" />
+                    <TableColumn fx:id="colStatus" prefWidth="120" text="Trạng thái đơn" />
+                    <TableColumn fx:id="colPaymentMethod" prefWidth="100" text="Thanh toán" />
+                    <TableColumn fx:id="colPaymentStatus" prefWidth="100" text="TT Thanh toán" />
+                    <TableColumn fx:id="colTotal" prefWidth="120" text="Tổng tiền" />
+                    <TableColumn fx:id="colDeliveryAddress" prefWidth="150" text="Địa chỉ giao" />
+                    <TableColumn fx:id="colNote" prefWidth="120" text="Ghi chú" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

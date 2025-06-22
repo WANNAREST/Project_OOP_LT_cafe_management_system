@@ -16,7 +16,7 @@ public class Order {
     private PaymentStatus paymentStatus; // trạng thái thanh toán
     private String note;                 // ghi chú đơn hàng
     private String deliveryAddress;      // địa chỉ giao hàng
-    private double total;                // tổng tiền (bao gồm VAT)
+    private long total;                  // tổng tiền (bao gồm VAT)
     
     // Additional fields for legacy compatibility
     private String customerName;
@@ -28,7 +28,7 @@ public class Order {
     public Order(int orderId, int customerId, int employeeId, Date date,
                  OrderStatus status, PaymentMethod paymentMethod,
                  PaymentStatus paymentStatus, String note,
-                 String deliveryAddress, double total) {
+                 String deliveryAddress, long total) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.employeeId = employeeId;
@@ -53,7 +53,7 @@ public class Order {
         this.paymentStatus = PaymentStatus.PENDING;
         this.note = "";
         this.deliveryAddress = "";
-        this.total = 0.0;
+        this.total = 0L;
         this.orderTime = LocalDateTime.now();
     }
 
@@ -72,8 +72,25 @@ public class Order {
         this.paymentMethod = PaymentMethod.CASH;
         this.paymentStatus = PaymentStatus.PENDING;
         this.note = "";
-        this.total = calculateTotalFromItems() - discount;
+        this.total = (long)(calculateTotalFromItems() - discount);
         this.orderTime = LocalDateTime.now();
+    }
+
+    // Constructor for AdminPart compatibility (with LocalDateTime and String enums)
+    public Order(int orderId, int customerId, int employeeId, LocalDateTime dateTime,
+                 String status, String paymentMethod, String paymentStatus, 
+                 String note, String deliveryAddress, long total) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.employeeId = employeeId;
+        this.date = dateTime != null ? Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()) : new Date();
+        this.status = OrderStatus.valueOf(status.toUpperCase());
+        this.paymentMethod = PaymentMethod.valueOf(paymentMethod.toUpperCase());
+        this.paymentStatus = PaymentStatus.valueOf(paymentStatus.toUpperCase());
+        this.note = note;
+        this.deliveryAddress = deliveryAddress;
+        this.total = total;
+        this.orderTime = dateTime != null ? dateTime : LocalDateTime.now();
     }
 
     // Helper method to calculate total from cart items
@@ -112,15 +129,15 @@ public class Order {
     public String getDeliveryAddress() { return deliveryAddress; }
     public void setDeliveryAddress(String deliveryAddress) { this.deliveryAddress = deliveryAddress; }
 
-    public double getTotal() { return total; }
-    public void setTotal(double total) { this.total = total; }
+    public long getTotal() { return total; }
+    public void setTotal(long total) { this.total = total; }
 
     // Legacy compatibility methods
-    public double getTotalAmount() {
+    public long getTotalAmount() {
         return total;
     }
     
-    public void setTotalAmount(double total) {
+    public void setTotalAmount(long total) {
         this.total = total;
     }
     
@@ -198,7 +215,7 @@ public class Order {
                 order.setPaymentStatus(PaymentStatus.valueOf(rs.getString("payment_status").toUpperCase()));
                 order.setNote(rs.getString("note"));
                 order.setDeliveryAddress(rs.getString("delivery_address"));
-                order.setTotal(rs.getDouble("total"));
+                order.setTotal((long) rs.getDouble("total"));
                 
                 // Set legacy fields for controller compatibility
                 order.setCustomerName(rs.getString("customer_name"));

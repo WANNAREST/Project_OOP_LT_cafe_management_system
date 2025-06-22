@@ -495,7 +495,7 @@ public class CartController {
 			
 			// Set total amount after discount before saving
 			if (hasMethod(order, "setTotalAmount")) {
-				order.setTotalAmount(totalAfterDiscount);
+				order.setTotalAmount((long) totalAfterDiscount);
 			}
 
 			// Save order

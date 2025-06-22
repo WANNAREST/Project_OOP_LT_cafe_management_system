@@ -18,7 +18,7 @@
          <content>
             <AnchorPane prefHeight="631.0" prefWidth="1189.0" style="-fx-background-color: white;">
                <children>
-                  <ImageView fitHeight="283.0" fitWidth="390.0" layoutX="84.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="productDetailImageView" fitHeight="283.0" fitWidth="390.0" layoutX="84.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/product1.jpg" />
                      </image>

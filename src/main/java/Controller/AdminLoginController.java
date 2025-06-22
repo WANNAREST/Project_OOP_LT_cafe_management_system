@@ -41,45 +41,62 @@ public class AdminLoginController {
 
     private Alert alert;
 
-    // ==== Đăng nhập ====
+    // ==== Đăng nhập bằng số điện thoại và mật khẩu ====
     public void loginBtn() {
-        String username = si_username.getText();
+        String phoneNumber = si_username.getText();
         String password = si_password.getText();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Please fill all blank fields");
+        if (phoneNumber.isEmpty() || password.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Vui lòng điền đầy đủ thông tin!");
             return;
         }
 
-        String query = "SELECT * FROM Users WHERE full_name = ? AND password = ? AND role = 'manager'";
+        if (!isValidPhoneNumber(phoneNumber)) {
+            showAlert(Alert.AlertType.ERROR, "Số điện thoại không hợp lệ!");
+            return;
+        }
+
+        String query = "SELECT * FROM Users WHERE phone = ? AND password = ? AND role = 'manager'";
 
         try {
             Connection connect = DatabaseConnection.getConnection();
             PreparedStatement prepare = connect.prepareStatement(query);
 
-            prepare.setString(1, username);
+            prepare.setString(1, phoneNumber);
             prepare.setString(2, password);
 
             ResultSet result = prepare.executeQuery();
 
             if (result.next()) {
-                showAlert(Alert.AlertType.INFORMATION, "Admin login successful!");
                 showAdminDashboard();
             } else {
-                showAlert(Alert.AlertType.ERROR, "Incorrect admin username or password");
+                showAlert(Alert.AlertType.ERROR, "Số điện thoại hoặc mật khẩu không chính xác!");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Lỗi kết nối cơ sở dữ liệu!");
         }
     }
 
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        String phoneRegex = "^(\\+84|84|0)[3-9][0-9]{8}$";
+        return phoneNumber.matches(phoneRegex);
+    }
+
     private void showAdminDashboard() {
-        Alert info = new Alert(Alert.AlertType.INFORMATION);
-        info.setTitle("Welcome Admin");
-        info.setHeaderText(null);
-        info.setContentText("Welcome to the Admin Dashboard!");
-        info.showAndWait();
+        try {
+            Parent adminRoot = FXMLLoader.load(getClass().getResource("/view/admin-main-app.fxml"));
+            Scene adminScene = new Scene(adminRoot);
+
+            Stage stage = (Stage) si_loginBtn.getScene().getWindow();
+            stage.setScene(adminScene);
+            stage.setTitle("Cafe Shop - Admin Dashboard");
+            stage.centerOnScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Không thể tải giao diện admin!");
+        }
     }
 
     // ==== Quên mật khẩu chuyển sang form xác minh số điện thoại ====
@@ -95,24 +112,33 @@ public class AdminLoginController {
         np_newPassForm.setVisible(false);
     }
 
-    // ==== Xác minh số điện thoại ====
+    // ==== Xác minh số điện thoại cho quên mật khẩu ====
     public void proceedBtn() {
-        String username = fp_username.getText();
-        String phonenumber = fp_phonenumber.getText();
+        String primaryPhone = fp_username.getText();
+        String verificationPhone = fp_phonenumber.getText();
 
-        if (username.isEmpty() || phonenumber.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Please fill all blank fields");
+        if (primaryPhone.isEmpty() || verificationPhone.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Vui lòng điền đầy đủ thông tin!");
             return;
         }
 
-        String query = "SELECT * FROM Users WHERE full_name = ? AND phone = ? AND role = 'manager'";
+        if (!primaryPhone.equals(verificationPhone)) {
+            showAlert(Alert.AlertType.ERROR, "Hai số điện thoại không khớp!");
+            return;
+        }
+
+        if (!isValidPhoneNumber(primaryPhone)) {
+            showAlert(Alert.AlertType.ERROR, "Số điện thoại không hợp lệ!");
+            return;
+        }
+
+        String query = "SELECT * FROM Users WHERE phone = ? AND role = 'manager'";
 
         try {
             Connection connect = DatabaseConnection.getConnection();
             PreparedStatement prepare = connect.prepareStatement(query);
 
-            prepare.setString(1, username);
-            prepare.setString(2, phonenumber);
+            prepare.setString(1, primaryPhone);
 
             ResultSet result = prepare.executeQuery();
 
@@ -120,11 +146,12 @@ public class AdminLoginController {
                 np_newPassForm.setVisible(true);
                 fp_questionForm.setVisible(false);
             } else {
-                showAlert(Alert.AlertType.ERROR, "Incorrect username or phone number");
+                showAlert(Alert.AlertType.ERROR, "Không tìm thấy admin với số điện thoại này!");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Lỗi kết nối cơ sở dữ liệu!");
         }
     }
 
@@ -136,33 +163,38 @@ public class AdminLoginController {
 
     // ==== Đổi mật khẩu ====
     public void changePassBtn() {
-        String username = fp_username.getText();
+        String phoneNumber = fp_username.getText();
         String newPass = np_newPassword.getText();
         String confirmPass = np_confirmPassword.getText();
 
         if (newPass.isEmpty() || confirmPass.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Please fill all blank fields");
+            showAlert(Alert.AlertType.ERROR, "Vui lòng điền đầy đủ thông tin!");
+            return;
+        }
+
+        if (newPass.length() < 6) {
+            showAlert(Alert.AlertType.ERROR, "Mật khẩu phải có ít nhất 6 ký tự!");
             return;
         }
 
         if (!newPass.equals(confirmPass)) {
-            showAlert(Alert.AlertType.ERROR, "Passwords do not match");
+            showAlert(Alert.AlertType.ERROR, "Mật khẩu xác nhận không khớp!");
             return;
         }
 
-        String query = "UPDATE Users SET password = ? WHERE full_name = ? AND role = 'manager'";
+        String query = "UPDATE Users SET password = ? WHERE phone = ? AND role = 'manager'";
 
         try {
             Connection connect = DatabaseConnection.getConnection();
             PreparedStatement prepare = connect.prepareStatement(query);
 
             prepare.setString(1, newPass);
-            prepare.setString(2, username);
+            prepare.setString(2, phoneNumber);
 
             int rowsAffected = prepare.executeUpdate();
 
             if (rowsAffected > 0) {
-                showAlert(Alert.AlertType.INFORMATION, "Your password updated successfully.");
+                showAlert(Alert.AlertType.INFORMATION, "Cập nhật mật khẩu thành công!");
 
                 // Reset form
                 si_loginForm.setVisible(true);
@@ -171,19 +203,22 @@ public class AdminLoginController {
                 fp_phonenumber.clear();
                 np_newPassword.clear();
                 np_confirmPassword.clear();
+                si_username.clear();
+                si_password.clear();
             } else {
-                showAlert(Alert.AlertType.ERROR, "Failed to update password");
+                showAlert(Alert.AlertType.ERROR, "Không thể cập nhật mật khẩu!");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Lỗi kết nối cơ sở dữ liệu!");
         }
     }
 
     // ==== Hiện thông báo ====
     private void showAlert(Alert.AlertType type, String message) {
         alert = new Alert(type);
-        alert.setTitle(type == Alert.AlertType.ERROR ? "Error Message" : "Information");
+        alert.setTitle(type == Alert.AlertType.ERROR ? "Lỗi" : "Thông báo");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
@@ -201,7 +236,7 @@ public class AdminLoginController {
             stage.centerOnScreen();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Unable to load home screen");
+            showAlert(Alert.AlertType.ERROR, "Không thể tải màn hình chính!");
         }
     }
 }

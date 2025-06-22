@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -58,8 +59,12 @@
               </items>
             </MenuButton>
             
-            <!-- Ảnh nhân viên -->
-            <ImageView fx:id="employeeImageView" fitHeight="266.0" fitWidth="287.0" layoutX="107.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
+            <!-- Ảnh nhân viên mặc định -->
+            <ImageView fitHeight="266.0" fitWidth="287.0" layoutX="107.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/user.png" />
+               </image>
+            </ImageView>
             
             <!-- Thông tin nhân viên -->
             <Label layoutX="29.0" layoutY="359.0" prefHeight="20.0" prefWidth="111.0" text="Mã nhân viên:">

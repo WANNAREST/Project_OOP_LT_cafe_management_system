@@ -223,7 +223,7 @@ public class ProductDAO {
         product.setQuantity(stock);
 
         // Set the image path from database
-     //   product.setImagePath(imgPath);
+        product.setImgPath(imgPath);
 
         return product;
     }
