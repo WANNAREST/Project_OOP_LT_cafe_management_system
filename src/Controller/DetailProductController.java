@@ -156,13 +156,13 @@ public class DetailProductController {
     }
     
     private void setProductImage(Product product) {
-        System.out.println("🖼️ DETAIL DEBUG: Product '" + product.getName() + "' - imgPath: '" + product.getImgPath() + "'");
+        System.out.println(" DETAIL DEBUG: Product '" + product.getName() + "' - imgPath: '" + product.getImgPath() + "'");
         
         String imgPath = product.getImgPath();
         
         // Additional validation: if img_path doesn't look like a path, clear it
         if (imgPath != null && !imgPath.startsWith("/img/")) {
-            System.out.println("⚠️ WARNING: Invalid img_path detected in DetailProductController: '" + imgPath + "' for product: " + product.getName());
+            System.out.println(" WARNING: Invalid img_path detected in DetailProductController: '" + imgPath + "' for product: " + product.getName());
             imgPath = null; // Clear invalid paths
         }
         
@@ -174,13 +174,13 @@ public class DetailProductController {
                 if (inputStream != null) {
                     Image loadedImage = new Image(inputStream);
                     if (!loadedImage.isError()) {
-                        System.out.println("✅ Successfully loaded product detail image from resources: " + imgPath);
+                        System.out.println(" Successfully loaded product detail image from resources: " + imgPath);
                         productDetailImageView.setImage(loadedImage);
                         return;
                     }
                 } else {
                     // Try from file system (for newly uploaded images not yet compiled)
-                    System.out.println("🔄 Resource not compiled, trying file system: " + imgPath);
+                    System.out.println(" Resource not compiled, trying file system: " + imgPath);
                     String projectPath = System.getProperty("user.dir");
                     String filePath = projectPath + "/src/main/resources" + imgPath;
                     java.io.File imageFile = new java.io.File(filePath);
@@ -188,20 +188,20 @@ public class DetailProductController {
                     if (imageFile.exists()) {
                         Image loadedImage = new Image(imageFile.toURI().toString());
                         if (!loadedImage.isError()) {
-                            System.out.println("✅ Successfully loaded product detail image from file system: " + imgPath);
+                            System.out.println(" Successfully loaded product detail image from file system: " + imgPath);
                             productDetailImageView.setImage(loadedImage);
                             return;
                         }
                     }
-                    System.out.println("❌ Resource not found in resources or file system: " + imgPath);
+                    System.out.println(" Resource not found in resources or file system: " + imgPath);
                 }
             } catch (Exception e) {
-                System.out.println("❌ Failed to load product detail image: " + e.getMessage());
+                System.out.println(" Failed to load product detail image: " + e.getMessage());
             }
         }
         
         // No image assigned - keep the default from FXML
-        System.out.println("ℹ️ No specific image assigned to this product, keeping default from FXML");
+        System.out.println(" No specific image assigned to this product, keeping default from FXML");
     }
     
 

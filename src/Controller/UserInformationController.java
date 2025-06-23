@@ -77,7 +77,7 @@ public class UserInformationController implements Initializable {
             }
             
         } catch (SQLException e) {
-            System.err.println("❌ Error loading user details: " + e.getMessage());
+            System.err.println(" Error loading user details: " + e.getMessage());
             showAlert(Alert.AlertType.ERROR, "Failed to load user details");
         }
     }
@@ -115,10 +115,10 @@ public class UserInformationController implements Initializable {
                 ordersList.add(order);
             }
             
-            System.out.println("✅ Loaded " + ordersList.size() + " orders for customer: " + customer.getFullName());
+            System.out.println(" Loaded " + ordersList.size() + " orders for customer: " + customer.getFullName());
             
         } catch (SQLException e) {
-            System.err.println("❌ Error loading order history: " + e.getMessage());
+            System.err.println(" Error loading order history: " + e.getMessage());
             showAlert(Alert.AlertType.ERROR, "Failed to load order history");
         }
     }
@@ -165,7 +165,7 @@ public class UserInformationController implements Initializable {
                 customer.setAddress(txtAddress.getText().trim());
                 
                 showAlert(Alert.AlertType.INFORMATION, "User details updated successfully!");
-                System.out.println("✅ User details updated for: " + customer.getFullName());
+                System.out.println(" User details updated for: " + customer.getFullName());
                 
                 // Also update the customer in Customer table if it exists
                 updateCustomerTable();
@@ -180,7 +180,7 @@ public class UserInformationController implements Initializable {
             }
             
         } catch (SQLException e) {
-            System.err.println("❌ Error updating user details: " + e.getMessage());
+            System.err.println(" Error updating user details: " + e.getMessage());
             showAlert(Alert.AlertType.ERROR, "Database error: " + e.getMessage());
         }
     }
@@ -198,10 +198,10 @@ public class UserInformationController implements Initializable {
             stmt.setInt(3, customer.getId());
             
             stmt.executeUpdate();
-            System.out.println("✅ Customer table updated successfully");
+            System.out.println(" Customer table updated successfully");
             
         } catch (SQLException e) {
-            System.err.println("⚠️ Warning: Could not update customer table: " + e.getMessage());
+            System.err.println(" Warning: Could not update customer table: " + e.getMessage());
         }
     }
 

@@ -177,7 +177,7 @@ public class BankPaymentController {
     private void processSuccessfulPayment() {
         // Create order in database
         if (customer == null || cart == null) {
-            System.err.println("❌ Cannot process payment: customer or cart is null");
+            System.err.println(" Cannot process payment: customer or cart is null");
             return;
         }
 
@@ -185,7 +185,7 @@ public class BankPaymentController {
         int orderId = OrderDAO.createOrder(customer, cart, "bank", "paid", paymentAmount, deliveryAddress);
 
         if (orderId > 0) {
-            System.out.println("✅ Order created in database with ID: " + orderId);
+            System.out.println(" Order created in database with ID: " + orderId);
 
             // Reward customer points
             if (customer != null) {
@@ -207,7 +207,7 @@ public class BankPaymentController {
                 parentController.orderSuccess();
             }
         } else {
-            System.err.println("❌ Failed to create order in database");
+            System.err.println(" Failed to create order in database");
             showAlert("Lỗi", "Không thể tạo đơn hàng trong cơ sở dữ liệu", Alert.AlertType.ERROR);
         }
     }
@@ -230,7 +230,7 @@ public class BankPaymentController {
 
     private void updateCustomerPointsInDatabase(String phoneNumber, int newPointBalance) {
         if (phoneNumber == null || phoneNumber.isEmpty()) {
-            System.err.println("❌ Cannot update points: phone number is null or empty");
+            System.err.println(" Cannot update points: phone number is null or empty");
             return;
         }
 
@@ -247,13 +247,13 @@ public class BankPaymentController {
 
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("✅ Customer points updated in database: " + newPointBalance + " points for phone: " + phoneNumber);
+                System.out.println(" Customer points updated in database: " + newPointBalance + " points for phone: " + phoneNumber);
             } else {
-                System.err.println("❌ Failed to update customer points for phone: " + phoneNumber);
+                System.err.println("Failed to update customer points for phone: " + phoneNumber);
             }
 
         } catch (java.sql.SQLException e) {
-            System.err.println("❌ Error updating customer points: " + e.getMessage());
+            System.err.println("Error updating customer points: " + e.getMessage());
         }
     }
 

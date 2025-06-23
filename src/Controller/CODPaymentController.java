@@ -98,7 +98,7 @@ public class CODPaymentController {
 
     private void updateCustomerPointsInDatabase(String phoneNumber, int newPointBalance) {
         if (phoneNumber == null || phoneNumber.isEmpty()) {
-            System.err.println("❌ Cannot update points: phone number is null or empty");
+            System.err.println(" Cannot update points: phone number is null or empty");
             return;
         }
 
@@ -115,13 +115,13 @@ public class CODPaymentController {
 
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("✅ Customer points updated in database: " + newPointBalance + " points for phone: " + phoneNumber);
+                System.out.println(" Customer points updated in database: " + newPointBalance + " points for phone: " + phoneNumber);
             } else {
-                System.err.println("❌ Failed to update customer points for phone: " + phoneNumber);
+                System.err.println(" Failed to update customer points for phone: " + phoneNumber);
             }
 
         } catch (java.sql.SQLException e) {
-            System.err.println("❌ Error updating customer points: " + e.getMessage());
+            System.err.println(" Error updating customer points: " + e.getMessage());
         }
     }
 

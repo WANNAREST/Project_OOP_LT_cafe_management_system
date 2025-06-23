@@ -41,17 +41,17 @@ public class DashboardController implements Initializable {
         loadCharts();
     }
 
-    // ✅ TẢI DỮ LIỆU DASHBOARD
+    //  TẢI DỮ LIỆU DASHBOARD
     private void loadDashboardData() {
         try (Connection conn = DatabaseConnection.getConnection()) {
             
-            // 📊 THỐNG KÊ TỔNG QUAN
+            //  THỐNG KÊ TỔNG QUAN
             loadOverallStatistics(conn);
             
-            // 📅 THỐNG KÊ THEO NGÀY
+            //  THỐNG KÊ THEO NGÀY
             loadDailyStatistics(conn);
             
-            // 📆 THỐNG KÊ THEO THÁNG/NĂM
+            //  THỐNG KÊ THEO THÁNG/NĂM
             loadMonthlyYearlyStatistics(conn);
             
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // 📊 THỐNG KÊ TỔNG QUAN
+    //  THỐNG KÊ TỔNG QUAN
     private void loadOverallStatistics(Connection conn) throws Exception {
         
         // Tổng doanh thu (từ đơn hàng đã thanh toán)
@@ -104,7 +104,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // 📅 THỐNG KÊ THEO NGÀY
+    //  THỐNG KÊ THEO NGÀY
     private void loadDailyStatistics(Connection conn) throws Exception {
         LocalDate today = LocalDate.now();
         String todayStr = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -134,7 +134,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // 📆 THỐNG KÊ THEO THÁNG/NĂM
+    //  THỐNG KÊ THEO THÁNG/NĂM
     private void loadMonthlyYearlyStatistics(Connection conn) throws Exception {
         LocalDate now = LocalDate.now();
         int currentMonth = now.getMonthValue();
@@ -168,14 +168,14 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // 📈 TẢI BIỂU ĐỒ
+    //  TẢI BIỂU ĐỒ
     private void loadCharts() {
         loadRevenueChart();
         loadOrderChart();
         loadProductCategoryChart();
     }
 
-    // 📈 BIỂU ĐỒ DOANH THU 7 NGÀY QUA
+    //  BIỂU ĐỒ DOANH THU 7 NGÀY QUA
     private void loadRevenueChart() {
         try (Connection conn = DatabaseConnection.getConnection()) {
             
@@ -211,7 +211,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // 📊 BIỂU ĐỒ SỐ LƯỢNG ĐẠI HÀNG THEO TRẠNG THÁI
+    //  BIỂU ĐỒ SỐ LƯỢNG ĐẠI HÀNG THEO TRẠNG THÁI
     private void loadOrderChart() {
         try (Connection conn = DatabaseConnection.getConnection()) {
             
@@ -242,7 +242,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // 🥧 BIỂU ĐỒ TRÒN - SẢN PHẨM THEO CATEGORY
+    //  BIỂU ĐỒ TRÒN - SẢN PHẨM THEO CATEGORY
     private void loadProductCategoryChart() {
         try (Connection conn = DatabaseConnection.getConnection()) {
             
@@ -269,7 +269,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // ✅ CHUYỂN ĐỔI STATUS SANG TIẾNG VIỆT
+    //  CHUYỂN ĐỔI STATUS SANG TIẾNG VIỆT
     private String convertStatusToVietnamese(String status) {
         switch (status.toLowerCase()) {
             case "offline": return "Offline";
@@ -280,7 +280,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // ✅ REFRESH DASHBOARD
+    //  REFRESH DASHBOARD
     @FXML
     private void refreshDashboard() {
         loadDashboardData();

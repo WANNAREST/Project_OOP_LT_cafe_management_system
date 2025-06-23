@@ -113,7 +113,7 @@ public class AdminMainController implements Initializable {
             AnchorPane.setLeftAnchor(view, 0.0);
             AnchorPane.setRightAnchor(view, 0.0);
             
-            System.out.println("✅ Loaded view: " + viewName);
+            System.out.println("Loaded view: " + viewName);
             
         } catch (IOException e) {
             e.printStackTrace();

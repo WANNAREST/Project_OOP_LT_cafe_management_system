@@ -82,7 +82,7 @@ public class SalaryController implements Initializable {
     }
 
     private void setupTable() {
-        // ✅ THIẾT LẬP EDITABLE TABLE
+        //  THIẾT LẬP EDITABLE TABLE
         salaryTable.setEditable(true);
         
         // Non-editable columns
@@ -93,7 +93,7 @@ public class SalaryController implements Initializable {
         colAbsent.setCellValueFactory(new PropertyValueFactory<>("absent"));
         colTotalSalary.setCellValueFactory(new PropertyValueFactory<>("totalSalary"));
         
-        // ✅ EDITABLE COLUMNS
+        //  EDITABLE COLUMNS
         setupEditableBasicSalaryColumn();
         setupEditableBonusPenaltyColumn();
     }
@@ -153,7 +153,7 @@ public class SalaryController implements Initializable {
 
 
 
-    // ✅ CÁC METHOD CẬP NHẬT DATABASE
+    //  CÁC METHOD CẬP NHẬT DATABASE
     private boolean updateBasicSalary(SalaryRecord record, double newBasicSalary) {
         String sql = "UPDATE Salary SET base_salary = ? WHERE salary_id = ?";
         
@@ -190,7 +190,7 @@ public class SalaryController implements Initializable {
 
 
 
-    // ✅ TỰ ĐỘNG TÍNH LẠI TỔNG LƯƠNG
+    //  TỰ ĐỘNG TÍNH LẠI TỔNG LƯƠNG
     private void recalculateTotalSalary(SalaryRecord record) {
         // Công thức: lương = lương cơ bản * ngày làm việc + (lương cơ bản - 10000) * ngày đi muộn + thưởng
         double basicSalary = record.getBasicSalary();
@@ -224,7 +224,7 @@ public class SalaryController implements Initializable {
         }
     }
 
-    // ✅ CẬP NHẬT SỐ NGÀY CHẤM CÔNG TỪ SHIFT
+    //  CẬP NHẬT SỐ NGÀY CHẤM CÔNG TỪ SHIFT
     @FXML
     private void handleRefreshAttendance() {
         String selectedMonth = cbMonth.getValue();
@@ -278,7 +278,7 @@ public class SalaryController implements Initializable {
         }
     }
 
-    // ✅ TÍNH CHẤM CÔNG CHI TIẾT TỪ SHIFTS
+    //  TÍNH CHẤM CÔNG CHI TIẾT TỪ SHIFTS
     private int[] calculateDetailedAttendanceFromShifts(int employeeId, int month, int year) {
         int completedShifts = 0;
         int lateShifts = 0;
@@ -542,7 +542,7 @@ public class SalaryController implements Initializable {
             "Mã bảng lương: " + record.getSalaryCode() + "\n" +
             "Nhân viên: " + record.getEmployeeId() + "\n" +
             "Lương thực tế: " + String.format("%,.0f", record.getTotalSalary()) + " VND\n\n" +
-            "⚠️ Hành động này không thể hoàn tác!"
+            " Hành động này không thể hoàn tác!"
         );
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
@@ -578,7 +578,7 @@ public class SalaryController implements Initializable {
             confirmAlert.setContentText(
                 "Nhân viên: " + employeeId + "\n" +
                 "Tháng: " + selectedMonth + "/" + selectedYear + "\n\n" +
-                "⚠️ Hành động này không thể hoàn tác!"
+                " Hành động này không thể hoàn tác!"
             );
 
             Optional<ButtonType> result = confirmAlert.showAndWait();
@@ -601,7 +601,7 @@ public class SalaryController implements Initializable {
             int rowsAffected = stmt.executeUpdate();
             
             if (rowsAffected > 0) {
-                showAlert("✅ Xóa bảng lương thành công!", Alert.AlertType.INFORMATION);
+                showAlert(" Xóa bảng lương thành công!", Alert.AlertType.INFORMATION);
                 clearSalaryForm();
                 handleFilter();
                 salaryTable.getSelectionModel().clearSelection();
@@ -615,7 +615,7 @@ public class SalaryController implements Initializable {
         }
     }
 
-    // ✅ SỬA - Lấy dữ liệu lương theo schema thực tế (không có cột late_days)
+    //  SỬA - Lấy dữ liệu lương theo schema thực tế (không có cột late_days)
     private ObservableList<SalaryRecord> getSalaryData(int month, int year) {
         ObservableList<SalaryRecord> salaryList = FXCollections.observableArrayList();
         
@@ -725,7 +725,7 @@ public class SalaryController implements Initializable {
         }
     }
 
-    // ✅ SỬA - Tạo bảng lương mới (late_days tính từ shift data)
+    //  SỬA - Tạo bảng lương mới (late_days tính từ shift data)
     private void createSalaryRecordFromComboBox(String employeeId, int month, int year) {
         try {
             // Tính toán ngày làm việc từ Shift_Details
@@ -763,7 +763,7 @@ public class SalaryController implements Initializable {
                 int rowsAffected = stmt.executeUpdate();
                 
                 if (rowsAffected > 0) {
-                    showAlert("✅ Tạo bảng lương thành công!\n" +
+                    showAlert(" Tạo bảng lương thành công!\n" +
                              "Ngày làm đủ: " + workingDays + "\n" +
                              "Ngày đi muộn: " + lateDays + "\n" +
                              "Ngày vắng: " + absentDays + "\n" +

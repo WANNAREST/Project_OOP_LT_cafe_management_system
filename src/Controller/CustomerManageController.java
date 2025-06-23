@@ -159,10 +159,10 @@ public class CustomerManageController {
 			orderDetailTableView.setItems(orderDetails);
 			
 		} catch (NumberFormatException e) {
-			System.err.println("❌ CUSTOMER MANAGE: Invalid customer ID format: " + customerId);
+			System.err.println(" CUSTOMER MANAGE: Invalid customer ID format: " + customerId);
 			e.printStackTrace();
 		} catch (SQLException e) {
-			System.err.println("❌ CUSTOMER MANAGE: Lỗi khi tải đơn hàng:");
+			System.err.println(" CUSTOMER MANAGE: Lỗi khi tải đơn hàng:");
 			e.printStackTrace();
 		}
 	}
@@ -194,7 +194,7 @@ public class CustomerManageController {
 			orderDetailTableView.setItems(orderDetails);
 			
 		} catch (SQLException e) {
-			System.err.println("❌ CUSTOMER MANAGE: Lỗi khi tải chi tiết đơn hàng:");
+			System.err.println(" CUSTOMER MANAGE: Lỗi khi tải chi tiết đơn hàng:");
 			e.printStackTrace();
 		}
 	}

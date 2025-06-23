@@ -34,7 +34,7 @@
             <TextField fx:id="inventory_productID" layoutX="197.0" layoutY="279.0" prefHeight="25.0" prefWidth="194.0" styleClass="text-field" stylesheets="@admin-style.css" />
             <TextField fx:id="inventory_productName" layoutX="197.0" layoutY="322.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Đổi từ TextField thành ComboBox -->
+            <!--  SỬA - Đổi từ TextField thành ComboBox -->
             <ComboBox fx:id="inventory_type" layoutX="195.0" layoutY="368.0" prefHeight="25.0" prefWidth="194.0" />
             
             <TextField fx:id="inventory_stock" layoutX="195.0" layoutY="412.0" prefHeight="25.0" prefWidth="194.0" />
@@ -51,7 +51,7 @@
                   <String fx:value="shadow" />
                </styleClass>
                <children>
-                  <!-- ✅ SỬA - Tên ImageView để khớp Controller -->
+                  <!--  SỬA - Tên ImageView để khớp Controller -->
                   <ImageView fx:id="inventory_imageView" fitHeight="150.0" fitWidth="200.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
@@ -64,10 +64,10 @@
                <children>
                   <ScrollPane layoutX="14.0" layoutY="35.0" prefHeight="530.0" prefWidth="774.0">
                      <content>
-                        <!-- ✅ SỬA - Tên TableView và Columns để khớp Controller -->
+                        <!--  SỬA - Tên TableView và Columns để khớp Controller -->
                         <TableView fx:id="inventory_tableView" onMouseClicked="#inventorySelectData" prefHeight="520.0" prefWidth="822.0" stylesheets="@admin-style.css">
                           <columns>
-                            <!-- ✅ SỬA - Tên columns để khớp Controller -->
+                            <!--  SỬA - Tên columns để khớp Controller -->
                             <TableColumn fx:id="inventory_col_productID" prefWidth="100.0" text="Product ID" />
                             <TableColumn fx:id="inventory_col_productName" prefWidth="130.0" text="Product Name" />
                             <TableColumn fx:id="inventory_col_type" prefWidth="100.0" text="Type" />

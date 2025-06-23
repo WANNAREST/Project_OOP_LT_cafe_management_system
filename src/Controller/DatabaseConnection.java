@@ -19,7 +19,7 @@ public class DatabaseConnection {
     static {
         try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("config.properties")) {
             if (input == null) {
-                System.err.println("❌ config.properties file not found in resources!");
+                System.err.println(" config.properties file not found in resources!");
                 throw new RuntimeException("config.properties not found");
             }
             Properties prop = new Properties();
@@ -29,9 +29,9 @@ public class DatabaseConnection {
             DB_NAME = prop.getProperty("db.name");
             DB_USERNAME = prop.getProperty("db.username");
             DB_PASSWORD = prop.getProperty("db.password");
-            System.out.println("✅ Configuration loaded successfully from config.properties");
+            System.out.println(" Configuration loaded successfully from config.properties");
         } catch (Exception ex) {
-            System.err.println("❌ Error loading configuration: " + ex.getMessage());
+            System.err.println(" Error loading configuration: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -97,14 +97,14 @@ public class DatabaseConnection {
         try {
             Connection conn = getConnection();
             if (conn != null && !conn.isClosed()) {
-                System.out.println("✅ Database connection test successful!");
+                System.out.println(" Database connection test successful!");
                 System.out.println("Database: " + DB_NAME);
                 System.out.println("Host: " + DB_HOST + ":" + DB_PORT);
             }
         } catch (SQLException e) {
-            System.err.println("❌ Database connection test failed:");
+            System.err.println(" Database connection test failed:");
             System.err.println("Error: " + e.getMessage());
-            System.err.println("\n📝 Please check:");
+            System.err.println("\n Please check:");
             System.err.println("1. MySQL server is running");
             System.err.println("2. Database '" + DB_NAME + "' exists");
             System.err.println("3. Username/password are correct");

@@ -140,14 +140,14 @@ public class CartController {
 
 			// Check if customer is using coins and deduct them permanently
 			if (customer != null && useCointbtnToggle.isSelected() && precoint > 0) {
-				System.out.println("🎯 CHECKOUT: Customer using " + precoint + " coins");
-				System.out.println("🎯 CHECKOUT: Customer ID: " + customer.getId() + ", Phone: " + customer.getPhone());
-				System.out.println("🎯 CHECKOUT: Before deduction - Customer points: " + customer.getpoint());
+				System.out.println(" CHECKOUT: Customer using " + precoint + " coins");
+				System.out.println(" CHECKOUT: Customer ID: " + customer.getId() + ", Phone: " + customer.getPhone());
+				System.out.println(" CHECKOUT: Before deduction - Customer points: " + customer.getpoint());
 
 				// Deduct coins from customer permanently
 				boolean success = customer.usePoints(precoint);
 				if (success) {
-					System.out.println("🎯 CHECKOUT: After deduction - Customer points: " + customer.getpoint());
+					System.out.println(" CHECKOUT: After deduction - Customer points: " + customer.getpoint());
 
 					// Update the customer's points in database
 					updateCustomerPointsInDatabase(customer.getId(), customer.getpoint());
@@ -160,14 +160,14 @@ public class CartController {
 						userParentController.updatePointDisplay();
 					}
 
-					System.out.println("✅ Deducted " + precoint + " coins from customer. Remaining: " + customer.getpoint());
+					System.out.println(" Deducted " + precoint + " coins from customer. Remaining: " + customer.getpoint());
 				} else {
-					System.err.println("❌ Failed to deduct coins from customer object");
+					System.err.println(" Failed to deduct coins from customer object");
 				}
 			}
 
 			// Note: Bonus points will be added when order is actually placed, not during checkout
-			System.out.println("🎯 CHECKOUT: Proceeding to payment screen - points will be awarded after successful payment");
+			System.out.println(" CHECKOUT: Proceeding to payment screen - points will be awarded after successful payment");
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user-checkout-view.fxml"));
 			AnchorPane checkoutView = loader.load();
@@ -489,33 +489,33 @@ public class CartController {
 			}
 
 			// Save order
-			System.out.println("📝 CART: Checking if order has placeCompleteOrder method: " + hasMethod(order, "placeCompleteOrder"));
-			System.out.println("📝 CART: Store parent controller is not null: " + (storeParentController != null));
+			System.out.println(" CART: Checking if order has placeCompleteOrder method: " + hasMethod(order, "placeCompleteOrder"));
+			System.out.println(" CART: Store parent controller is not null: " + (storeParentController != null));
 
 			if (hasMethod(order, "placeCompleteOrder") && storeParentController != null) {
-				System.out.println("📝 CART: Calling placeCompleteOrder with employee ID: " + storeParentController.getCurrentUserId());
+				System.out.println(" CART: Calling placeCompleteOrder with employee ID: " + storeParentController.getCurrentUserId());
 				boolean success = order.placeCompleteOrder(storeParentController.getCurrentUserId());
-				System.out.println("📝 CART: Order placement result: " + success);
+				System.out.println(" CART: Order placement result: " + success);
 			} else {
-				System.err.println("❌ CART: Cannot save order - missing method or parent controller");
+				System.err.println(" CART: Cannot save order - missing method or parent controller");
 				if (!hasMethod(order, "placeCompleteOrder")) {
-					System.err.println("❌ CART: placeCompleteOrder method not found");
+					System.err.println(" CART: placeCompleteOrder method not found");
 				}
 				if (storeParentController == null) {
-					System.err.println("❌ CART: storeParentController is null");
+					System.err.println(" CART: storeParentController is null");
 				}
 			}
 
 			// Check if customer coins were used via toggle (for customer object)
 			if (customer != null && useCointbtnToggle.isSelected() && precoint > 0) {
-				System.out.println("🎯 PLACE ORDER: Customer using " + precoint + " coins");
-				System.out.println("🎯 PLACE ORDER: Customer ID: " + customer.getId() + ", Phone: " + customer.getPhone());
-				System.out.println("🎯 PLACE ORDER: Before deduction - Customer points: " + customer.getpoint());
+				System.out.println(" PLACE ORDER: Customer using " + precoint + " coins");
+				System.out.println(" PLACE ORDER: Customer ID: " + customer.getId() + ", Phone: " + customer.getPhone());
+				System.out.println(" PLACE ORDER: Before deduction - Customer points: " + customer.getpoint());
 
 				// Deduct coins from customer permanently
 				boolean success = customer.usePoints(precoint);
 				if (success) {
-					System.out.println("🎯 PLACE ORDER: After deduction - Customer points: " + customer.getpoint());
+					System.out.println(" PLACE ORDER: After deduction - Customer points: " + customer.getpoint());
 
 					// Update the customer's points in database
 					updateCustomerPointsInDatabase(customer.getId(), customer.getpoint());
@@ -523,9 +523,9 @@ public class CartController {
 					// Verify the database update
 					verifyCustomerPointsInDatabase(customer.getId(), customer.getPhone());
 
-					System.out.println("✅ Deducted " + precoint + " coins from customer. Remaining: " + customer.getpoint());
+					System.out.println(" Deducted " + precoint + " coins from customer. Remaining: " + customer.getpoint());
 				} else {
-					System.err.println("❌ Failed to deduct coins from customer object");
+					System.err.println(" Failed to deduct coins from customer object");
 				}
 			}
 
@@ -557,7 +557,7 @@ public class CartController {
 			}
 			return true;
 		} catch (NoSuchMethodException e) {
-			System.err.println("❌ METHOD CHECK: " + methodName + " method not found in " + obj.getClass().getSimpleName());
+			System.err.println(" METHOD CHECK: " + methodName + " method not found in " + obj.getClass().getSimpleName());
 			return false;
 		}
 	}
@@ -593,7 +593,7 @@ public class CartController {
 
 						if (updated > 0) {
 							conn.commit();
-							System.out.println("✅ BONUS POINTS: Successfully added " + pointsToAdd + " points to database");
+							System.out.println(" BONUS POINTS: Successfully added " + pointsToAdd + " points to database");
 
 							// Verify the update
 							verifyBonusPointsUpdate(phoneNumber, currentPoints + pointsToAdd);
@@ -601,12 +601,12 @@ public class CartController {
 							showSuccessAlert("Tích điểm thành công",
 									"Khách hàng đã được cộng " + pointsToAdd + " điểm!");
 						} else {
-							System.err.println("❌ BONUS POINTS: No rows updated in database");
+							System.err.println(" BONUS POINTS: No rows updated in database");
 							conn.rollback();
 						}
 					}
 				} else {
-					System.err.println("❌ BONUS POINTS: No customer found with phone: " + phoneNumber);
+					System.err.println(" BONUS POINTS: No customer found with phone: " + phoneNumber);
 					showAlert("Không tìm thấy khách hàng",
 							"Số điện thoại này chưa đăng ký hoặc không phải khách hàng");
 				}
@@ -617,7 +617,7 @@ public class CartController {
 			} catch (SQLException ex) {
 				ex.printStackTrace();
 			}
-			System.err.println("❌ BONUS POINTS: Database error: " + e.getMessage());
+			System.err.println(" BONUS POINTS: Database error: " + e.getMessage());
 		} finally {
 			try {
 				if (conn != null) {
@@ -645,13 +645,13 @@ public class CartController {
 			if (rs.next()) {
 				int actualPoints = rs.getInt("bonus_point");
 				if (actualPoints == expectedPoints) {
-					System.out.println("✅ VERIFICATION: Database correctly shows " + actualPoints + " points");
+					System.out.println(" VERIFICATION: Database correctly shows " + actualPoints + " points");
 				} else {
-					System.err.println("❌ VERIFICATION: Expected " + expectedPoints + " but database shows " + actualPoints);
+					System.err.println(" VERIFICATION: Expected " + expectedPoints + " but database shows " + actualPoints);
 				}
 			}
 		} catch (SQLException e) {
-			System.err.println("❌ VERIFICATION ERROR: " + e.getMessage());
+			System.err.println(" VERIFICATION ERROR: " + e.getMessage());
 		}
 	}
 
@@ -840,7 +840,7 @@ public class CartController {
 	}
 
 	private void updateCustomerPointsInDatabase(int customerId, int newPointBalance) {
-		System.out.println("🔄 Attempting to update customer ID: " + customerId + " to " + newPointBalance + " points");
+		System.out.println(" Attempting to update customer ID: " + customerId + " to " + newPointBalance + " points");
 
 		// Method 1: Try updating by customer_id
 		String updateSql = "UPDATE Customers SET bonus_point = ? WHERE customer_id = ?";
@@ -853,19 +853,19 @@ public class CartController {
 
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
-				System.out.println("✅ Customer points updated in database: " + newPointBalance);
+				System.out.println(" Customer points updated in database: " + newPointBalance);
 				return; // Success, exit method
 			} else {
-				System.err.println("❌ No rows updated - customer ID might not exist: " + customerId);
+				System.err.println(" No rows updated - customer ID might not exist: " + customerId);
 			}
 
 		} catch (SQLException e) {
-			System.err.println("❌ Error updating customer points by ID: " + e.getMessage());
+			System.err.println(" Error updating customer points by ID: " + e.getMessage());
 		}
 
 		// Method 2: Fallback - try updating by phone number if customer object has phone
 		if (customer != null && customer.getPhone() != null && !customer.getPhone().isEmpty()) {
-			System.out.println("🔄 Fallback: Attempting to update by phone number: " + customer.getPhone());
+			System.out.println(" Fallback: Attempting to update by phone number: " + customer.getPhone());
 			updateCustomerPointsByPhone(customer.getPhone(), newPointBalance);
 		}
 	}
@@ -884,13 +884,13 @@ public class CartController {
 
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
-				System.out.println("✅ Customer points updated by phone in database: " + newPointBalance);
+				System.out.println(" Customer points updated by phone in database: " + newPointBalance);
 			} else {
-				System.err.println("❌ Failed to update customer points by phone: " + phoneNumber);
+				System.err.println(" Failed to update customer points by phone: " + phoneNumber);
 			}
 
 		} catch (SQLException e) {
-			System.err.println("❌ Error updating customer points by phone: " + e.getMessage());
+			System.err.println(" Error updating customer points by phone: " + e.getMessage());
 		}
 	}
 
@@ -901,7 +901,7 @@ public class CartController {
 
 	// Debug method to verify database state
 	private void verifyCustomerPointsInDatabase(int customerId, String phoneNumber) {
-		System.out.println("🔍 VERIFICATION: Checking database for customer ID: " + customerId + ", Phone: " + phoneNumber);
+		System.out.println(" VERIFICATION: Checking database for customer ID: " + customerId + ", Phone: " + phoneNumber);
 
 		// Check by customer ID
 		String query1 = "SELECT bonus_point FROM Customers WHERE customer_id = ?";
@@ -913,13 +913,13 @@ public class CartController {
 
 			if (rs.next()) {
 				int dbPoints = rs.getInt("bonus_point");
-				System.out.println("🔍 VERIFICATION: Database shows " + dbPoints + " points for customer ID " + customerId);
+				System.out.println(" VERIFICATION: Database shows " + dbPoints + " points for customer ID " + customerId);
 			} else {
-				System.out.println("🔍 VERIFICATION: No customer found with ID " + customerId);
+				System.out.println(" VERIFICATION: No customer found with ID " + customerId);
 			}
 
 		} catch (SQLException e) {
-			System.err.println("🔍 VERIFICATION ERROR: " + e.getMessage());
+			System.err.println(" VERIFICATION ERROR: " + e.getMessage());
 		}
 
 		// Check by phone number
@@ -935,13 +935,13 @@ public class CartController {
 
 				if (rs.next()) {
 					int dbPoints = rs.getInt("bonus_point");
-					System.out.println("🔍 VERIFICATION: Database shows " + dbPoints + " points for phone " + phoneNumber);
+					System.out.println(" VERIFICATION: Database shows " + dbPoints + " points for phone " + phoneNumber);
 				} else {
-					System.out.println("🔍 VERIFICATION: No customer found with phone " + phoneNumber);
+					System.out.println(" VERIFICATION: No customer found with phone " + phoneNumber);
 				}
 
 			} catch (SQLException e) {
-				System.err.println("🔍 VERIFICATION ERROR: " + e.getMessage());
+				System.err.println(" VERIFICATION ERROR: " + e.getMessage());
 			}
 		}
 	}

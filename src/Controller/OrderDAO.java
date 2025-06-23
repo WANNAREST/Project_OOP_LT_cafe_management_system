@@ -66,10 +66,10 @@ public class OrderDAO {
                     
                     // Create order lines for each cart item
                     if (createOrderLines(orderId, cart)) {
-                        System.out.println("✅ Order created successfully with ID: " + orderId);
+                        System.out.println(" Order created successfully with ID: " + orderId);
                         return orderId;
                     } else {
-                        System.err.println("❌ Failed to create order lines for order ID: " + orderId);
+                        System.err.println(" Failed to create order lines for order ID: " + orderId);
                         return -1;
                     }
                 }
@@ -77,7 +77,7 @@ public class OrderDAO {
             
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("❌ Error creating order: " + e.getMessage());
+            System.err.println(" Error creating order: " + e.getMessage());
         }
         
         return -1;
@@ -109,17 +109,17 @@ public class OrderDAO {
             // Check if all order lines were created successfully
             for (int result : results) {
                 if (result <= 0) {
-                    System.err.println("❌ Failed to create some order lines");
+                    System.err.println(" Failed to create some order lines");
                     return false;
                 }
             }
             
-            System.out.println("✅ Created " + results.length + " order lines successfully");
+            System.out.println(" Created " + results.length + " order lines successfully");
             return true;
             
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("❌ Error creating order lines: " + e.getMessage());
+            System.err.println(" Error creating order lines: " + e.getMessage());
             return false;
         }
     }
@@ -142,16 +142,16 @@ public class OrderDAO {
             int rowsAffected = updateStmt.executeUpdate();
             
             if (rowsAffected > 0) {
-                System.out.println("✅ Updated order " + orderId + " payment status to: " + paymentStatus);
+                System.out.println(" Updated order " + orderId + " payment status to: " + paymentStatus);
                 return true;
             } else {
-                System.err.println("❌ No order found with ID: " + orderId);
+                System.err.println(" No order found with ID: " + orderId);
                 return false;
             }
             
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("❌ Error updating order payment status: " + e.getMessage());
+            System.err.println(" Error updating order payment status: " + e.getMessage());
             return false;
         }
     }
@@ -174,16 +174,16 @@ public class OrderDAO {
             int rowsAffected = updateStmt.executeUpdate();
             
             if (rowsAffected > 0) {
-                System.out.println("✅ Updated order " + orderId + " status to: " + status);
+                System.out.println(" Updated order " + orderId + " status to: " + status);
                 return true;
             } else {
-                System.err.println("❌ No order found with ID: " + orderId);
+                System.err.println(" No order found with ID: " + orderId);
                 return false;
             }
             
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("❌ Error updating order status: " + e.getMessage());
+            System.err.println(" Error updating order status: " + e.getMessage());
             return false;
         }
     }

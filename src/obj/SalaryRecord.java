@@ -25,7 +25,7 @@ public class SalaryRecord {
         this.note = new SimpleStringProperty();
     }
 
-    // ✅ Constructor cũ (giữ nguyên để tương thích)
+    //  Constructor cũ (giữ nguyên để tương thích)
     public SalaryRecord(String employeeId, String salaryCode, double basicSalary,
                        int present, int late, int absent, double bonusPenalty,
                        double totalSalary, String note) {
@@ -41,7 +41,7 @@ public class SalaryRecord {
         setNote(note);
     }
 
-    // ✅ THÊM - Constructor mới cho database schema với late_days
+    //  THÊM - Constructor mới cho database schema với late_days
     public SalaryRecord(String salaryId, String employeeId, String employeeName, 
                        int month, int year, int workingDays, int lateDays, int absentDays,
                        double baseSalary, double bonus, double total, String note) {

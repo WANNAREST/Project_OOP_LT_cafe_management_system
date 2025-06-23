@@ -62,7 +62,7 @@ public class InventoryController implements Initializable {
         this.store = store;
     }
 
-    // ✅ COPY IMAGE TO RESOURCES FOLDER
+    //  COPY IMAGE TO RESOURCES FOLDER
     private String copyImageToResources(File sourceFile) {
         try {
             // Get the project resources/img directory
@@ -83,7 +83,7 @@ public class InventoryController implements Initializable {
             Files.copy(sourceFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
             
             String resourcePath = "/img/" + originalFileName;
-            System.out.println("✅ Image copied successfully!");
+            System.out.println(" Image copied successfully!");
             System.out.println("   Source: " + sourceFile.getAbsolutePath());
             System.out.println("   Target: " + targetPath);
             System.out.println("   Resource Path: " + resourcePath);
@@ -91,16 +91,16 @@ public class InventoryController implements Initializable {
             return resourcePath;
             
         } catch (IOException e) {
-            System.out.println("❌ Failed to copy image: " + e.getMessage());
+            System.out.println(" Failed to copy image: " + e.getMessage());
             e.printStackTrace();
             showAlert(AlertType.ERROR, "Lỗi sao chép hình ảnh: " + e.getMessage());
             return null;
         }
     }
 
-    // ✅ LOAD IMAGE - ONLY SHOW ACTUAL PRODUCT IMAGES
+    //  LOAD IMAGE - ONLY SHOW ACTUAL PRODUCT IMAGES
     private void loadProductImage(String imgPath, String category) {
-        System.out.println("🖼️ Loading image for inventory - Path: " + imgPath + ", Category: " + category);
+        System.out.println(" Loading image for inventory - Path: " + imgPath + ", Category: " + category);
         
         // Only load if product has a specific image assigned
         if (imgPath != null && !imgPath.trim().isEmpty()) {
@@ -110,13 +110,13 @@ public class InventoryController implements Initializable {
                 if (inputStream != null) {
                     Image loadedImage = new Image(inputStream, 186, 150, false, true);
                     if (!loadedImage.isError()) {
-                        System.out.println("✅ Successfully loaded image from database path: " + imgPath);
+                        System.out.println(" Successfully loaded image from database path: " + imgPath);
                         inventory_imageView.setImage(loadedImage);
                         return;
                     }
                 } else {
                     // Try from file system (for newly uploaded images not yet compiled)
-                    System.out.println("🔄 Resource not compiled, trying file system: " + imgPath);
+                    System.out.println(" Resource not compiled, trying file system: " + imgPath);
                     String projectPath = System.getProperty("user.dir");
                     String filePath = projectPath + "/src/main/resources" + imgPath;
                     File imageFile = new File(filePath);
@@ -124,20 +124,20 @@ public class InventoryController implements Initializable {
                     if (imageFile.exists()) {
                         Image loadedImage = new Image(imageFile.toURI().toString(), 186, 150, false, true);
                         if (!loadedImage.isError()) {
-                            System.out.println("✅ Successfully loaded image from file system: " + imgPath);
+                            System.out.println(" Successfully loaded image from file system: " + imgPath);
                             inventory_imageView.setImage(loadedImage);
                             return;
                         }
                     }
-                    System.out.println("❌ Resource not found in resources or file system: " + imgPath);
+                    System.out.println(" Resource not found in resources or file system: " + imgPath);
                 }
             } catch (Exception e) {
-                System.out.println("❌ Failed to load image from database path: " + e.getMessage());
+                System.out.println(" Failed to load image from database path: " + e.getMessage());
             }
         }
         
         // No image assigned - clear the image view
-        System.out.println("ℹ️ No specific image assigned to this product, clearing image view");
+        System.out.println(" No specific image assigned to this product, clearing image view");
         inventory_imageView.setImage(null);
     }
     
@@ -146,8 +146,8 @@ public class InventoryController implements Initializable {
         return "/img/product1.jpg";
     }
 
-    // ✅ THÊM SẢN PHẨM MỚI
-    @FXML  // ✅ THÊM
+    //  THÊM SẢN PHẨM MỚI
+    @FXML  //  THÊM
     public void inventoryAddBtn() {
         String productName = inventory_productName.getText();
         String category = inventory_type.getValue();
@@ -193,7 +193,7 @@ public class InventoryController implements Initializable {
                             store.addProduct(newProduct);
                         }
                         
-                        showAlert(AlertType.INFORMATION, "✅ Thêm sản phẩm thành công!\nMã SP: " + productId);
+                        showAlert(AlertType.INFORMATION, " Thêm sản phẩm thành công!\nMã SP: " + productId);
                         inventoryShowData();
                         inventoryClearBtn();
                     }
@@ -210,8 +210,8 @@ public class InventoryController implements Initializable {
         }
     }
 
-    // ✅ CẬP NHẬT SẢN PHẨM
-    @FXML  // ✅ THÊM
+    //  CẬP NHẬT SẢN PHẨM
+    @FXML  //  THÊM
     public void inventoryUpdateBtn() {
         String productId = inventory_productID.getText();
         String productName = inventory_productName.getText();
@@ -263,7 +263,7 @@ public class InventoryController implements Initializable {
                         store.updateProduct(id, productName, category, price, stock, imagePath, note);
                     }
                     
-                    showAlert(AlertType.INFORMATION, "✅ Cập nhật sản phẩm thành công!");
+                    showAlert(AlertType.INFORMATION, " Cập nhật sản phẩm thành công!");
                     inventoryShowData();
                     inventoryClearBtn();
                 } else {
@@ -281,8 +281,8 @@ public class InventoryController implements Initializable {
         }
     }
 
-    // ✅ XÓA SẢN PHẨM
-    @FXML  // ✅ THÊM
+    //  XÓA SẢN PHẨM
+    @FXML  //  THÊM
     public void inventoryDeleteBtn() {
         String productId = inventory_productID.getText();
         
@@ -293,7 +293,7 @@ public class InventoryController implements Initializable {
 
         Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
         confirmAlert.setTitle("Xác nhận xóa sản phẩm");
-        confirmAlert.setHeaderText("⚠️ CẢNH BÁO: Bạn có chắc muốn xóa sản phẩm này?");
+        confirmAlert.setHeaderText(" CẢNH BÁO: Bạn có chắc muốn xóa sản phẩm này?");
         confirmAlert.setContentText("Mã sản phẩm: " + productId + "\nHành động này không thể hoàn tác!");
         
         Optional<ButtonType> option = confirmAlert.showAndWait();
@@ -320,7 +320,7 @@ public class InventoryController implements Initializable {
                         }
                     }
                     
-                    showAlert(AlertType.INFORMATION, "✅ Xóa sản phẩm thành công!");
+                    showAlert(AlertType.INFORMATION, " Xóa sản phẩm thành công!");
                     inventoryShowData();
                     inventoryClearBtn();
                 } else {
@@ -336,8 +336,8 @@ public class InventoryController implements Initializable {
         }
     }
 
-    // ✅ CHỌN SẢN PHẨM TỪ BẢNG
-    @FXML  // ✅ THÊM
+    //  CHỌN SẢN PHẨM TỪ BẢNG
+    @FXML  //  THÊM
     public void inventorySelectData() {
         Product productData = inventory_tableView.getSelectionModel().getSelectedItem();
         int num = inventory_tableView.getSelectionModel().getSelectedIndex();
@@ -362,8 +362,8 @@ public class InventoryController implements Initializable {
         imagePath = (imgPath != null && !imgPath.isEmpty()) ? imgPath : "";
     }
 
-    // ✅ XÓA FORM
-    @FXML  // ✅ THÊM
+    //  XÓA FORM
+    @FXML  //  THÊM
     public void inventoryClearBtn() {
         inventory_productID.clear();
         inventory_productName.clear();
@@ -375,8 +375,8 @@ public class InventoryController implements Initializable {
         imagePath = "";
     }
 
-    // ✅ IMPORT HÌNH ẢNH - UPDATED TO COPY TO RESOURCES
-    @FXML  // ✅ THÊM
+    //  IMPORT HÌNH ẢNH - UPDATED TO COPY TO RESOURCES
+    @FXML  //  THÊM
     public void inventoryImportBtn() {
         FileChooser open = new FileChooser();
         open.setTitle("Chọn hình ảnh sản phẩm");
@@ -401,14 +401,14 @@ public class InventoryController implements Initializable {
                         if (!image.isError()) {
                             inventory_imageView.setImage(image);
                             showAlert(AlertType.INFORMATION, 
-                                "✅ Hình ảnh đã được thêm thành công!\n" +
+                                " Hình ảnh đã được thêm thành công!\n" +
                                 "Đường dẫn: " + resourcePath);
                             return;
                         }
                     }
                     
                     // Resource not compiled yet, load directly from file system
-                    System.out.println("🔄 Resource not compiled yet, loading from file system");
+                    System.out.println(" Resource not compiled yet, loading from file system");
                     String projectPath = System.getProperty("user.dir");
                     String filePath = projectPath + "/src/main/resources" + resourcePath;
                     File copiedFile = new File(filePath);
@@ -418,9 +418,9 @@ public class InventoryController implements Initializable {
                         if (!image.isError()) {
                             inventory_imageView.setImage(image);
                             showAlert(AlertType.INFORMATION, 
-                                "✅ Hình ảnh đã được thêm thành công!\n" +
+                                " Hình ảnh đã được thêm thành công!\n" +
                                 "Đường dẫn: " + resourcePath + "\n" +
-                                "⚠️ Lưu ý: Cần build lại project để hình ảnh hiển thị đầy đủ");
+                                " Lưu ý: Cần build lại project để hình ảnh hiển thị đầy đủ");
                             return;
                         }
                     }
@@ -428,7 +428,7 @@ public class InventoryController implements Initializable {
                     throw new Exception("Could not load image from resources or file system");
                     
                 } catch (Exception e) {
-                    System.out.println("❌ Failed to load copied image: " + e.getMessage());
+                    System.out.println(" Failed to load copied image: " + e.getMessage());
                     showAlert(AlertType.ERROR, "Lỗi tải hình ảnh đã sao chép: " + e.getMessage());
                     // Clear the imagePath if loading fails
                     imagePath = "";
@@ -438,7 +438,7 @@ public class InventoryController implements Initializable {
         }
     }
 
-    // ✅ LẤY DỮ LIỆU SẢN PHẨM TỪ DATABASE
+    //  LẤY DỮ LIỆU SẢN PHẨM TỪ DATABASE
     public ObservableList<Product> inventoryDataList() {
         ObservableList<Product> listData = FXCollections.observableArrayList();
 
@@ -456,7 +456,7 @@ public class InventoryController implements Initializable {
                 String note = result.getString("note");
                 
                 // Debug: Show what we're getting from database
-                System.out.println("🔍 DB DEBUG - Product: " + productName + 
+                System.out.println(" DB DEBUG - Product: " + productName + 
                                  ", img_path: '" + imgPath + "'" + 
                                  ", note: '" + note + "'");
                 
@@ -466,7 +466,7 @@ public class InventoryController implements Initializable {
                 
                 // Additional validation: if img_path doesn't look like a path, clear it
                 if (imgPath != null && !imgPath.startsWith("/img/")) {
-                    System.out.println("⚠️ WARNING: Invalid img_path detected: '" + imgPath + "' for product: " + productName);
+                    System.out.println(" WARNING: Invalid img_path detected: '" + imgPath + "' for product: " + productName);
                     imgPath = null; // Clear invalid paths
                 }
                 
@@ -492,7 +492,7 @@ public class InventoryController implements Initializable {
         return listData;
     }
 
-    // ✅ HIỂN THỊ DỮ LIỆU TRONG BẢNG
+    //  HIỂN THỊ DỮ LIỆU TRONG BẢNG
     public void inventoryShowData() {
         ObservableList<Product> inventoryList = inventoryDataList();
 

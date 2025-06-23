@@ -27,7 +27,7 @@ public class OrderController implements Initializable {
     @FXML private TableColumn<Order, String> colPaymentStatus;
     @FXML private TableColumn<Order, Long> colTotal;
 
-    // ✅ THÊM - Các FXML controls từ user-cart-view.fxml
+    //  THÊM - Các FXML controls từ user-cart-view.fxml
     @FXML private DatePicker dpFromDate;
     @FXML private DatePicker dpToDate;
     @FXML private DatePicker dpStartDate;
@@ -77,7 +77,7 @@ public class OrderController implements Initializable {
         colPaymentStatus.setCellValueFactory(new PropertyValueFactory<>("paymentStatus"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
 
-        // ✅ THÊM - Setup additional columns if they exist
+        //  THÊM - Setup additional columns if they exist
         if (colCustomerId != null) {
             colCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         }
@@ -177,7 +177,7 @@ public class OrderController implements Initializable {
         });
     }
 
-    // ✅ THÊM - Method handleResetFilter
+    //  THÊM - Method handleResetFilter
     @FXML
     private void handleResetFilter() {
         // Reset all filter controls
@@ -340,7 +340,7 @@ public class OrderController implements Initializable {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Xác nhận xóa đơn hàng");
         confirmAlert.setHeaderText("Bạn có chắc muốn xóa đơn hàng này?");
-        confirmAlert.setContentText("Đơn hàng: " + orderIdText + "\n⚠️ Hành động này không thể hoàn tác!");
+        confirmAlert.setContentText("Đơn hàng: " + orderIdText + "\n Hành động này không thể hoàn tác!");
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -579,35 +579,35 @@ public class OrderController implements Initializable {
                     details.append("🧾 CHI TIẾT ĐƠN HÀNG #").append(orderId).append("\n");
                     details.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
                     
-                    details.append("👤 THÔNG TIN KHÁCH HÀNG:\n");
+                    details.append(" THÔNG TIN KHÁCH HÀNG:\n");
                     details.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-                    details.append("📝 Tên: ").append(result.getString("customer_name") != null ? 
+                    details.append(" Tên: ").append(result.getString("customer_name") != null ? 
                         result.getString("customer_name") : "Khách vãng lai").append("\n");
-                    details.append("🕒 Ngày đặt: ").append(result.getTimestamp("date")).append("\n");
-                    details.append("👨‍💼 Nhân viên: ").append(result.getString("employee_name") != null ? 
+                    details.append(" Ngày đặt: ").append(result.getTimestamp("date")).append("\n");
+                    details.append(" Nhân viên: ").append(result.getString("employee_name") != null ?
                         result.getString("employee_name") : "N/A").append("\n\n");
                     
-                    details.append("📊 TRẠNG THÁI ĐƠN HÀNG:\n");
+                    details.append("TRẠNG THÁI ĐƠN HÀNG:\n");
                     details.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-                    details.append("📋 Trạng thái: ").append(result.getString("status")).append("\n");
-                    details.append("💳 Thanh toán: ").append(result.getString("payment_method")).append("\n");
-                    details.append("✅ TT thanh toán: ").append(result.getString("payment_status")).append("\n");
+                    details.append(" Trạng thái: ").append(result.getString("status")).append("\n");
+                    details.append(" Thanh toán: ").append(result.getString("payment_method")).append("\n");
+                    details.append(" TT thanh toán: ").append(result.getString("payment_status")).append("\n");
                     if (result.getString("delivery_address") != null) {
-                        details.append("🏠 Địa chỉ giao: ").append(result.getString("delivery_address")).append("\n");
+                        details.append(" Địa chỉ giao: ").append(result.getString("delivery_address")).append("\n");
                     }
                     if (result.getString("note") != null) {
-                        details.append("📝 Ghi chú: ").append(result.getString("note")).append("\n");
+                        details.append(" Ghi chú: ").append(result.getString("note")).append("\n");
                     }
                     details.append("\n");
                     
-                    details.append("💵 THÔNG TIN THANH TOÁN:\n");
+                    details.append(" THÔNG TIN THANH TOÁN:\n");
                     details.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-                    details.append("✅ Tổng tiền: ").append(String.format("%,d VND", result.getLong("total"))).append("\n");
+                    details.append(" Tổng tiền: ").append(String.format("%,d VND", result.getLong("total"))).append("\n");
                 }
             }
 
             // Lấy chi tiết sản phẩm
-            details.append("\n📦 CHI TIẾT SẢN PHẨM:\n");
+            details.append("\nCHI TIẾT SẢN PHẨM:\n");
             details.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
             
             String orderlinesSql = "SELECT ol.*, p.product_name " +

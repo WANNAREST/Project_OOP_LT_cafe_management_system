@@ -26,54 +26,54 @@
                </font>
             </Label>
             
-            <!-- ✅ SỬA - Employee ID -->
+            <!--  SỬA - Employee ID -->
             <Label layoutX="32.0" layoutY="258.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Employee ID" />
             <TextField fx:id="employee_ID" layoutX="150.0" layoutY="258.0" prefHeight="25.0" prefWidth="194.0" styleClass="text-field" stylesheets="@admin-style.css" />
             
-            <!-- ✅ SỬA - Full Name (thay vì First Name + Last Name) -->
+            <!--  SỬA - Full Name (thay vì First Name + Last Name) -->
             <Label layoutX="32.0" layoutY="290.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Full Name" />
             <TextField fx:id="employee_fullName" layoutX="150.0" layoutY="290.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Phone -->
+            <!--  SỬA - Phone -->
             <Label layoutX="32.0" layoutY="322.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Phone" />
             <TextField fx:id="employee_phone" layoutX="150.0" layoutY="322.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Email -->
+            <!--  SỬA - Email -->
             <Label layoutX="32.0" layoutY="354.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Email" />
             <TextField fx:id="employee_email" layoutX="150.0" layoutY="354.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Address -->
+            <!--  SỬA - Address -->
             <Label layoutX="32.0" layoutY="386.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Address" />
             <TextField fx:id="employee_address" layoutX="150.0" layoutY="386.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Role -->
+            <!--  SỬA - Role -->
             <Label layoutX="32.0" layoutY="418.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Role" />
             <TextField fx:id="employee_role" layoutX="150.0" layoutY="418.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Gender (ComboBox) -->
+            <!--  SỬA - Gender (ComboBox) -->
             <Label layoutX="32.0" layoutY="450.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Gender" />
             <ComboBox fx:id="employee_gender" layoutX="150.0" layoutY="450.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Citizen ID -->
+            <!--  SỬA - Citizen ID -->
             <Label layoutX="32.0" layoutY="482.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Citizen ID" />
             <TextField fx:id="employee_citizenId" layoutX="150.0" layoutY="482.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Date of Birth -->
+            <!--  SỬA - Date of Birth -->
             <Label layoutX="32.0" layoutY="514.0" prefHeight="25.0" prefWidth="100.0" styleClass="label1" stylesheets="@admin-style.css" text="Date of Birth" />
             <DatePicker fx:id="employee_dob" layoutX="150.0" layoutY="514.0" prefHeight="25.0" prefWidth="194.0" />
             
-            <!-- ✅ SỬA - Buttons -->
+            <!--  SỬA - Buttons -->
             <Button fx:id="employee_addBtn" layoutX="78.0" layoutY="579.0" mnemonicParsing="false" onAction="#employeeAddBtn" prefHeight="46.0" prefWidth="100.0" styleClass="save-btn" stylesheets="@admin-style.css" text="Add" />
             <Button fx:id="employee_updateBtn" layoutX="228.0" layoutY="576.0" mnemonicParsing="false" onAction="#employeeUpdateBtn" prefHeight="46.0" prefWidth="122.0" styleClass="save-btn" stylesheets="@admin-style.css" text="Update" />
             
-            <!-- ✅ SỬA - Default User Image -->
+            <!--  SỬA - Default User Image -->
             <AnchorPane layoutX="120.0" layoutY="14.0" prefHeight="150.0" prefWidth="150.0" stylesheets="@admin-style.css">
                <styleClass>
                   <String fx:value="white-bg" />
                   <String fx:value="shadow" />
                </styleClass>
                <children>
-                  <!-- ✅ SỬA - Default user icon -->
+                  <!--  SỬA - Default user icon -->
                   <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="0.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/user.png" />
@@ -90,10 +90,10 @@
                <children>
                   <ScrollPane layoutX="14.0" layoutY="35.0" prefHeight="530.0" prefWidth="774.0">
                      <content>
-                        <!-- ✅ SỬA - Tên TableView và Columns để khớp Controller -->
+                        <!--  SỬA - Tên TableView và Columns để khớp Controller -->
                         <TableView fx:id="employee_tableView" onMouseClicked="#employeeSelectData" prefHeight="520.0" prefWidth="774.0" stylesheets="@admin-style.css">
                           <columns>
-                            <!-- ✅ SỬA - Tên columns để khớp Controller -->
+                            <!--  SỬA - Tên columns để khớp Controller -->
                             <TableColumn fx:id="employee_col_ID" prefWidth="100.0" text="Employee ID" />
                             <TableColumn fx:id="employee_col_fullName" prefWidth="150.0" text="Full Name" />
                             <TableColumn fx:id="employee_col_phone" prefWidth="120.0" text="Phone" />

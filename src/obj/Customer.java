@@ -28,7 +28,7 @@ public class Customer extends User {
 
     // Additional constructor for legacy compatibility
     public Customer(String fullname, String phone, String address) {
-        super(1, fullname, phone, "", "", address); // Default values for missing fields
+        super(1, fullname, phone, "", "", address);
         this.point = 0;
         this.cart = new Cart();
         this.orderHistory = new ArrayList<>();
@@ -127,7 +127,7 @@ public class Customer extends User {
         return false;
     }
 
-    // Phương thức tính discount từ point (20 coins = 200 VND, so 1 coin = 10 VND)
+    // Phương thức tính discount từ point (20 coins = 200 VND,  1 coin = 10 VND)
     public int calculateDiscountFromPoints(int pointsToUse) {
         if (canUsePoints(pointsToUse)) {
             return pointsToUse * 10;

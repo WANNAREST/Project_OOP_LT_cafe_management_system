@@ -82,7 +82,7 @@ public class UserAppController implements Initializable {
             // Refresh customer data from database to get latest points
             refreshCustomerPointsFromDatabase();
             numCoinLabel.setText(Integer.toString(customer.getpoint()));
-            System.out.println("🔄 UI UPDATE: Customer coins display updated to: " + customer.getpoint());
+            System.out.println(" UI UPDATE: Customer coins display updated to: " + customer.getpoint());
         }
     }
     
@@ -104,11 +104,11 @@ public class UserAppController implements Initializable {
             if (rs.next()) {
                 int dbPoints = rs.getInt("bonus_point");
                 customer.setpoint(dbPoints);
-                System.out.println("🔄 REFRESH: Updated customer points from database: " + dbPoints);
+                System.out.println(" REFRESH: Updated customer points from database: " + dbPoints);
             }
             
         } catch (java.sql.SQLException e) {
-            System.err.println("❌ Error refreshing customer points: " + e.getMessage());
+            System.err.println(" Error refreshing customer points: " + e.getMessage());
         }
     }
 
@@ -412,11 +412,11 @@ public class UserAppController implements Initializable {
             stage.setTitle("Cafe Shop Management System");
             stage.centerOnScreen();
             
-            System.out.println("✅ User signed out successfully!");
+            System.out.println(" User signed out successfully!");
             
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("❌ Error during sign out: " + e.getMessage());
+            System.err.println(" Error during sign out: " + e.getMessage());
         }
     }
 

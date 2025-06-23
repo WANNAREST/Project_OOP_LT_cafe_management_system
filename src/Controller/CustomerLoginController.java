@@ -159,13 +159,13 @@ public class CustomerLoginController {
                     rs.getString("email")
                 );
                 
-                System.out.println("✅ Loaded customer: " + customer.getFullName() + " with " + customer.getpoint() + " points");
+                System.out.println(" Loaded customer: " + customer.getFullName() + " with " + customer.getpoint() + " points");
                 return customer;
             }
             
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("❌ Error loading customer data: " + e.getMessage());
+            System.err.println(" Error loading customer data: " + e.getMessage());
         }
         
         // Fallback to default customer
@@ -251,7 +251,7 @@ public class CustomerLoginController {
                 customerStmt.setInt(2, 0); // Default bonus points
                 customerStmt.executeUpdate();
                 
-                System.out.println("✅ Created customer entry for user ID: " + userId);
+                System.out.println(" Created customer entry for user ID: " + userId);
             }
 
             showAlert(Alert.AlertType.INFORMATION, "Account registered successfully!");

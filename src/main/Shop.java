@@ -48,10 +48,10 @@ public class Shop extends Application {
             primaryStage.centerOnScreen();
             primaryStage.show();
 
-            System.out.println("✅ Application started successfully!");
+            System.out.println(" Application started successfully!");
 
         } catch (IOException e) {
-            System.err.println("❌ Error loading launch screen: " + e.getMessage());
+            System.err.println(" Error loading launch screen: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -67,10 +67,10 @@ public class Shop extends Application {
             List<Product> productsFromDB = productDAO.getAvailableProducts();
 
             if (productsFromDB.isEmpty()) {
-                System.out.println("⚠️ No products found in database. Loading default products...");
+                System.out.println("No products found in database. Loading default products...");
                 loadDefaultProducts();
             } else {
-                System.out.println("✅ Loading " + productsFromDB.size() + " products from database...");
+                System.out.println(" Loading " + productsFromDB.size() + " products from database...");
 
                 // Add each product from database to the store
                 for (Product product : productsFromDB) {
@@ -82,8 +82,8 @@ public class Shop extends Application {
             }
 
         } catch (Exception e) {
-            System.err.println("❌ Error loading products from database: " + e.getMessage());
-            System.out.println("📦 Loading default products as fallback...");
+            System.err.println(" Error loading products from database: " + e.getMessage());
+            System.out.println(" Loading default products as fallback...");
             loadDefaultProducts();
         }
     }
@@ -101,7 +101,7 @@ public class Shop extends Application {
         store.addProduct(coffee2);
         store.addProduct(coffee3);
 
-        System.out.println("✅ Default products loaded successfully");
+        System.out.println(" Default products loaded successfully");
     }
 
     /**

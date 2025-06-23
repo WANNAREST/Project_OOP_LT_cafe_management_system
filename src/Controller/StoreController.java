@@ -418,7 +418,7 @@ public class StoreController implements Initializable {
 			stage.setTitle("Coffee Shop - Main Menu");
 			stage.show();
 			
-			System.out.println("✅ Logout successful - Returned to main menu");
+			System.out.println(" Logout successful - Returned to main menu");
 			
 		} catch (IOException e) {
 			e.printStackTrace();

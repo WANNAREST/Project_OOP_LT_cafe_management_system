@@ -34,14 +34,14 @@
                                 <Font size="21.0" />
                             </font>
                         </PasswordField>
-                        <!-- ✅ SỬA - đường dẫn CSS thống nhất -->
+                        <!--  SỬA - đường dẫn CSS thống nhất -->
                         <Button fx:id="si_loginBtn" layoutX="395.0" layoutY="576.0" minHeight="40.0" mnemonicParsing="false" onAction="#loginBtn" prefWidth="100.0" styleClass="login-btn" stylesheets="@admin-launch-design.css" text="LOGIN" />
                         <Hyperlink fx:id="si_forgotPass" layoutX="145.0" layoutY="581.0" onAction="#switchForgotPass" text="Forgot Password?">
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </Hyperlink>
-                        <!-- ✅ SỬA - đường dẫn CSS thống nhất -->
+                        <!--  SỬA - đường dẫn CSS thống nhất -->
                         <Button fx:id="fp_back" layoutX="320.0" layoutY="650.0" mnemonicParsing="false" onAction="#backToHomeScreen" prefHeight="38.0" prefWidth="71.0" styleClass="login-btn" stylesheets="@admin-launch-design.css" text="Back">
                             <font>
                                 <Font size="18.0" />
@@ -58,14 +58,14 @@
                                 <Font name="Berlin Sans FB" size="40.0" />
                             </font>
                         </Label>
-                        <!-- ✅ SỬA - đường dẫn CSS thống nhất -->
+                        <!--  SỬA - đường dẫn CSS thống nhất -->
                         <Button fx:id="fp_proceedBtn" layoutX="395.0" layoutY="576.0" minHeight="40.0" mnemonicParsing="false" onAction="#proceedBtn" prefWidth="100.0" styleClass="login-btn" stylesheets="@admin-launch-design.css" text="PROCEED" />
                         <TextField fx:id="fp_phonenumber" layoutX="145.0" layoutY="462.0" prefHeight="50.0" prefWidth="350.0" promptText="Confirm Phone Number">
                             <font>
                                 <Font size="21.0" />
                             </font>
                         </TextField>
-                        <!-- ✅ SỬA - đường dẫn CSS thống nhất -->
+                        <!--  SỬA - đường dẫn CSS thống nhất -->
                         <Button fx:id="si_back" layoutX="320.0" layoutY="650.0" mnemonicParsing="false" onAction="#backToLoginForm" prefHeight="38.0" prefWidth="71.0" styleClass="login-btn" stylesheets="@admin-launch-design.css" text="Back">
                             <font>
                                 <Font size="18.0" />
@@ -87,9 +87,9 @@
                                 <Font size="40.0" />
                             </font>
                         </Label>
-                        <!-- ✅ SỬA - đường dẫn CSS thống nhất -->
+                        <!--  SỬA - đường dẫn CSS thống nhất -->
                         <Button fx:id="np_changePassBtn" layoutX="328.0" layoutY="576.0" minHeight="40.0" mnemonicParsing="false" onAction="#changePassBtn" prefHeight="40.0" prefWidth="167.0" styleClass="login-btn" stylesheets="@admin-launch-design.css" text="CHANGE PASSWORD" />
-                        <!-- ✅ SỬA - đường dẫn CSS thống nhất -->
+                        <!--  SỬA - đường dẫn CSS thống nhất -->
                         <Button fx:id="np_back" layoutX="278.0" layoutY="645.0" mnemonicParsing="false" onAction="#backToQuestionForm" prefHeight="38.0" prefWidth="71.0" styleClass="login-btn" stylesheets="@admin-launch-design.css" text="Back">
                             <font>
                                 <Font size="18.0" />

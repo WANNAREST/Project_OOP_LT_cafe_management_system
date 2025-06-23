@@ -72,10 +72,10 @@ public class OrderManagerController {
 		productNameColumn.setCellValueFactory(cellData -> {
 		    try {
 		        String productName = cellData.getValue().getProduct().getName();
-		        System.out.println("🔍 CELL VALUE: Product name: " + productName);
+		        System.out.println(" CELL VALUE: Product name: " + productName);
 		        return new SimpleStringProperty(productName);
 		    } catch (Exception e) {
-		        System.err.println("❌ CELL VALUE ERROR: Product name: " + e.getMessage());
+		        System.err.println(" CELL VALUE ERROR: Product name: " + e.getMessage());
 		        return new SimpleStringProperty("Error");
 		    }
 		});
@@ -86,10 +86,10 @@ public class OrderManagerController {
 		    try {
 		        int price = cellData.getValue().getPrice();
 		        String formattedPrice = String.format("%,.0f VND", (double)price);
-		        System.out.println("🔍 CELL VALUE: Price: " + price + " -> " + formattedPrice);
+		        System.out.println(" CELL VALUE: Price: " + price + " -> " + formattedPrice);
 		        return new SimpleStringProperty(formattedPrice);
 		    } catch (Exception e) {
-		        System.err.println("❌ CELL VALUE ERROR: Price: " + e.getMessage());
+		        System.err.println(" CELL VALUE ERROR: Price: " + e.getMessage());
 		        return new SimpleStringProperty("Error");
 		    }
 		});
@@ -99,14 +99,14 @@ public class OrderManagerController {
 
 		// Xử lý sự kiện chọn đơn hàng
 		orderTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			System.out.println("🖱️ SELECTION: Order selection changed");
-			System.out.println("🖱️ SELECTION: Old selection: " + (oldSelection != null ? oldSelection.getOrderId() : "null"));
-			System.out.println("🖱️ SELECTION: New selection: " + (newSelection != null ? newSelection.getOrderId() : "null"));
+			System.out.println("🖱 SELECTION: Order selection changed");
+			System.out.println("🖱 SELECTION: Old selection: " + (oldSelection != null ? oldSelection.getOrderId() : "null"));
+			System.out.println("🖱 SELECTION: New selection: " + (newSelection != null ? newSelection.getOrderId() : "null"));
 			
 			if (newSelection != null) {
 				showOrderDetails(newSelection);
 			} else {
-				System.out.println("🖱️ SELECTION: No order selected, clearing details");
+				System.out.println("🖱 SELECTION: No order selected, clearing details");
 				clearFields();
 			}
 		});
@@ -175,42 +175,42 @@ public class OrderManagerController {
 	}
 
 	private void showOrderDetails(Order order) {
-	    System.out.println("🔍 ORDER DETAILS: Showing details for order ID: " + order.getOrderId());
-	    System.out.println("🔍 ORDER DETAILS: Customer: " + order.getCustomerName());
-	    System.out.println("🔍 ORDER DETAILS: Phone: " + order.getPhoneNumber());
+	    System.out.println(" ORDER DETAILS: Showing details for order ID: " + order.getOrderId());
+	    System.out.println(" ORDER DETAILS: Customer: " + order.getCustomerName());
+	    System.out.println(" ORDER DETAILS: Phone: " + order.getPhoneNumber());
 	    
 	    customerNameField.setText(order.getCustomerName() != null ? order.getCustomerName() : "N/A");
 	    phoneField.setText(order.getPhoneNumber() != null ? order.getPhoneNumber() : "N/A");
 	    
 	    // Load chi tiết sản phẩm trước khi tính tổng
 	    List<CartItem> items = order.getOrderItems();
-	    System.out.println("🔍 ORDER DETAILS: Order items count: " + (items != null ? items.size() : 0));
+	    System.out.println(" ORDER DETAILS: Order items count: " + (items != null ? items.size() : 0));
 	    
 	    if (items != null && !items.isEmpty()) {
 	        for (int i = 0; i < items.size(); i++) {
 	            CartItem item = items.get(i);
-	            System.out.println("🔍 ORDER DETAILS: Item " + (i+1) + ": " + 
+	            System.out.println(" ORDER DETAILS: Item " + (i+1) + ": " + 
 	                             item.getProduct().getName() + " x" + item.getQuantity() + 
 	                             " @ " + item.getPrice() + " VND");
 	        }
 	        
-	        System.out.println("🔍 UI UPDATE: Setting items to table...");
-	        System.out.println("🔍 UI UPDATE: orderItems observable list size before: " + orderItems.size());
+	        System.out.println(" UI UPDATE: Setting items to table...");
+	        System.out.println(" UI UPDATE: orderItems observable list size before: " + orderItems.size());
 	        
 	        orderItems.setAll(items);
-	        System.out.println("🔍 UI UPDATE: orderItems observable list size after setAll: " + orderItems.size());
+	        System.out.println(" UI UPDATE: orderItems observable list size after setAll: " + orderItems.size());
 	        
 	        itemsTable.setItems(orderItems);
-	        System.out.println("🔍 UI UPDATE: Set items to table, table items count: " + itemsTable.getItems().size());
+	        System.out.println(" UI UPDATE: Set items to table, table items count: " + itemsTable.getItems().size());
 	        
 	        // Force table refresh
 	        itemsTable.refresh();
-	        System.out.println("🔍 UI UPDATE: Table refreshed");
+	        System.out.println(" UI UPDATE: Table refreshed");
 	        
 	        // Test cell value factories
 	        if (!orderItems.isEmpty()) {
 	            CartItem firstItem = orderItems.get(0);
-	            System.out.println("🔍 UI UPDATE: Testing first item values:");
+	            System.out.println(" UI UPDATE: Testing first item values:");
 	            System.out.println("  - Product name: " + firstItem.getProduct().getName());
 	            System.out.println("  - Quantity: " + firstItem.getQuantity());
 	            System.out.println("  - Price: " + firstItem.getPrice());
@@ -220,9 +220,9 @@ public class OrderManagerController {
 	        double total = items.stream().mapToDouble(item -> 
 	            item.getPrice() * item.getQuantity()).sum();
 	        totalField.setText(String.format("%,.0f VND", total));
-	        System.out.println("🔍 ORDER DETAILS: Total calculated: " + total + " VND");
+	        System.out.println(" ORDER DETAILS: Total calculated: " + total + " VND");
 	    } else {
-	        System.out.println("❌ ORDER DETAILS: No items found for this order");
+	        System.out.println(" ORDER DETAILS: No items found for this order");
 	        orderItems.clear();
 	        itemsTable.setItems(orderItems);
 	        totalField.setText("0 VND");

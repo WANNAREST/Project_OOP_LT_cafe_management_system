@@ -23,7 +23,7 @@
             
             <!-- Filter Section -->
             <VBox spacing="10" style="-fx-background-color: #ecf0f1; -fx-padding: 15px; -fx-border-radius: 8px; -fx-background-radius: 8px;">
-                <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="🔍 Bộ lọc tìm kiếm:" />
+                <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text=" Bộ lọc tìm kiếm:" />
                 
                 <HBox alignment="CENTER_LEFT" spacing="15">
                     <VBox spacing="5">
@@ -52,15 +52,15 @@
                     </VBox>
                     
                     <VBox alignment="BOTTOM_LEFT" spacing="5">
-                        <Button fx:id="btnFilter" onAction="#handleFilter" prefHeight="35" prefWidth="100" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" text="🔍 Tìm kiếm" />
+                        <Button fx:id="btnFilter" onAction="#handleFilter" prefHeight="35" prefWidth="100" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" text=" Tìm kiếm" />
                     </VBox>
                     
                     <VBox alignment="BOTTOM_LEFT" spacing="5">
-                        <Button fx:id="btnResetFilter" onAction="#handleResetFilter" prefHeight="35" prefWidth="100" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;" text="🔄 Reset" />
+                        <Button fx:id="btnResetFilter" onAction="#handleResetFilter" prefHeight="35" prefWidth="100" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;" text=" Reset" />
                     </VBox>
                     
                     <VBox alignment="BOTTOM_LEFT" spacing="5">
-                        <Button fx:id="btnCreateSample" onAction="#createSampleOrders" prefHeight="35" prefWidth="120" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;" text="📝 Tạo dữ liệu mẫu" />
+                        <Button fx:id="btnCreateSample" onAction="#createSampleOrders" prefHeight="35" prefWidth="120" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;" text=" Tạo dữ liệu mẫu" />
                     </VBox>
                 </HBox>
             </VBox>
@@ -86,7 +86,7 @@
                 
                 <VBox alignment="BOTTOM_LEFT" spacing="5">
                     <HBox spacing="10">
-                        <Button fx:id="btnUpdateOrder" onAction="#handleUpdateOrder" prefHeight="35" prefWidth="120" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;" text="✅ Cập nhật" />
+                        <Button fx:id="btnUpdateOrder" onAction="#handleUpdateOrder" prefHeight="35" prefWidth="120" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;" text=" Cập nhật" />
                         <Button fx:id="btnViewDetails" onAction="#handleViewDetails" prefHeight="35" prefWidth="120" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold;" text="👁️ Xem chi tiết" />
                         <Button fx:id="btnDeleteOrder" onAction="#handleDeleteOrder" prefHeight="35" prefWidth="120" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" text="🗑️ Xóa đơn" />
                     </HBox>

@@ -61,7 +61,7 @@ public class GeminiChatBotController {
             }
         }
 
-        System.out.println("✅ Store initialized with " + store.getItemsInStore().size() + " products");
+        System.out.println(" Store initialized with " + store.getItemsInStore().size() + " products");
     }
 
     /**
@@ -74,9 +74,9 @@ public class GeminiChatBotController {
         System.out.println("    GEMINI CHATBOT TEST CONTROLLER");
         System.out.println("=======================================");
         System.out.println("💬 Bắt đầu chat với OOP Coffee Bot!");
-        System.out.println("📝 Gõ 'exit' để thoát");
-        System.out.println("📝 Gõ 'test' để chạy các test tự động");
-        System.out.println("📝 Gõ 'menu' để xem menu");
+        System.out.println(" Gõ 'exit' để thoát");
+        System.out.println(" Gõ 'test' để chạy các test tự động");
+        System.out.println(" Gõ 'menu' để xem menu");
         System.out.println("=======================================\n");
 
         while (isRunning) {
@@ -100,7 +100,7 @@ public class GeminiChatBotController {
             }
 
             if (userInput.isEmpty()) {
-                System.out.println("⚠️ Vui lòng nhập câu hỏi của bạn.");
+                System.out.println(" Vui lòng nhập câu hỏi của bạn.");
                 continue;
             }
 
@@ -139,7 +139,7 @@ public class GeminiChatBotController {
 
         } catch (Exception e) {
             loadingTask.cancel(true);
-            System.out.println("\n❌ Lỗi: " + e.getMessage());
+            System.out.println("\n Lỗi: " + e.getMessage());
             System.out.println("🔧 Kiểm tra kết nối mạng và API key.\n");
         }
     }
@@ -178,7 +178,7 @@ public class GeminiChatBotController {
         };
 
         for (int i = 0; i < testQuestions.length; i++) {
-            System.out.println("📝 Test " + (i + 1) + "/10:");
+            System.out.println(" Test " + (i + 1) + "/10:");
             System.out.println("👤 " + testQuestions[i]);
 
             String response = chatBot.getChatResponse(testQuestions[i]);
@@ -194,7 +194,7 @@ public class GeminiChatBotController {
             }
         }
 
-        System.out.println("✅ Hoàn thành tất cả các test!");
+        System.out.println(" Hoàn thành tất cả các test!");
         System.out.println("💡 Quay lại chat tương tác bằng cách nhập câu hỏi mới.\n");
     }
 
@@ -212,7 +212,7 @@ public class GeminiChatBotController {
      * Validate API configuration
      */
     public boolean validateConfiguration() {
-        System.out.println("🔍 Kiểm tra cấu hình...");
+        System.out.println(" Kiểm tra cấu hình...");
 
         try {
             // Test with a simple question
@@ -220,15 +220,15 @@ public class GeminiChatBotController {
 
             if (testResponse.contains("Có lỗi xảy ra") ||
                     testResponse.contains("không thể trả lời")) {
-                System.out.println("❌ Cấu hình không đúng hoặc API key không hợp lệ");
+                System.out.println(" Cấu hình không đúng hoặc API key không hợp lệ");
                 return false;
             }
 
-            System.out.println("✅ Cấu hình hợp lệ!");
+            System.out.println(" Cấu hình hợp lệ!");
             return true;
 
         } catch (Exception e) {
-            System.out.println("❌ Lỗi cấu hình: " + e.getMessage());
+            System.out.println(" Lỗi cấu hình: " + e.getMessage());
             return false;
         }
     }
@@ -255,7 +255,7 @@ public class GeminiChatBotController {
         newCoffee.setQuantity(quantity);
         newCoffee.setDescription(description);
         store.addProduct(newCoffee);
-        System.out.println("✅ Added test product: " + name);
+        System.out.println(" Added test product: " + name);
     }
 
     /**
@@ -268,8 +268,8 @@ public class GeminiChatBotController {
         if (controller.validateConfiguration()) {
             controller.startInteractiveChat();
         } else {
-            System.out.println("⚠️ Vui lòng kiểm tra cấu hình API key trong config.properties");
-            System.out.println("📝 Thêm dòng: gemini.api.key=YOUR_API_KEY");
+            System.out.println(" Vui lòng kiểm tra cấu hình API key trong config.properties");
+            System.out.println(" Thêm dòng: gemini.api.key=YOUR_API_KEY");
         }
     }
 }

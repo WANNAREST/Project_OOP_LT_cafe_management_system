@@ -28,8 +28,8 @@
                     <Label prefHeight="42.0" prefWidth="29.0" text="Năm:" />
                     <ComboBox fx:id="cbYear" prefHeight="46.0" prefWidth="100" />
                     <Button fx:id="btnFilter" onAction="#handleFilter" prefHeight="31.0" prefWidth="102.0" styleClass="save-btn" stylesheets="@admin-style.css" text="Lọc" />
-                    <!-- ✅ THÊM - Button cập nhật chấm công -->
-                    <Button fx:id="btnRefreshAttendance" onAction="#handleRefreshAttendance" prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="🔄 Cập nhật chấm công" />
+                    <!--  THÊM - Button cập nhật chấm công -->
+                    <Button fx:id="btnRefreshAttendance" onAction="#handleRefreshAttendance" prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: #28a745; -fx-text-fill: white;" text=" Cập nhật chấm công" />
                     <Region HBox.hgrow="ALWAYS" />
                 </children>
             </HBox>
@@ -51,7 +51,7 @@
                 </children>
             </HBox>
             
-            <!-- ✅ THÊM - Hướng dẫn sử dụng -->
+            <!--  THÊM - Hướng dẫn sử dụng -->
             <Label style="-fx-font-size: 12px; -fx-text-fill: #666;" text="💡 Hướng dẫn: Double-click vào các ô 'Lương cơ bản', 'Thưởng/Phạt', 'Ghi chú' để chỉnh sửa. Lương sẽ tự động tính lại." />
         </VBox>
     </top>
@@ -66,12 +66,12 @@
                     <columns>
                         <TableColumn fx:id="colEmployeeId" prefWidth="70" text="Mã NV" />
                         <TableColumn fx:id="colSalaryCode" prefWidth="70" text="Mã lương" />
-                        <!-- ✅ EDITABLE COLUMN -->
+                        <!--  EDITABLE COLUMN -->
                         <TableColumn fx:id="colBasicSalary" prefWidth="100" text="Lương cơ bản" />
                         <TableColumn fx:id="colPresent" prefWidth="90" text="Ngày làm việc" />
                         <TableColumn fx:id="colLate" prefWidth="70" text="Đi muộn" />
                         <TableColumn fx:id="colAbsent" prefWidth="70" text="Vắng" />
-                        <!-- ✅ EDITABLE COLUMN -->
+                        <!--  EDITABLE COLUMN -->
                         <TableColumn fx:id="colBonusPenalty" prefWidth="90" text="Thưởng" />
                         <TableColumn fx:id="colTotalSalary" prefWidth="110" text="Tổng lương" />
                     </columns>

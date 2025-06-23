@@ -193,7 +193,7 @@ public class PaymentAPI {
                     System.out.println("  Content match: " + contentMatch);
 
                     if (amountMatch && contentMatch) {
-                        System.out.println("✅ Transaction matched!");
+                        System.out.println(" Transaction matched!");
                         return true;
                     }
 
@@ -247,9 +247,9 @@ public class PaymentAPI {
             System.out.println("Transaction verification result: " + isValid);
 
             if (isValid) {
-                System.out.println("✅ Thanh toán thành công!");
+                System.out.println(" Thanh toán thành công!");
             } else {
-                System.out.println("❌ Không tìm thấy giao dịch. Có thể:");
+                System.out.println(" Không tìm thấy giao dịch. Có thể:");
                 System.out.println("- Chưa chuyển khoản");
                 System.out.println("- Sai số tiền");
                 System.out.println("- Sai nội dung chuyển khoản");

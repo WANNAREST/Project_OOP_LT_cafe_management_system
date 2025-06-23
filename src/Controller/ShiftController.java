@@ -38,7 +38,7 @@ public class ShiftController implements Initializable {
     @FXML private TableColumn<ShiftRecord, String> colScheduleEmployeeName;
     @FXML private TableColumn<ShiftRecord, String> colScheduleStatus;
     
-    // ✅ THÊM - ObservableList cho ComboBox options
+    //  THÊM - ObservableList cho ComboBox options
     private final ObservableList<String> statusOptions = FXCollections.observableArrayList(
         "scheduled", "completed", "absent", "late"
     );
@@ -68,7 +68,7 @@ public class ShiftController implements Initializable {
     }
 
     private void setupTable() {
-        // ✅ THÊM - Setup editable table
+        //  THÊM - Setup editable table
         scheduleTable.setEditable(true);
         
         colScheduleDate.setCellValueFactory(new PropertyValueFactory<>("workDate"));
@@ -76,11 +76,11 @@ public class ShiftController implements Initializable {
         colScheduleEmployeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
         colScheduleEmployeeName.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
         
-        // ✅ THÊM - Setup editable ComboBox column cho điểm danh
+        //  THÊM - Setup editable ComboBox column cho điểm danh
         colScheduleStatus.setCellValueFactory(new PropertyValueFactory<>("attendanceStatus"));
         colScheduleStatus.setCellFactory(ComboBoxTableCell.forTableColumn(statusOptions));
         
-        // ✅ THÊM - Xử lý khi edit điểm danh
+        //  THÊM - Xử lý khi edit điểm danh
         colScheduleStatus.setOnEditCommit(event -> {
             ShiftRecord record = event.getRowValue();
             String newStatus = event.getNewValue();
@@ -99,7 +99,7 @@ public class ShiftController implements Initializable {
         });
     }
 
-    // ✅ SỬA - Method cập nhật trạng thái điểm danh
+    //  SỬA - Method cập nhật trạng thái điểm danh
     private boolean updateAttendanceStatus(ShiftRecord record, String newStatus) {
         String updateSql = "UPDATE Shift_Details sd " +
                           "JOIN Shifts s ON sd.shift_id = s.shift_id " +
@@ -117,7 +117,7 @@ public class ShiftController implements Initializable {
             int rowsAffected = stmt.executeUpdate();
             
             if (rowsAffected > 0) {
-                // ✅ THÊM - Thông báo cập nhật bảng lương
+                //  THÊM - Thông báo cập nhật bảng lương
                 showAlert("Cập nhật điểm danh thành công!\n" +
                          "💡 Lưu ý: Hãy vào 'Quản lý lương' và nhấn 'Cập nhật chấm công' để đồng bộ bảng lương.", 
                          Alert.AlertType.INFORMATION);
@@ -236,9 +236,9 @@ public class ShiftController implements Initializable {
         }
     }
 
-    // ✅ SỬA - method delete với syntax đúng
+    //  SỬA - method delete với syntax đúng
     private void deleteShiftRecord(String employeeId, LocalDate workDate, String shift) {
-        // ✅ SỬA - Không dùng alias trong DELETE
+        //  SỬA - Không dùng alias trong DELETE
         String deleteSql = "DELETE FROM Shift_Details " +
                           "WHERE employee_id = ? AND " +
                           "shift_id = (SELECT shift_id FROM Shifts WHERE date = ? AND time = ?)";
@@ -272,7 +272,7 @@ public class ShiftController implements Initializable {
         }
     }
 
-    // ✅ SỬA - check employee exists với database mới
+    //  SỬA - check employee exists với database mới
     private boolean isEmployeeExists(String employeeId) {
         String sql = "SELECT employee_id FROM Employees WHERE employee_id = ?";
         
@@ -290,7 +290,7 @@ public class ShiftController implements Initializable {
         }
     }
 
-    // ✅ SỬA - check shift exists với database mới
+    //  SỬA - check shift exists với database mới
     private boolean isShiftExists(String employeeId, LocalDate workDate, String shift) {
         String sql = "SELECT sd.employee_id FROM Shift_Details sd " +
                     "JOIN Shifts s ON sd.shift_id = s.shift_id " +
@@ -313,7 +313,7 @@ public class ShiftController implements Initializable {
         }
     }
 
-    // ✅ SỬA - add shift record với database mới
+    //  SỬA - add shift record với database mới
     private void addShiftRecord(String employeeId, LocalDate workDate, String shift, String attendanceStatus) {
         try (Connection conn = DatabaseConnection.getConnection()) {
             conn.setAutoCommit(false);
@@ -370,7 +370,7 @@ public class ShiftController implements Initializable {
         throw new Exception("Cannot create shift");
     }
 
-    // ✅ SỬA - load shift data với database schema đúng
+    //  SỬA - load shift data với database schema đúng
     private void loadShiftData() {
         ObservableList<ShiftRecord> shiftList = FXCollections.observableArrayList();
         
@@ -430,7 +430,7 @@ public class ShiftController implements Initializable {
         alert.showAndWait();
     }
 
-    // ✅ THÊM - Methods còn thiếu
+    //  THÊM - Methods còn thiếu
     @FXML
     private void handleClearForm() {
         clearForm();

@@ -229,7 +229,7 @@ public class Order {
             
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("❌ Error fetching orders by status: " + e.getMessage());
+            System.err.println(" Error fetching orders by status: " + e.getMessage());
         }
         
         return orders;
@@ -247,16 +247,16 @@ public class Order {
             int rowsAffected = stmt.executeUpdate();
             
             if (rowsAffected > 0) {
-                System.out.println("✅ Order " + orderId + " confirmed by employee " + employeeId);
+                System.out.println(" Order " + orderId + " confirmed by employee " + employeeId);
                 return true;
             } else {
-                System.err.println("❌ No pending order found with ID: " + orderId);
+                System.err.println(" No pending order found with ID: " + orderId);
                 return false;
             }
             
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("❌ Error confirming order: " + e.getMessage());
+            System.err.println(" Error confirming order: " + e.getMessage());
             return false;
         }
     }
@@ -274,16 +274,16 @@ public class Order {
             int rowsAffected = stmt.executeUpdate();
             
             if (rowsAffected > 0) {
-                System.out.println("✅ Order " + orderId + " cancelled by employee " + employeeId + " - Reason: " + reason);
+                System.out.println(" Order " + orderId + " cancelled by employee " + employeeId + " - Reason: " + reason);
                 return true;
             } else {
-                System.err.println("❌ No pending order found with ID: " + orderId);
+                System.err.println(" No pending order found with ID: " + orderId);
                 return false;
             }
             
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("❌ Error cancelling order: " + e.getMessage());
+            System.err.println(" Error cancelling order: " + e.getMessage());
             return false;
         }
     }
@@ -299,8 +299,8 @@ public class Order {
                           "JOIN Products p ON ol.product_id = p.product_id " +
                           "WHERE ol.order_id = ?";
             
-            System.out.println("🔍 GET ORDER ITEMS: Fetching items for order ID: " + orderId);
-            System.out.println("🔍 GET ORDER ITEMS: SQL Query: " + query);
+            System.out.println(" GET ORDER ITEMS: Fetching items for order ID: " + orderId);
+            System.out.println(" GET ORDER ITEMS: SQL Query: " + query);
             
             java.sql.PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, orderId);
@@ -320,12 +320,12 @@ public class Order {
                 CartItem item = new CartItem(product, rs.getInt("quantity"));
                 items.add(item);
                 
-                System.out.println("🔍 GET ORDER ITEMS: Added item: " + rs.getString("product_name") + 
+                System.out.println(" GET ORDER ITEMS: Added item: " + rs.getString("product_name") + 
                                  " x" + rs.getInt("quantity") + " @ " + rs.getInt("price") + " VND");
             }
             
             if (!hasResults) {
-                System.out.println("❌ GET ORDER ITEMS: No orderlines found for order ID: " + orderId);
+                System.out.println(" GET ORDER ITEMS: No orderlines found for order ID: " + orderId);
                 
                 // Let's check if the order exists at all
                 String checkOrderQuery = "SELECT COUNT(*) as order_exists FROM Orders WHERE order_id = ?";
@@ -334,7 +334,7 @@ public class Order {
                 java.sql.ResultSet checkRs = checkStmt.executeQuery();
                 if (checkRs.next()) {
                     int orderExists = checkRs.getInt("order_exists");
-                    System.out.println("🔍 GET ORDER ITEMS: Order " + orderId + " exists: " + (orderExists > 0));
+                    System.out.println(" GET ORDER ITEMS: Order " + orderId + " exists: " + (orderExists > 0));
                 }
                 checkRs.close();
                 checkStmt.close();
@@ -346,20 +346,20 @@ public class Order {
                 java.sql.ResultSet checkOrderlinesRs = checkOrderlinesStmt.executeQuery();
                 if (checkOrderlinesRs.next()) {
                     int orderlineCount = checkOrderlinesRs.getInt("orderline_count");
-                    System.out.println("🔍 GET ORDER ITEMS: Orderlines for order " + orderId + ": " + orderlineCount);
+                    System.out.println(" GET ORDER ITEMS: Orderlines for order " + orderId + ": " + orderlineCount);
                 }
                 checkOrderlinesRs.close();
                 checkOrderlinesStmt.close();
             }
             
-            System.out.println("🔍 GET ORDER ITEMS: Total items loaded: " + items.size());
+            System.out.println(" GET ORDER ITEMS: Total items loaded: " + items.size());
             
             rs.close();
             stmt.close();
             
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("❌ Error fetching order items for order " + orderId + ": " + e.getMessage());
+            System.err.println(" Error fetching order items for order " + orderId + ": " + e.getMessage());
         }
         
         return items;
@@ -367,11 +367,11 @@ public class Order {
     
     public boolean placeCompleteOrder(int employeeId) {
         this.employeeId = employeeId;
-        System.out.println("📝 SAVE ORDER: Attempting to save order to database");
-        System.out.println("📝 SAVE ORDER: Customer: " + (customerName != null ? customerName : "N/A"));
-        System.out.println("📝 SAVE ORDER: Phone: " + (phoneNumber != null && !phoneNumber.isEmpty() ? phoneNumber : "N/A"));
-        System.out.println("📝 SAVE ORDER: Total: " + total);
-        System.out.println("📝 SAVE ORDER: Items count: " + (orderItems != null ? orderItems.size() : 0));
+        System.out.println(" SAVE ORDER: Attempting to save order to database");
+        System.out.println(" SAVE ORDER: Customer: " + (customerName != null ? customerName : "N/A"));
+        System.out.println(" SAVE ORDER: Phone: " + (phoneNumber != null && !phoneNumber.isEmpty() ? phoneNumber : "N/A"));
+        System.out.println(" SAVE ORDER: Total: " + total);
+        System.out.println(" SAVE ORDER: Items count: " + (orderItems != null ? orderItems.size() : 0));
         
         try {
             java.sql.Connection conn = Controller.DatabaseConnection.getConnection();
@@ -381,20 +381,20 @@ public class Order {
             int customerId = 0;
             if (phoneNumber != null && !phoneNumber.isEmpty()) {
                 customerId = findCustomerIdByPhone(phoneNumber);
-                System.out.println("📝 SAVE ORDER: Found customer ID: " + customerId + " for phone: " + phoneNumber);
+                System.out.println(" SAVE ORDER: Found customer ID: " + customerId + " for phone: " + phoneNumber);
             } else {
-                System.out.println("📝 SAVE ORDER: No phone number provided, using customer_id = NULL");
+                System.out.println(" SAVE ORDER: No phone number provided, using customer_id = NULL");
             }
             
             // Validate employee_id exists in Employees table
             if (!validateEmployeeId(employeeId)) {
-                System.err.println("❌ SAVE ORDER: Invalid employee ID: " + employeeId);
+                System.err.println(" SAVE ORDER: Invalid employee ID: " + employeeId);
                 return false;
             }
             
             // Insert order into Orders table
             String insertOrderSql = "INSERT INTO Orders (customer_id, employee_id, date, status, payment_method, payment_status, note, delivery_address, total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            System.out.println("📝 SQL: " + insertOrderSql);
+            System.out.println(" SQL: " + insertOrderSql);
             java.sql.PreparedStatement orderStmt = conn.prepareStatement(insertOrderSql, java.sql.Statement.RETURN_GENERATED_KEYS);
             
             // Handle customer_id - use NULL if 0 (anonymous order)
@@ -413,11 +413,11 @@ public class Order {
             // Convert double to BIGINT (multiply by 1 to ensure it's a whole number)
             orderStmt.setLong(9, Math.round(total));
             
-            System.out.println("📝 PARAMS: customer_id=" + customerId + ", employee_id=" + employeeId + 
+            System.out.println(" PARAMS: customer_id=" + customerId + ", employee_id=" + employeeId + 
                              ", status=" + status.name().toLowerCase() + ", total=" + total);
             
             int orderRowsAffected = orderStmt.executeUpdate();
-            System.out.println("📝 RESULT: " + orderRowsAffected + " rows affected in Orders table");
+            System.out.println(" RESULT: " + orderRowsAffected + " rows affected in Orders table");
             
             if (orderRowsAffected > 0) {
                 // Get the generated order ID
@@ -425,7 +425,7 @@ public class Order {
                 if (generatedKeys.next()) {
                     int generatedOrderId = generatedKeys.getInt(1);
                     this.orderId = generatedOrderId;
-                    System.out.println("✅ SAVE ORDER: Order saved with ID: " + generatedOrderId);
+                    System.out.println(" SAVE ORDER: Order saved with ID: " + generatedOrderId);
                     
                     // Insert order items into Orderlines table
                     if (orderItems != null && !orderItems.isEmpty()) {
@@ -442,45 +442,45 @@ public class Order {
                         }
                         
                         int[] batchResults = orderLineStmt.executeBatch();
-                        System.out.println("✅ SAVE ORDER: " + batchResults.length + " order items saved");
+                        System.out.println(" SAVE ORDER: " + batchResults.length + " order items saved");
                     }
                     
                     conn.commit();
-                    System.out.println("✅ SAVE ORDER: Order placed successfully!");
+                    System.out.println(" SAVE ORDER: Order placed successfully!");
                     return true;
                 }
             }
             
             conn.rollback();
-            System.err.println("❌ SAVE ORDER: Failed to save order");
+            System.err.println(" SAVE ORDER: Failed to save order");
             return false;
             
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("❌ SAVE ORDER: Database error: " + e.getMessage());
+            System.err.println(" SAVE ORDER: Database error: " + e.getMessage());
             return false;
         }
     }
     
     private int findCustomerIdByPhone(String phoneNumber) {
-        System.out.println("🔍 LOOKUP: Searching for customer with phone: " + phoneNumber);
+        System.out.println(" LOOKUP: Searching for customer with phone: " + phoneNumber);
         try {
             java.sql.Connection conn = Controller.DatabaseConnection.getConnection();
             String query = "SELECT c.customer_id FROM Customers c " +
                           "JOIN Users u ON c.customer_id = u.user_id " +
                           "WHERE u.phone = ? AND u.role = 'customer'";
             
-            System.out.println("🔍 LOOKUP: Executing query: " + query);
+            System.out.println(" LOOKUP: Executing query: " + query);
             java.sql.PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, phoneNumber);
             java.sql.ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
                 int customerId = rs.getInt("customer_id");
-                System.out.println("✅ LOOKUP: Found customer ID: " + customerId);
+                System.out.println(" LOOKUP: Found customer ID: " + customerId);
                 return customerId;
             } else {
-                System.out.println("❌ LOOKUP: No customer found with phone: " + phoneNumber);
+                System.out.println(" LOOKUP: No customer found with phone: " + phoneNumber);
                 
                 // Let's also check what customers exist in the database
                 String debugQuery = "SELECT u.phone, u.full_name, c.customer_id FROM Users u " +
@@ -489,7 +489,7 @@ public class Order {
                 java.sql.PreparedStatement debugStmt = conn.prepareStatement(debugQuery);
                 java.sql.ResultSet debugRs = debugStmt.executeQuery();
                 
-                System.out.println("🔍 DEBUG: Existing customers in database:");
+                System.out.println(" DEBUG: Existing customers in database:");
                 while (debugRs.next()) {
                     System.out.println("  - Phone: " + debugRs.getString("phone") + 
                                      ", Name: " + debugRs.getString("full_name") + 
@@ -497,7 +497,7 @@ public class Order {
                 }
             }
         } catch (Exception e) {
-            System.err.println("❌ Error finding customer ID: " + e.getMessage());
+            System.err.println(" Error finding customer ID: " + e.getMessage());
             e.printStackTrace();
         }
         
@@ -515,9 +515,9 @@ public class Order {
             
             boolean exists = rs.next();
             if (exists) {
-                System.out.println("✅ EMPLOYEE CHECK: Employee ID " + employeeId + " exists");
+                System.out.println(" EMPLOYEE CHECK: Employee ID " + employeeId + " exists");
             } else {
-                System.err.println("❌ EMPLOYEE CHECK: Employee ID " + employeeId + " not found in Employees table");
+                System.err.println(" EMPLOYEE CHECK: Employee ID " + employeeId + " not found in Employees table");
                 
                 // Show existing employees for debugging
                 String debugQuery = "SELECT e.employee_id, u.full_name FROM Employees e " +
@@ -525,7 +525,7 @@ public class Order {
                 java.sql.PreparedStatement debugStmt = conn.prepareStatement(debugQuery);
                 java.sql.ResultSet debugRs = debugStmt.executeQuery();
                 
-                System.out.println("🔍 DEBUG: Existing employees:");
+                System.out.println(" DEBUG: Existing employees:");
                 while (debugRs.next()) {
                     System.out.println("  - ID: " + debugRs.getInt("employee_id") + 
                                      ", Name: " + debugRs.getString("full_name"));
@@ -534,7 +534,7 @@ public class Order {
             
             return exists;
         } catch (Exception e) {
-            System.err.println("❌ Error validating employee ID: " + e.getMessage());
+            System.err.println(" Error validating employee ID: " + e.getMessage());
             return false;
         }
     }

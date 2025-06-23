@@ -246,7 +246,7 @@ public class ProductDAO {
              Statement stmt = conn.createStatement()) {
 
             int rowsAffected = stmt.executeUpdate(sql);
-            System.out.println("✅ Updated " + rowsAffected + " image paths from 'images/' to 'img/'");
+            System.out.println(" Updated " + rowsAffected + " image paths from 'images/' to 'img/'");
             return rowsAffected > 0;
 
         } catch (SQLException e) {
@@ -286,11 +286,11 @@ public class ProductDAO {
         DatabaseConnection.testConnection();
 
         // Fix image paths first
-        System.out.println("\n🔧 Fixing image paths...");
+        System.out.println("\n Fixing image paths...");
         productDAO.updateImagePaths();
 
         // Test getting all products
-        System.out.println("\n📦 All Products:");
+        System.out.println("\n All Products:");
         List<Product> allProducts = productDAO.getAllProducts();
         for (Product product : allProducts) {
             System.out.println(product.getName() + " - " + formatPrice(product.getPrice()) +
@@ -299,26 +299,22 @@ public class ProductDAO {
         }
 
         // Test getting categories
-        System.out.println("\n🏷️ Categories:");
+        System.out.println("\n🏷 Categories:");
         List<String> categories = productDAO.getAllCategories();
         for (String category : categories) {
             System.out.println("- " + category);
         }
 
         // Test getting coffee products
-        System.out.println("\n☕ Coffee Products:");
+        System.out.println("\n Coffee Products:");
         List<Product> coffeeProducts = productDAO.getProductsByCategory("Coffee");
 
-       // for (Product product : coffeeProducts) {
-        //    System.out.println(product.toString() + " - Image: " + product.getImagePath());
-        //}
+
 
         // Test search functionality
-        System.out.println("\n🔍 Search for 'Latte':");
+        System.out.println("\n Search for 'Latte':");
         List<Product> searchResults = productDAO.searchProductsByName("Latte");
-       // for (Product product : searchResults) {
-        //    System.out.println(product.toString() + " - Image: " + product.getImagePath());
-        //}
+
 
         // Close connection
         DatabaseConnection.closeConnection();

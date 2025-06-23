@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class EmployeeController implements Initializable {
 
     @FXML private TextField employee_ID;
-    @FXML private TextField employee_fullName;  // ✅ SỬA - Chỉ có fullName
+    @FXML private TextField employee_fullName;  //  SỬA - Chỉ có fullName
     @FXML private TextField employee_phone;
     @FXML private TextField employee_email;
     @FXML private TextField employee_address;
@@ -41,10 +41,10 @@ public class EmployeeController implements Initializable {
     private ResultSet result;
     private Alert alert;
 
-    // ✅ SỬA - THÊM EMPLOYEE với Full Name
+    //  SỬA - THÊM EMPLOYEE với Full Name
     @FXML
     public void employeeAddBtn() {
-        String fullName = employee_fullName.getText().trim();  // ✅ SỬA - Chỉ lấy fullName
+        String fullName = employee_fullName.getText().trim();  //  SỬA - Chỉ lấy fullName
         String phone = employee_phone.getText();
         String email = employee_email.getText();
         String address = employee_address.getText();
@@ -71,7 +71,7 @@ public class EmployeeController implements Initializable {
             int userId;
 
             try (PreparedStatement userStmt = conn.prepareStatement(insertUserSql, Statement.RETURN_GENERATED_KEYS)) {
-                userStmt.setString(1, fullName);  // ✅ SỬA - Dùng fullName trực tiếp
+                userStmt.setString(1, fullName);  //  SỬA - Dùng fullName trực tiếp
                 userStmt.setString(2, address);
                 userStmt.setDate(3, Date.valueOf(employee_dob.getValue()));
                 userStmt.setString(4, phone);
@@ -101,7 +101,7 @@ public class EmployeeController implements Initializable {
             }
 
             conn.commit();
-            showAlert(Alert.AlertType.INFORMATION, "✅ Thêm nhân viên thành công!\nMã NV: " + userId);
+            showAlert(Alert.AlertType.INFORMATION, " Thêm nhân viên thành công!\nMã NV: " + userId);
             employeeShowData();
             employeeClearBtn();
 
@@ -111,11 +111,11 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    // ✅ SỬA - CẬP NHẬT EMPLOYEE với Full Name
+    //  SỬA - CẬP NHẬT EMPLOYEE với Full Name
     @FXML
     public void employeeUpdateBtn() {
         String employeeId = employee_ID.getText();
-        String fullName = employee_fullName.getText().trim();  // ✅ SỬA - Chỉ lấy fullName
+        String fullName = employee_fullName.getText().trim();  //  SỬA - Chỉ lấy fullName
         String phone = employee_phone.getText();
         String email = employee_email.getText();
         String address = employee_address.getText();
@@ -141,7 +141,7 @@ public class EmployeeController implements Initializable {
                 // 1. Cập nhật bảng Users
                 String updateUserSql = "UPDATE Users SET full_name = ?, address = ?, dob = ?, phone = ?, email = ?, role = ? WHERE user_id = ?";
                 try (PreparedStatement userStmt = conn.prepareStatement(updateUserSql)) {
-                    userStmt.setString(1, fullName);  // ✅ SỬA - Dùng fullName trực tiếp
+                    userStmt.setString(1, fullName);  //  SỬA - Dùng fullName trực tiếp
                     userStmt.setString(2, address);
                     userStmt.setDate(3, employee_dob.getValue() != null ? Date.valueOf(employee_dob.getValue()) : null);
                     userStmt.setString(4, phone);
@@ -163,7 +163,7 @@ public class EmployeeController implements Initializable {
                 }
 
                 conn.commit();
-                showAlert(Alert.AlertType.INFORMATION, "✅ Cập nhật nhân viên thành công!");
+                showAlert(Alert.AlertType.INFORMATION, " Cập nhật nhân viên thành công!");
                 employeeShowData();
                 employeeClearBtn();
 
@@ -174,7 +174,7 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    // ✅ SỬA - XÓA EMPLOYEE với database mới
+    //  SỬA - XÓA EMPLOYEE với database mới
     @FXML
     public void employeeDeleteBtn() {
         String employeeId = employee_ID.getText();
@@ -187,7 +187,7 @@ public class EmployeeController implements Initializable {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Xác nhận xóa");
         confirmAlert.setHeaderText("Bạn có chắc muốn XÓA nhân viên ID: " + employeeId + "?");
-        confirmAlert.setContentText("⚠️ Hành động này sẽ xóa tất cả dữ liệu liên quan và không thể hoàn tác!");
+        confirmAlert.setContentText(" Hành động này sẽ xóa tất cả dữ liệu liên quan và không thể hoàn tác!");
         
         Optional<ButtonType> option = confirmAlert.showAndWait();
         
@@ -202,7 +202,7 @@ public class EmployeeController implements Initializable {
                 int rowsAffected = stmt.executeUpdate();
                 
                 if (rowsAffected > 0) {
-                    showAlert(Alert.AlertType.INFORMATION, "✅ Xóa nhân viên thành công!");
+                    showAlert(Alert.AlertType.INFORMATION, " Xóa nhân viên thành công!");
                     employeeShowData();
                     employeeClearBtn();
                 } else {
@@ -216,7 +216,7 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    // ✅ SỬA - LẤY DỮ LIỆU từ Users + Employees
+    //  SỬA - LẤY DỮ LIỆU từ Users + Employees
     public ObservableList<Employee> employeeDataList() {
         ObservableList<Employee> listData = FXCollections.observableArrayList();
 
@@ -254,7 +254,7 @@ public class EmployeeController implements Initializable {
         return listData;
     }
 
-    // ✅ HIỂN THỊ DỮ LIỆU
+    //  HIỂN THỊ DỮ LIỆU
     public void employeeShowData() {
         ObservableList<Employee> employeeList = employeeDataList();
 
@@ -267,7 +267,7 @@ public class EmployeeController implements Initializable {
         employee_tableView.setItems(employeeList);
     }
 
-    // ✅ CHỌN DỮ LIỆU TỪ BẢNG
+    //  CHỌN DỮ LIỆU TỪ BẢNG
     @FXML
     public void employeeSelectData() {
         Employee employeeData = employee_tableView.getSelectionModel().getSelectedItem();
@@ -278,7 +278,7 @@ public class EmployeeController implements Initializable {
         }
 
         employee_ID.setText(String.valueOf(employeeData.getEmployeeId()));
-        employee_fullName.setText(employeeData.getFullName());  // ✅ SỬA - Đặt fullName trực tiếp
+        employee_fullName.setText(employeeData.getFullName());  //  SỬA - Đặt fullName trực tiếp
         employee_phone.setText(employeeData.getPhone());
         employee_email.setText(employeeData.getEmail() != null ? employeeData.getEmail() : "");
         employee_address.setText(employeeData.getAddress() != null ? employeeData.getAddress() : "");
@@ -291,11 +291,11 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    // ✅ SỬA - XÓA FORM với Full Name
+    //  SỬA - XÓA FORM với Full Name
     @FXML
     public void employeeClearBtn() {
         employee_ID.clear();
-        employee_fullName.clear();  // ✅ SỬA - Chỉ clear fullName
+        employee_fullName.clear();  //  SỬA - Chỉ clear fullName
         employee_phone.clear();
         employee_email.clear();
         employee_address.clear();

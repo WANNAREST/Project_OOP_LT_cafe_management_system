@@ -18,7 +18,7 @@ public class ShiftRecord {
         this.attendanceStatus = new SimpleStringProperty(attendanceStatus);
     }
 
-    // ✅ THÊM - Property methods cho editable table
+    //  THÊM - Property methods cho editable table
     public StringProperty workDateProperty() { return workDate; }
     public StringProperty shiftProperty() { return shift; }
     public StringProperty employeeIdProperty() { return employeeId; }
@@ -32,7 +32,7 @@ public class ShiftRecord {
     public String getEmployeeName() { return employeeName.get(); }
     public String getAttendanceStatus() { return attendanceStatus.get(); }
 
-    // ✅ THÊM - Setters cho editable functionality
+    //  THÊM - Setters cho editable functionality
     public void setWorkDate(String workDate) { this.workDate.set(workDate); }
     public void setShift(String shift) { this.shift.set(shift); }
     public void setEmployeeId(String employeeId) { this.employeeId.set(employeeId); }
