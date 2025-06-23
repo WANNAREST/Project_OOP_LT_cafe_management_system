@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdminLoginController">
+    <children>
+        <AnchorPane prefHeight="621.0" prefWidth="1141.0" styleClass="white-form" stylesheets="LaunchApplicationDesign.css">
+            <children>
+                <!-- Login form -->
+                <AnchorPane fx:id="si_loginForm" layoutX="640.0" layoutY="10.0" prefHeight="730.0" prefWidth="649.0">
+                    <children>
+                        <Label layoutX="261.0" layoutY="252.0" text="LOGIN" textFill="#6f4e37">
+                            <font>
+                                <Font name="Berlin Sans FB" size="40.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="si_username" layoutX="145.0" layoutY="416.0" onAction="#loginBtn" prefHeight="50.0" prefWidth="350.0" promptText="Username">
+                            <font>
+                                <Font size="21.0" />
+                            </font></TextField>
+                        <PasswordField fx:id="si_password" layoutX="145.0" layoutY="499.0" onAction="#loginBtn" prefHeight="50.0" prefWidth="350.0" promptText="Password">
+                            <font>
+                                <Font size="21.0" />
+                            </font></PasswordField>
+                        <Button fx:id="si_loginBtn" layoutX="395.0" layoutY="576.0" minHeight="40.0" mnemonicParsing="false" onAction="#loginBtn" prefWidth="100.0" styleClass="login-btn" stylesheets="LaunchApplicationDesign.css" text="LOGIN" />
+                        <Hyperlink fx:id="si_forgotPass" layoutX="145.0" layoutY="581.0" onAction="#switchForgotPass" text="Forgot Password?">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Hyperlink>
+                  <Button fx:id="fp_back" layoutX="320.0" layoutY="650.0" mnemonicParsing="false" onAction="#backToHomeScreen" prefHeight="38.0" prefWidth="71.0" styleClass="login-btn" text="Back">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                    </children>
+                </AnchorPane>
+
+                <!-- **BỎ FORM ĐĂNG KÝ** -->
+                <!-- AnchorPane fx:id="su_signupForm" ... bị xóa -->
+
+                <!-- Forgot password form -->
+                <AnchorPane fx:id="fp_questionForm" layoutX="649.0" layoutY="19.0" prefHeight="720.0" prefWidth="640.0" visible="false">
+                    <children>
+                        <Label layoutX="145.0" layoutY="252.0" text="FORGOT PASSWORD" textFill="#6f4e37">
+                            <font>
+                                <Font name="Berlin Sans FB" size="40.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="fp_proceedBtn" layoutX="395.0" layoutY="576.0" minHeight="40.0" mnemonicParsing="false" onAction="#proceedBtn" prefWidth="100.0" styleClass="login-btn" stylesheets="LaunchApplicationDesign.css" text="PROCEED" />
+                        <TextField fx:id="fp_phonenumber" layoutX="145.0" layoutY="462.0" prefHeight="50.0" prefWidth="350.0" promptText="Phone Number">
+                            <font>
+                                <Font size="21.0" />
+                            </font>
+                        </TextField>
+                        <Button fx:id="si_back" layoutX="320.0" layoutY="650.0" mnemonicParsing="false" onAction="#backToLoginForm" prefHeight="38.0" prefWidth="71.0" styleClass="login-btn" text="Back">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Button>
+
+                        <TextField fx:id="fp_username" layoutX="145.0" layoutY="360.0" prefHeight="50.0" prefWidth="350.0" promptText="Username">
+                            <font>
+                                <Font size="21.0" />
+                            </font>
+                        </TextField>
+                    </children>
+                </AnchorPane>
+
+                <!-- New password form -->
+                <AnchorPane fx:id="np_newPassForm" layoutX="645.0" layoutY="19.0" prefHeight="720.0" prefWidth="640.0" visible="false">
+                    <children>
+                        <Label layoutX="145.0" layoutY="252.0" text="FORGOT PASSWORD" textFill="#6f4e37">
+                            <font>
+                                <Font size="40.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="np_changePassBtn" layoutX="328.0" layoutY="576.0" minHeight="40.0" mnemonicParsing="false" onAction="#changePassBtn" prefHeight="40.0" prefWidth="167.0" styleClass="login-btn" stylesheets="LaunchApplicationDesign.css" text="CHANGE PASSWORD" />
+                        <Button fx:id="np_back" layoutX="278.0" layoutY="645.0" mnemonicParsing="false" onAction="#backToQuestionForm" prefHeight="38.0" prefWidth="71.0" styleClass="login-btn" text="Back">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Button>
+                        <PasswordField fx:id="np_newPassword" layoutX="145.0" layoutY="416.0" onAction="#changePassBtn" prefHeight="50.0" prefWidth="350.0" promptText="New Password">
+                            <font>
+                                <Font size="21.0" />
+                            </font>
+                        </PasswordField>
+                        <PasswordField fx:id="np_confirmPassword" layoutX="145.0" layoutY="499.0" onAction="#changePassBtn" prefHeight="50.0" prefWidth="350.0" promptText="Confirmation Password">
+                            <font>
+                                <Font size="21.0" />
+                            </font>
+                        </PasswordField>
+                    </children>
+                </AnchorPane>
+
+                <!-- Side panel -->
+                <AnchorPane fx:id="side_form" prefHeight="740.0" prefWidth="640.0" styleClass="gradient" stylesheets="LaunchApplicationDesign.css">
+                    <children>
+                        <Text fill="WHITE" layoutX="341.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                            <font>
+                                <Font name="Bauhaus 93" size="26.0" />
+                            </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="340.0" layoutY="435.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                            <font>
+                                <Font name="Bauhaus 93" size="26.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
+            <ImageView fitHeight="170.0" fitWidth="488.0" layoutX="86.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/Brown%20Creative%20Simple%20Coffee%20Shop%20Logo%20(1600%20x%20440%20px).jpg" />
+               </image>
+            </ImageView>
+            <Text fill="#8B4513" layoutX="275.0" layoutY="576.0" opacity="0.3" styleClass="coffee-decoration" text="☕" wrappingWidth="54.55273437500006">
+               <font>
+                  <Font size="57.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="168.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="tagline-text" text="☕ Nơi khởi đầu ngày mới tuyệt vời">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Text>
+            <Text fill="#8B4513" layoutX="395.0" layoutY="498.0" opacity="0.3" styleClass="coffee-decoration" text="☕" wrappingWidth="54.55273437500006">
+               <font>
+                  <Font size="47.0" />
+               </font>
+            </Text>
+            <Text fill="#8B4513" layoutX="170.0" layoutY="520.0" opacity="0.3" styleClass="coffee-decoration" text="☕">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Text>
+            </children>
+        </AnchorPane>
+
+        <AnchorPane fx:id="waitingScreen" prefHeight="200.0" prefWidth="200.0" styleClass="gradient" stylesheets="LaunchApplicationDesign.css" visible="false">
+        </AnchorPane>
+    </children>
+</StackPane>

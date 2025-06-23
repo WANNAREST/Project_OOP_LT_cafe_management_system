@@ -46,15 +46,15 @@ public class Customer extends User {
     public int getBonusPoint() {
         return point;
     }
-
+    
     public void setBonusPoint(int point) {
         this.point = point;
     }
-
+    
     public String getCustomerId() {
         return String.valueOf(getId());
     }
-
+    
     public void setCustomerId(String customerId) {
         try {
             setId(Integer.parseInt(customerId));
@@ -62,27 +62,27 @@ public class Customer extends User {
             System.err.println("Invalid customer ID format: " + customerId);
         }
     }
-
+    
     public String getName() {
         return getFullName();
     }
-
+    
     public String getPhoneNumber() {
         return getPhone();
     }
-
+    
     public Cart getCart() {
         return cart;
     }
-
+    
     public void setCart(Cart cart) {
         this.cart = cart;
     }
-
+    
     public List<Order> getOrderHistory() {
         return orderHistory;
     }
-
+    
     public void addOrder(Order order) {
         orderHistory.add(order);
     }

@@ -9,7 +9,9 @@ public class Product {
     private String category;
     private String description;
     private int stock;
-
+    private String note; // For AdminPart compatibility
+    private String imgPath; // For AdminPart compatibility
+    
     private static int nbProduct = 0;
 
     // Default constructor
@@ -20,6 +22,8 @@ public class Product {
         this.category = "";
         this.description = "";
         this.stock = 0;
+        this.note = "";
+        this.imgPath = "";
     }
 
     // Constructor with all parameters (from Products)
@@ -30,6 +34,8 @@ public class Product {
         this.description = description;
         this.category = category;
         this.stock = stock;
+        this.note = "";
+        this.imgPath = "";
     }
 
     // Constructor with id (from original Product)
@@ -40,6 +46,20 @@ public class Product {
         this.stock = stock;
         this.category = category;
         this.description = description;
+        this.note = "";
+        this.imgPath = "";
+    }
+
+    // Constructor for AdminPart compatibility (with all fields including note and imgPath)
+    public Product(int id, String name, String category, int price, int stock, String description, String imgPath) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
+        this.description = description;
+        this.note = "";
+        this.imgPath = imgPath;
     }
 
     // Constructor with id but no stock (from original Product)
@@ -50,6 +70,8 @@ public class Product {
         this.category = category;
         this.description = description;
         this.stock = 0; // Default stock
+        this.note = "";
+        this.imgPath = "";
     }
 
     // Simple constructor (from original Product)
@@ -60,6 +82,8 @@ public class Product {
         this.category = category;
         this.description = description;
         this.stock = 0; // Default stock
+        this.note = "";
+        this.imgPath = "";
     }
 
     // Minimal constructor (from original Product)
@@ -70,6 +94,8 @@ public class Product {
         this.category = category;
         this.description = "";
         this.stock = 0;
+        this.note = "";
+        this.imgPath = "";
     }
 
     // Getters and Setters
@@ -119,6 +145,35 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    // AdminPart compatibility getters
+    public int getProductId() {
+        return id;
+    }
+
+    public String getProductName() {
+        return name;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     // Business logic methods

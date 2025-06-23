@@ -19,21 +19,21 @@ public class CustomerManager {
 
     // Thêm đơn hàng vào lịch sử của khách hàng
     public static void addOrderToCustomer(Order order) {
-
-        // Kiểm tra số điện thoại rỗng/null
+    	
+    	// Kiểm tra số điện thoại rỗng/null
         if (order.getPhoneNumber() == null || order.getPhoneNumber().trim().isEmpty()) {
             System.out.println("Không lưu lịch sử đơn hàng (số điện thoại trống).");
             return; // Dừng xử lý
         }
-
+    	
         Customer customer = customers.get(order.getPhoneNumber());
         if (customer != null) {
             customer.addOrder(order);
         } else {
             // Nếu khách hàng chưa tồn tại, tạo mới
-            Customer newCustomer = new Customer(order.getCustomerName(),
-                    order.getPhoneNumber(),
-                    order.getDeliveryAddress());
+            Customer newCustomer = new Customer(order.getCustomerName(), 
+                                             order.getPhoneNumber(), 
+                                             order.getDeliveryAddress());
             newCustomer.addOrder(order);
             addCustomer(newCustomer);
         }

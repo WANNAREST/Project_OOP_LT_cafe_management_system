@@ -92,7 +92,6 @@
                            </children>
                         </HBox>
                      </children></HBox>
-                  <Button layoutX="505.0" layoutY="555.0" mnemonicParsing="false" prefHeight="174.0" prefWidth="195.0" text="Button" />
                </children>
             </AnchorPane>
          </content>

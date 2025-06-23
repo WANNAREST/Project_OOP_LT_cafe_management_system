@@ -1,6 +1,6 @@
 package obj;
 
-import Controller.db.DatabaseConnection;
+import Controller.DatabaseConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -73,14 +73,13 @@ public class EmployeeDAO {
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	            LocalDate dob = LocalDate.parse(rs.getString("dob"), formatter);
 	            
-	            return new Employee(
-	                rs.getInt("user_id"),
-	                rs.getString("full_name"),
-	                dob,
-	                rs.getString("phone"),
-	                rs.getString("email"),
-	                "/images/employees/" + rs.getInt("user_id") + ".jpg"
-	            );
+	                        return new Employee(
+                rs.getInt("user_id"),
+                rs.getString("full_name"),
+                dob,
+                rs.getString("phone"),
+                rs.getString("email")
+            );
 	        }
 	    }
 	    throw new SQLException("Employee not found with ID: " + employeeId);

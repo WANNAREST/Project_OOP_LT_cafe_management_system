@@ -22,6 +22,23 @@ public class Store {
         }
     }
 
+    // AdminPart compatibility method
+    public void updateProduct(int id, String name, String category, int price, int stock, String description, String imgPath) {
+        for (Product product : itemsInStore) {
+            if (product.getId() == id) {
+                product.setName(name);
+                product.setCategory(category);
+                product.setPrice(price);
+                product.setQuantity(stock);
+                product.setDescription(description);
+                product.setImgPath(imgPath);
+                System.out.println("Updated Product: " + product);
+                return;
+            }
+        }
+        System.out.println("Cannot find product with ID: " + id);
+    }
+
     public void displayStore() {
         System.out.println("**********************STORE***********************\n");
         if (itemsInStore.isEmpty()) {

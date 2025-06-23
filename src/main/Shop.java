@@ -1,12 +1,17 @@
 package main;
 
-import Controller.db.ProductDAO;
+import Controller.UserAppController;
+import Controller.ProductDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import obj.*;
+import obj.Cart;
+import obj.Coffee;
+import obj.Customer;
+import obj.Product;
+import obj.Store;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,14 +20,17 @@ public class Shop extends Application {
     private static Store store;
 
     public static void main(String[] args) {
+        // Initialize the store
         store = new Store();
 
-        // Load products from database instead of hardcoded values
+        // Load products from database
         loadProductsFromDatabase();
 
+        // Launch the JavaFX application
         launch(args);
     }
 
+    @Override
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the launch app FXML (welcome screen with login options)
@@ -48,8 +56,6 @@ public class Shop extends Application {
         }
     }
 
-
-
     /**
      * Load products from database and add them to the store
      */
@@ -63,7 +69,6 @@ public class Shop extends Application {
             if (productsFromDB.isEmpty()) {
                 System.out.println("⚠️ No products found in database. Loading default products...");
                 loadDefaultProducts();
-
             } else {
                 System.out.println("✅ Loading " + productsFromDB.size() + " products from database...");
 
@@ -80,11 +85,8 @@ public class Shop extends Application {
             System.err.println("❌ Error loading products from database: " + e.getMessage());
             System.out.println("📦 Loading default products as fallback...");
             loadDefaultProducts();
-
         }
     }
-
-
 
     /**
      * Fallback method to load default products if database is not available
@@ -100,10 +102,11 @@ public class Shop extends Application {
         store.addProduct(coffee3);
 
         System.out.println("✅ Default products loaded successfully");
-
-
     }
 
+    /**
+     * Get the store instance (for use by other controllers)
+     */
     public static Store getStore() {
         return store;
     }

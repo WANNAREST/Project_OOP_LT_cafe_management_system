@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class LaunchAppController {
@@ -16,7 +17,7 @@ public class LaunchAppController {
     @FXML
     private void switchAdminLogin() {
         try {
-            Parent adminLoginRoot = FXMLLoader.load(getClass().getResource("/view/AdminLogin.fxml"));
+            Parent adminLoginRoot = FXMLLoader.load(getClass().getResource("/view/admin-login.fxml"));
             Scene adminScene = new Scene(adminLoginRoot);
             Stage stage = (Stage) welcomeScreen.getScene().getWindow();
             stage.setScene(adminScene);
